@@ -1,22 +1,23 @@
-
-import { Hash } from '../model/primitives/hash';
-import { stringPow } from './base/znn-pow-string';
-import { base64Wasm } from './base/base64';
+import {Hash} from '../model/primitives/hash';
+import {stringPow} from './base/znn-pow-string';
+import {base64Wasm} from './base/base64';
 
 export enum PowStatus {
   generating = 0,
-    done = 1
+  done = 1
 }
 
 let worker: any;
 
+if (typeof window !== 'undefined') {
   window.URL = window.URL || window.webkitURL;
-  
-  let workerDefinition = "";
-  workerDefinition += "var wasmPath = '" + base64Wasm + "';\n";
-  workerDefinition += stringPow + "\n";
+}
 
-  workerDefinition += `
+let workerDefinition = "";
+workerDefinition += "var wasmPath = '" + base64Wasm + "';\n";
+workerDefinition += stringPow + "\n";
+
+workerDefinition += `
 
   var api = {};
   var isInitialized = false;
@@ -87,7 +88,7 @@ export function generatePoW(hash: Hash, difficulty: number) {
 
     let blob = new Blob([workerDefinition], {type: 'application/javascript'});
     worker = new Worker(URL.createObjectURL(blob));
-        
+
     worker.onmessage = function(e: { data: any; }) {
       switch(e.data.responseType){
         case "initResolved": {
@@ -95,7 +96,7 @@ export function generatePoW(hash: Hash, difficulty: number) {
             function: 'generatePoW',
             hash: hash.toString(),
             difficulty: difficulty.toString()
-          });      
+          });
           return;
         }
         case "powResolved": {
