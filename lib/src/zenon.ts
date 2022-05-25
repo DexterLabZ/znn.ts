@@ -1,49 +1,60 @@
-import { KeyPair } from "./wallet/keypair";
-import { LedgerApi } from "./api/ledger";
-import { WsClient } from "./client/websocket";
-import { AccountBlockTemplate } from "./model/nom/account_block_template";
-import { BlockUtils } from "./utils/block";
-import { EmbeddedApi } from "./api/embedded/embedded";
+import {KeyPair} from "./wallet/keypair";
+import {LedgerApi} from "./api/ledger";
+import {Client, WsClient} from "./client";
+import {AccountBlockTemplate} from "./model/nom/account_block_template";
+import {BlockUtils} from "./utils/block";
+import {EmbeddedApi} from "./api/embedded/embedded";
+import {SubscribeApi} from "./api/subscribe";
 
-export class Zenon{
+export class Zenon {
   static _singleton: Zenon;
   defaultServerUrl: string = "ws://127.0.0.1:35998";
-  
-  static wsClient: WsClient;
+
+  wsClient?: WsClient;
+
   ledger: LedgerApi;
+  subscribe: SubscribeApi;
   embedded: EmbeddedApi;
 
- private constructor(){
-    Zenon.wsClient = new WsClient();
-    this.ledger = new LedgerApi();
-    this.embedded = new EmbeddedApi();
-
-    this.ledger.setClient(Zenon.wsClient);
-    this.embedded.setClient(Zenon.wsClient);
-  }
-
-  async initialize(serverUrl: string, retry = true){
-    await Zenon.wsClient.initialize(serverUrl, retry);
-  }
-
-  public static clearSocketConnection(){
-    if(Zenon._singleton){
-      Zenon.wsClient.stop();
-    }
-  }
-  
-  public static getSingleton(): Zenon{
-    if(!Zenon._singleton){
+  public static getSingleton(): Zenon {
+    if (!Zenon._singleton) {
       Zenon._singleton = new Zenon();
     }
     return Zenon._singleton;
   }
 
-  async send(transaction: AccountBlockTemplate, 
-    currentKeyPair?: KeyPair, 
-    generatingPowCallback?: Function,
-    waitForRequiredPlasma = false): Promise<AccountBlockTemplate>{
-    if (currentKeyPair == null || currentKeyPair == undefined) throw "noKeyPairSelectedException";
-    return BlockUtils.send(Zenon.getSingleton(), transaction, currentKeyPair, generatingPowCallback, waitForRequiredPlasma);  
+  private constructor() {
+    this.ledger = new LedgerApi();
+    this.embedded = new EmbeddedApi();
+    this.subscribe = new SubscribeApi();
+  }
+
+  private setClient(client: Client) {
+    this.ledger.setClient(client);
+    this.embedded.setClient(client);
+
+    // set client for subscribe environment only when the client is a WS Connection
+    if (client instanceof WsClient) {
+      this.subscribe.setClient(client);
+    }
+  }
+
+  async initialize(serverUrl = this.defaultServerUrl, retry = true) {
+    this.wsClient = new WsClient(serverUrl);
+    await this.wsClient.initialize(retry);
+    this.setClient(this.wsClient!);
+  }
+
+  public clearSocketConnection() {
+    this.wsClient?.stop();
+    this.wsClient = undefined;
+  }
+
+  async send(transaction: AccountBlockTemplate,
+             currentKeyPair?: KeyPair,
+             generatingPowCallback?: Function,
+             waitForRequiredPlasma = false): Promise<AccountBlockTemplate> {
+    if (currentKeyPair == null) throw "noKeyPairSelectedException";
+    return BlockUtils.send(Zenon.getSingleton(), transaction, currentKeyPair, generatingPowCallback, waitForRequiredPlasma);
   }
 }
