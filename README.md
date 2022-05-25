@@ -6,8 +6,7 @@ https://wiki.zenon.network/#!api.md
 
 
 ```
-npm i znn-ts-sdk
-(coming soon)
+npm install github:dexter703/znn-ts-sdk
 ```
 
 Compatible with Typescript 4.5, ES2020, Webpack 5, Angular 13, React 17
