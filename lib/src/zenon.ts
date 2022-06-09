@@ -39,9 +39,9 @@ export class Zenon {
     }
   }
 
-  async initialize(serverUrl = this.defaultServerUrl, retry = true) {
+  async initialize(serverUrl = this.defaultServerUrl, retry = true, timeout = 30000) {
     this.wsClient = new WsClient(serverUrl);
-    await this.wsClient.initialize(retry);
+    await this.wsClient.initialize(serverUrl, retry, timeout);
     this.setClient(this.wsClient!);
   }
 

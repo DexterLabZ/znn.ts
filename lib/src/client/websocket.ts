@@ -62,8 +62,9 @@ export class WsClient implements Client {
     this.subscriptions = new WSSubscriptions();
   }
 
-  initialize(retry = true, timeout = 30000): Promise<void> {
+  initialize(url: string, retry = true, timeout = 30000): Promise<void> {
     return new Promise<void>(async (resolve, reject) => {
+      this.url = url;
       this._wsRpc2Client = new WebSocket(this.url, retry);
 
       // TODO: This can be misinterpreted, as the chainIdentifier of the SDK is {netId}. It does not mean that the {netId} of the node is the same.
@@ -97,7 +98,7 @@ export class WsClient implements Client {
     }
     if (this._wsRpc2Client != null && this._wsRpc2Client!.isClosed == true) {
       logger.info('Restarting websocket connection ...');
-      await this.initialize(true);
+      await this.initialize(this.url!, true);
       logger.info('Websocket connection successfully restarted');
     }
   }
