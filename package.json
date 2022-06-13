@@ -13,7 +13,7 @@
 		"clean": "rimraf dist/",
 		"build": "npm run clean && tsc",
 		"copy-patches": "copyfiles patches/* dist/patches/",
-		"postinstall": "npx patch-package"
+		"postinstall": "npx patch-package && npm run build"
 	},
 	"keywords": [
 		"zenon",
@@ -26,8 +26,8 @@
 	"devDependencies": {
 		"@types/argon2-browser": "^1.18.1",
 		"@types/create-hmac": "^1.1.0",
-		"@types/crypto-js": "^4.0.2",
-		"@types/utf8": "^3.0.0",
+		"@types/crypto-js": "^4.1.1",
+		"@types/utf8": "^3.0.1",
 		"@types/ws": "^8.2.2",
 		"@typescript-eslint/eslint-plugin": "^5.7.0",
 		"@typescript-eslint/parser": "^5.7.0",
