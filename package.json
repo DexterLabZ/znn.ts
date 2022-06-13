@@ -11,7 +11,7 @@
 		"watch": "tsc -w",
 		"clean": "rimraf dist/",
 		"build": "npm run clean && tsc",
-		"copy-patches": "copyfiles patches/* dist/patches/",
+		"copy-patches": "copyfiles patches/* dist/patches/"
 	},
 	"keywords": [
 		"zenon",
