@@ -9,10 +9,10 @@
 	],
 	"scripts": {
 		"prepare": "npm run build",
-		"watch": "tsc -w",
-		"clean": "rimraf dist/",
-		"build": "npm run clean && tsc",
-		"copy-patches": "copyfiles patches/* dist/patches/",
+		"watch": "npx tsc -w",
+		"clean": "npx rimraf dist/",
+		"build": "npm run clean && npx tsc",
+		"copy-patches": "npx copyfiles patches/* dist/patches/",
 		"postinstall": "npx patch-package && npm run build"
 	},
 	"keywords": [
