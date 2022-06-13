@@ -4,12 +4,15 @@
 	"description": "",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
+	"files": [
+		"dist/**/*"
+	],
 	"scripts": {
 		"prepare": "npm run build",
-		"watch": "npx tsc -w",
-		"clean": "npx rimraf dist/",
-		"build": "npm run clean && npx tsc",
-		"copy-patches": "npx copyfiles patches/* dist/patches/",
+		"watch": "tsc -w",
+		"clean": "rimraf dist/",
+		"build": "npm run clean && tsc",
+		"copy-patches": "copyfiles patches/* dist/patches/",
 		"postinstall": "npx patch-package && npm run build"
 	},
 	"keywords": [
@@ -38,7 +41,7 @@
 		"path": "^0.12.7",
 		"prettier": "^2.5.1",
 		"rimraf": "^3.0.2",
-		"typescript": "^4.7.0-dev.20220418",
+		"typescript": "^4.7.3",
 		"wasm2js": "^0.2.0",
 		"webpack": "^5.70.0",
 		"webpack-cli": "^4.9.2",
