@@ -13,23 +13,49 @@ Compatible with Typescript 4.5, ES2020, Webpack 5, Angular 13, React 17
 
 ### Importing sdk. Check [here](#common-issues-when-installing-package-to-your-project) for common issues
 
+For browser env:
 ```
 import {
   KeyStore,
   KeyStoreManager,
   Zenon,
   Constants,
+  Primitives
 } from 'znn-ts-sdk';
 ```
 
-### Importing other types
+For server env (nodeJS):
 ```
-import { GetRequiredParam } from 'znn-ts-sdk/lib/src/model/embedded/plasma';
-import { AccountBlockTemplate } from 'znn-ts-sdk/lib/src/model/nom/account_block_template';
-import { AccountBlockList } from 'znn-ts-sdk/lib/src/model/nom/account_block';
-import { Address } from 'znn-ts-sdk/lib/src/model/primitives/address';
-import { TokenStandard } from 'znn-ts-sdk/lib/src/model/primitives/token_standard';
-import { KeyPair } from 'znn-ts-sdk/lib/src/wallet/keypair';
+import znn from 'znn-ts-sdk/dist/index.node.js';
+const {KeyStore, KeyStoreManager, Zenon, Primitives, Constants} = znn;
+```
+
+### Importing other models and constants
+```
+import {
+  Primitives,
+  Constants
+} from 'znn-ts-sdk';
+
+const { 
+  Address,
+  Hash,
+  GetRequiredParam,
+  AccountBlockTemplate,
+  TokenStandard,
+} = Primitives;
+
+const {
+  pillarAddress,
+  plasmaAddress,
+  stakeAddress,
+  znnTokenStandard,
+  qsrTokenStandard,
+  emptyTokenStandard,
+  znnZts,
+  qsrZts,
+  emptyZts,
+} = Constants
 ```
 
 ### Initializing client and connecting to a server
@@ -346,6 +372,15 @@ You may need an additional loader to handle the result of these loaders.`
 > "module": "es2020"
 > ```
 
+7. Potentialerror `Uncaught EvalError: Refused to evaluate a string as JavaScript because 'unsafe-eval' is not an allowed source of script in the following Content Security Policy directive: "script-src 'self' 'wasm-eval'".`
+
+> Solution:
+> https://stackoverflow.com/questions/48047150/chrome-extension-compiled-by-webpack-throws-unsafe-eval-error <br/>
+> ```
+> Add
+> devtool: 'cheap-module-source-map',
+> to the root of your webpack.config.js
+> ```
 
 
 ## Internal issues

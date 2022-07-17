@@ -4,23 +4,28 @@ type StorageWallet = {
   [key: string]: KeyFile,
 };
 export class StorageController {
+  static nodeStorageLocation: string = './znn-local-storage';
   constructor(){}
   
-  
   static getItem(path: string): string | null | undefined {
-    if(localStorage){
+    if (typeof window === "undefined" || window === null) {
+      const LocalStorage = require('node-localstorage').LocalStorage;
+      const localStorage = new LocalStorage(this.nodeStorageLocation);    
       return localStorage.getItem(path);
     }
     else{
-      throw new Error("LocalStorage is not available");
+      return localStorage.getItem(path);
     }
   }
 
   static setItem(path: string, value: string) {
-    try {
-      localStorage.setItem(path, value);
-    } catch (e: any) {
-      throw new Error(e);
+    if (typeof window === "undefined" || window === null) {
+      const LocalStorage = require('node-localstorage').LocalStorage;
+      const localStorage = new LocalStorage(this.nodeStorageLocation);    
+      return localStorage.setItem(path, value);
+    }
+    else{
+      return localStorage.setItem(path, value);
     }
   }
 
@@ -66,10 +71,24 @@ export class StorageController {
   }
 
   static removeItem(path: string) {
-    localStorage.removeItem(path);
+    if (typeof window === "undefined" || window === null) {
+      const LocalStorage = require('node-localstorage').LocalStorage;
+      const localStorage = new LocalStorage(this.nodeStorageLocation);    
+      return localStorage.removeItem(path);
+    }
+    else{
+      return localStorage.removeItem(path);
+    }
   }
 
   static clear() {
-    localStorage.clear();
+    if (typeof window === "undefined" || window === null) {
+      const LocalStorage = require('node-localstorage').LocalStorage;
+      const localStorage = new LocalStorage(this.nodeStorageLocation);    
+      return localStorage.clear();
+    }
+    else{
+      return localStorage.clear();
+    }
   }
 }

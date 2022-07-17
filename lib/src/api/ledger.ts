@@ -1,5 +1,4 @@
 import { Client } from "../client/interfaces";
-import { WsClient } from "../client/websocket";
 import { AccountBlock, AccountBlockList } from "../model/nom/account_block";
 import { AccountBlockTemplate } from "../model/nom/account_block_template";
 import { AccountInfo } from "../model/nom/account_info";
