@@ -184,7 +184,7 @@ export class AccountBlockTemplate{
   
   static callContract(address: Address, 
     tokenStandard: TokenStandard, amount: number, data: Buffer){
-      return new AccountBlockTemplate(
+      const block = new AccountBlockTemplate(
         undefined,
         undefined,
         BlockTypeEnum.userSend,
@@ -203,6 +203,7 @@ export class AccountBlockTemplate{
         undefined,
         undefined
       );
+      return block;
   }
 
   toString(): string{

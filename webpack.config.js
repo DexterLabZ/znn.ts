@@ -67,15 +67,15 @@ const clientConfig = {
   },
   externals: {
     // You can use `false` or other values if you need something strange here,example will output `module.exports = {};`
-   "node:crypto": "{}",
-   "fs": "{}",
-   "a": "{}",
-   "node:worker_threads": "{}",
-   "node:url": "{}",
-   "node:crypto": "{}",
-   "assert": "{}",
-   "constants": "{}",
-   "argon2": "{}"
+   "node:crypto": "crypto-browserify",
+   "fs": "crypto-browserify",
+   "a": "crypto-browserify",
+   "node:worker_threads": "crypto-browserify",
+   "node:url": "crypto-browserify",
+   "node:crypto": "crypto-browserify",
+   "assert": "crypto-browserify",
+   "constants": "crypto-browserify",
+   "argon2": "crypto-browserify"
   },
   experiments: {
     asyncWebAssembly: true,

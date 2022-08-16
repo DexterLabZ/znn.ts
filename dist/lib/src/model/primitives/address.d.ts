@@ -23,4 +23,5 @@ export declare const swapAddress: Address;
 export declare const stakeAddress: Address;
 export declare const sporkAddress: Address;
 export declare const acceleratorAddress: Address;
+export declare const bridgeAddress: Address;
 export { Address };

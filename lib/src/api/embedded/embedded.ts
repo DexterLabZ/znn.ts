@@ -1,4 +1,5 @@
 import { Client } from "../../client/interfaces";
+import { BridgeApi } from "./bridge";
 import { PillarApi } from "./pillar";
 import { PlasmaApi } from "./plasma";
 import { SentinelApi } from "./sentinel";
@@ -12,6 +13,7 @@ export class EmbeddedApi{
   sentinel: SentinelApi;
   stake: StakeApi;
   token: TokenApi;
+  bridge: BridgeApi;
   // ToDo implement swap, accelerator
   // swap: SwapApi;
   // accelerator: AcceleratorApi;
@@ -22,6 +24,7 @@ export class EmbeddedApi{
     this.sentinel = new SentinelApi();
     this.stake = new StakeApi();
     this.token = new TokenApi();
+    this.bridge = new BridgeApi();
   }
 
   setClient(client: Client): void{
@@ -31,5 +34,6 @@ export class EmbeddedApi{
     this.sentinel.setClient(client);
     this.stake.setClient(client);
     this.token.setClient(client);
+    this.bridge.setClient(client);
   }
 }

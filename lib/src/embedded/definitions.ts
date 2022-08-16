@@ -58,6 +58,129 @@ export class Definitions {
     {"type":"function","name":"CollectReward","inputs":[]}
   ]`;
 
+  static _bridgeFunctionDefinition: string = `
+	[
+		{"type":"function","name":"WrapToken", "inputs":[
+			{"name":"networkType","type":"uint32"},
+			{"name":"chainId","type":"uint32"},
+			{"name":"toAddress","type":"string"}
+		]},
+
+		{"type":"function","name":"UpdateWrapRequest", "inputs":[
+			{"name":"id","type":"hash"},
+			{"name":"signature","type":"string"}
+		]},
+
+		{"type":"function","name":"AddNetwork", "inputs":[
+			{"name":"type","type":"uint32"},
+			{"name":"chainId","type":"uint32"},
+			{"name":"name","type":"string"},
+			{"name":"signature","type":"string"}
+		]},
+
+		{"type":"function","name":"RemoveNetwork", "inputs":[
+			{"name":"type","type":"uint32"},
+			{"name":"chainId","type":"uint32"},
+			{"name":"signature","type":"string"}
+		]},
+
+		{"type":"function","name":"AddTokenPair","inputs":[
+			{"name":"networkType","type":"uint32"},
+			{"name":"chainId","type":"uint32"},
+			{"name":"tokenStandard","type":"tokenStandard"},
+			{"name":"tokenAddress","type":"string"},
+			{"name":"signature","type":"string"}
+		]},
+
+		{"type":"function","name":"RemoveTokenPair","inputs":[
+			{"name":"networkType","type":"uint32"},
+			{"name":"chainId","type":"uint32"},
+			{"name":"tokenStandard","type":"tokenStandard"},
+			{"name":"tokenAddress","type":"string"},
+			{"name":"signature","type":"string"}
+		]},
+
+		{"type":"function","name":"Halt","inputs":[
+			{"name":"signature","type":"string"}
+		]},
+		
+		{"type":"function","name":"ChangeTssECDSAPubKey","inputs":[
+			{"name":"pubKey","type":"string"},
+			{"name":"signature","type":"string"}
+		]},
+
+		{"type":"function","name":"ChangeAdministratorEDDSAPubKey","inputs":[
+			{"name":"pubKey","type":"string"},
+			{"name":"signature","type":"string"}
+		]},
+		
+		{"type":"function","name":"AddKeyGenHeight","inputs":[
+			{"name":"height","type":"uint64"},
+			{"name":"signature","type":"string"}
+		]},
+
+		{"type":"function","name":"UnwrapToken","inputs":[
+			{"name":"networkType","type":"uint32"},
+			{"name":"chainId","type":"uint32"},
+			{"name":"transactionHash","type":"hash"},
+			{"name":"toAddress","type":"address"},
+			{"name":"tokenAddress","type":"string"},
+			{"name":"amount","type":"uint256"},
+			{"name":"signature","type":"string"}
+		]},
+
+		{"type":"function","name":"RevokeUnwrapRequest","inputs":[
+			{"name":"transactionHash","type":"hash"},
+			{"name":"signature","type":"string"}
+		]},
+
+		{"type":"function","name":"Redeem","inputs":[
+			{"name":"transactionHash","type":"hash"}
+		]}
+	]
+		`
+		static _bridgeVariableDefinition: string = `
+		[
+		{"type":"variable","name":"wrapRequest","inputs":[
+			{"name":"networkType","type":"uint32"},
+			{"name":"chainId", "type":"uint32"},
+			{"name":"toAddress","type":"string"},
+			{"name":"tokenStandard","type":"tokenStandard"},
+			{"name":"tokenAddress","type":"string"},
+			{"name":"amount","type":"uint256"},
+			{"name":"signature","type":"string"}
+		]},
+
+		{"type":"variable","name":"unwrapRequest","inputs":[
+			{"name":"registrationTime","type":"int64"},
+			{"name":"networkType","type":"uint32"},
+			{"name":"chainId", "type":"uint32"},
+			{"name":"toAddress","type":"address"},
+			{"name":"tokenAddress","type":"string"},
+			{"name":"amount","type":"uint256"},
+			{"name":"signature","type":"string"},
+			{"name":"redeemed","type":"uint8"},
+			{"name":"revoked","type":"uint8"}
+		]},
+
+		{"type":"variable","name":"bridgeInfo","inputs":[
+			{"name":"shouldKeyGenAt","type":"uint64"},
+			{"name":"haltHeight","type":"uint64"},
+			{"name":"tssECDSAPubKey","type":"string"},
+			{"name":"administratorEDDSAPubKey","type":"string"},
+			{"name":"actionCount","type":"uint64"}
+		]},
+
+		{"type":"variable","name":"networkInfo","inputs":[
+			{"name":"type","type":"uint32"},
+			{"name":"id","type":"uint32"},
+			{"name":"name","type":"string"},
+			{"name":"tokenStandards","type":"string[]"},
+			{"name":"tokenAddresses","type":"string[]"}
+		]}
+	]`;
+
+
   // ABI definitions of embedded contracts
   static plasma: Abi = Abi.fromJson(Definitions._plasmaDefinition);
   static pillar: Abi = Abi.fromJson(Definitions._pillarDefinition);
@@ -67,4 +190,5 @@ export class Definitions {
   static stake: Abi = Abi.fromJson(Definitions._stakeDefinition);
   static accelerator: Abi = Abi.fromJson(Definitions._acceleratorDefinition);
   static common: Abi = Abi.fromJson(Definitions._commonDefinition);
+  static bridge: Abi = Abi.fromJson(Definitions._bridgeFunctionDefinition);
 }

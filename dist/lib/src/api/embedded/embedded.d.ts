@@ -1,4 +1,5 @@
 import { Client } from "../../client/interfaces";
+import { BridgeApi } from "./bridge";
 import { PillarApi } from "./pillar";
 import { PlasmaApi } from "./plasma";
 import { SentinelApi } from "./sentinel";
@@ -11,6 +12,7 @@ export declare class EmbeddedApi {
     sentinel: SentinelApi;
     stake: StakeApi;
     token: TokenApi;
+    bridge: BridgeApi;
     constructor();
     setClient(client: Client): void;
 }
