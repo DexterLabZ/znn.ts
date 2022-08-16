@@ -11,4 +11,4 @@ export class ZnnSdkException{
   }
 }
 
-export const netId: number = 3;
+export const netId: number = 1;
