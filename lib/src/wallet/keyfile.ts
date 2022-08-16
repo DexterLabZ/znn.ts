@@ -5,7 +5,6 @@ import {
   KeyStore
 } from "./keystore";
 
-import * as argon2 from "argon2-browser";
 import { aes256gcm } from "./../utils/aes256gcm";
 class KeyFile {
   baseAddress ? : Address;
@@ -55,19 +54,41 @@ class KeyFile {
     let encrypted = this.crypto!.cipherData!.toString().substr(2);
     let aesNonce = this.crypto!.nonce!.toString().substr(2)
 
-    
-    let key = await argon2.hash({
-      pass: password,
-      salt: Buffer.from(salt, 'hex'),
-      time: 1,
-      mem: 64 * 1024,
-      hashLen: 32,
-      type: argon2.ArgonType.Argon2id,
-      parallelism: 4,
-    });
+    let key: any;
+
+    if (typeof window === "undefined" || window === null) {
+      // For node
+      try {        
+        const argon2 = (await import("argon2"));
+        key = await argon2.hash(
+          password,
+          {
+          salt: Buffer.from(salt, 'hex'),
+          timeCost: 1,
+          memoryCost: 64 * 1024,
+          hashLength: 32,
+          type: 2,
+          parallelism: 4,
+        });
+      } catch (err) {
+        console.error('argon2 node support is disabled!');
+      }
+    }else{
+      // For browser
+      const argon2 = (await import("argon2-browser"));
+      key = await argon2.hash({
+        pass: password,
+        salt: Buffer.from(salt, 'hex'),
+        time: 1,
+        mem: 64 * 1024,
+        hashLen: 32,
+        type: argon2.ArgonType.Argon2id,
+        parallelism: 4,
+      });
+    }
 
     const aesCipher = aes256gcm(key.hash, this.crypto.nonce!);
-    let entropy = aesCipher.decrypt(
+    let entropy = await aesCipher.decrypt(
                                     Buffer.from(encrypted.substr(0, encrypted.length - 32), 'hex'),
                                     Buffer.from(aesNonce, 'hex'),
                                     Buffer.from(encrypted.substr(encrypted.length - 32, 32), 'hex'),
@@ -84,21 +105,58 @@ class KeyFile {
   }
 
   async _encryptEntropy(store: KeyStore, password: string): Promise<KeyFile> {
-    let salt = window.crypto.getRandomValues(Buffer.alloc(16));
-    let nonce = window.crypto.getRandomValues(Buffer.alloc(12));
-    // ToDo: error handling
-    let key = await argon2.hash({
-      pass: password,
-      salt: salt, 
-      mem: 64 * 1024,
-      time: 1, // iterations
-      parallelism: 4, 
-      hashLen: 32, // length
-      type: argon2.ArgonType.Argon2id, // Argon2d, Argon2i, Argon2id
-    })
+    let salt: Buffer = Buffer.alloc(16);
+    let nonce: Buffer = Buffer.alloc(12);
+    
+    if(typeof window !== 'undefined'){
+      salt = window.crypto.getRandomValues(Buffer.alloc(16));
+      nonce = window.crypto.getRandomValues(Buffer.alloc(12));
+    }else{
+      let crypto;
+      try {
+        // crypto = await import('node:crypto');
+        crypto = require('node:crypto');
+        salt=crypto.randomBytes(16);
+        nonce=crypto.randomBytes(12);
+      } catch (err) {
+        console.error('crypto support is disabled!');
+      }
+    }
+
+    let key: any;
+    if (typeof window === "undefined" || window === null) {
+      // For node
+      try {        
+        const argon2 = (await import("argon2"));
+        key = await argon2.hash(
+          password,
+          {
+          salt: salt,
+          timeCost: 1,
+          memoryCost: 64 * 1024,
+          hashLength: 32,
+          type: 2,
+          parallelism: 4,
+        });
+      } catch (err) {
+        console.error('argon2 node support is disabled!');
+      }
+    }else{
+      // For browser
+      const argon2 = (await import("argon2-browser"));
+        key = await argon2.hash({
+        pass: password,
+        salt: salt, 
+        mem: 64 * 1024,
+        time: 1, // iterations
+        parallelism: 4, 
+        hashLen: 32, // length
+        type: argon2.ArgonType.Argon2id, // Argon2d, Argon2i, Argon2id
+      })
+    }
 
     const aesCipher = aes256gcm(key.hash, nonce);
-    let [encrypted, aesNonce] = aesCipher.encrypt(store.entropy)
+    let [encrypted, aesNonce] = await aesCipher.encrypt(store.entropy);
     
     let keyFile = new KeyFile(
       this.baseAddress,
