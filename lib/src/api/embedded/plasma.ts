@@ -53,7 +53,7 @@ export class PlasmaApi{
   async fuse(beneficiary: Address, amount: number){
     // ToDo: Add response validation
     return AccountBlockTemplate.callContract(
-      plasmaAddress, qsrZts, amount, Definitions.plasma.encodeFunction("Fuse", [beneficiary]));
+      plasmaAddress, qsrZts, amount, Definitions.plasma.encodeFunction("Fuse", [beneficiary.toString()]));
   }
 
   async cancel(id: Hash){
