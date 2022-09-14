@@ -13,7 +13,12 @@ class TokenStandard {
   }
 
   toString() {
-    return bech32.encode("zts", bech32.toWords(this.core));
+    if(typeof(this.core) == typeof('string')){
+      return this.core.toString();
+    }
+    else{
+      return bech32.encode("zts", bech32.toWords(this.core));
+    }
   }
 
   static parse(str: string) {

@@ -101,7 +101,7 @@ export class AccountBlockTemplate{
             ? Buffer.from([])
             : json['data'] == ''
                 ? Buffer.from([])
-                : Buffer.from(json['data'])!),
+                : Buffer.from(json['data'], 'base64')!),
       json['fusedPlasma'],
       json['difficulty'],
       json['nonce'],

@@ -34,6 +34,12 @@ export class BridgeApi{
     return response;
   } 
   
+  async getAllWrapTokenRequestsByToAddress(address: string, pageIndex = 0, pageSize = rpcMaxPageSize): Promise<any>{
+    const response = await this.client.sendRequest('embedded.bridge.getAllWrapTokenRequestsByToAddress', [address, pageIndex, pageSize]);
+    // console.log("GetWrapTokenRequestById", response);
+    return response;
+  } 
+
   async getAllWrapTokenRequests(pageIndex = 0, pageSize = rpcMaxPageSize): Promise<any>{
     const response = await this.client.sendRequest('embedded.bridge.getAllWrapTokenRequests', [pageIndex, pageSize]);
     // console.log("getAllWrapTokenRequests", response);
@@ -52,6 +58,12 @@ export class BridgeApi{
     return response;
   } 
   
+  async getAllUnwrapTokenRequestsByToAddress(address: string, pageIndex = 0, pageSize = rpcMaxPageSize): Promise<any>{
+    const response = await this.client.sendRequest('embedded.bridge.getAllUnwrapTokenRequestsByToAddress', [address, pageIndex, pageSize]);
+    // console.log("getAllUnwrapTokenRequestsByToAddress", response);
+    return response;
+  } 
+
   async getAllUnwrapTokenRequests(pageIndex = 0, pageSize = rpcMaxPageSize): Promise<any>{
     const response = await this.client.sendRequest('embedded.bridge.getAllUnwrapTokenRequests', [pageIndex, pageSize]);
     // console.log("getAllUnwrapTokenRequests", response);
