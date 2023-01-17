@@ -1,3 +1,4 @@
+import { BigNumber } from "ethers";
 import {
   Token
 } from "./token";
@@ -14,6 +15,12 @@ export class AccountInfo {
     }
 
   static fromJson(json: {[key: string]: any} ): AccountInfo {
+    // console.log("AccountInfo.fromJson(", json);
+    // console.log("new AccountInfo()", new AccountInfo(
+    //   json['address'],
+    //   json['accountHeight'],
+    //   json['balanceInfoMap']
+    // ));
     return new AccountInfo(
       json['address'],
       json['accountHeight'],
@@ -24,7 +31,7 @@ export class AccountInfo {
 
 class BalanceInfoListItem {
   token ? : Token;
-  balance ? : number;
+  balance ? : BigNumber;
   balanceWithDecimals ? : number;
   balanceFormatted ? : string;
 

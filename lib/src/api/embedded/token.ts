@@ -30,6 +30,7 @@ export class TokenApi{
 
   async getByZts(tokenStandard: TokenStandard): Promise<Token | null>{
     const response = await this.client.sendRequest('embedded.token.getByZts', [tokenStandard.toString()]);
+    console.log("getByZts", response);
     // ToDo: Add response validation
     return response == null ? null : Token.fromJson(response);
   }

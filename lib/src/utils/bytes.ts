@@ -1,3 +1,5 @@
+import { BigNumber } from "ethers";
+
 export class BytesUtils{
 
   static encodeBigInt(number: bigint): Buffer {
@@ -31,6 +33,12 @@ export class BytesUtils{
     }
 
     return hexOctets.join("");
+  }
+
+  static hexToBytes(hex: string) {
+    for (var bytes = [], c = 0; c < hex.length; c += 2)
+        bytes.push(parseInt(hex.substr(c, 2), 16));
+    return bytes;
   }
 
   static leftPadBytes(bytes: Buffer, size: number): Buffer {
@@ -71,8 +79,57 @@ export class BytesUtils{
         byteArray [ index ] = byte;
         num = (num - byte) / 256 ;
     }
+    // console.log("byteArray", byteArray);
+    // console.log("byteArray.reverse()", byteArray.reverse());
+    // console.log("Buffer.from(byteArray.reverse())", Buffer.from(byteArray.reverse()));
     return Buffer.from(byteArray.reverse());
-
   }
+
+  static stringToBytes(str: string, numBytes: number): Buffer{
+    const bigN = BigNumber.from(str);
+    // console.log("bigN", bigN);
+
+    const bnToHex = bigN.toHexString();
+    // console.log("bnToHex", bnToHex);
+
+    const bnToHexToBytes = BytesUtils.hexToBytes(bnToHex);
+    // console.log("bnToHexToBytes", bnToHexToBytes);
+
+    const bnToHexToBytesToBuf = Buffer.from(bnToHexToBytes);
+    // console.log("bnToHexToBytesToBuf", bnToHexToBytesToBuf);
+
+    const leftPaddedBuffer = BytesUtils.leftPadBytes(bnToHexToBytesToBuf, numBytes);
+    // console.log("leftPaddedBuffer", leftPaddedBuffer);
+
+    return leftPaddedBuffer;
+    // return Buffer.from(BytesUtils.hexToBytes(BigNumber.from(str).toHexString()));
+  }
+
+  static numberOrStringToBytes(input: number | string): Buffer{
+    if(typeof(input) == 'number'){
+      // console.log("numberOrStringToBytes - number", input);
+      return BytesUtils.numberToBytes(input, 32);
+    }else{
+      // console.log("numberOrStringToBytes - string", input);
+      return BytesUtils.stringToBytes(input, 32);
+    }
+  }
+
+
+  // static stringToBytes(str: string): Buffer{
+  //   let utf8Encode = new TextEncoder();
+  //   return Buffer.from(utf8Encode.encode(str));
+  // }
+
+  // This works for node?
+  // 
+  // static stringToBytes(str: string): Buffer{
+  //   let myBuffer = [];
+  //   let buffer = new Buffer(str, 'utf16le');
+  //   for (let i = 0; i < buffer.length; i++) {
+  //       myBuffer.push(buffer[i]);
+  //   }
+  //   return Buffer.from(myBuffer);
+  // }
 
 }

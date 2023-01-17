@@ -16,11 +16,23 @@ export class BridgeApi{
   // 
   // RPC
   // 
+  async getOrchestratorInfo(): Promise<any>{
+    const response = await this.client.sendRequest('embedded.bridge.getOrchestratorInfo', []);
+    // console.log("getOrchestratorInfo", response);
+    return response;
+  }
+
   async getBridgeInfo(): Promise<any>{
     const response = await this.client.sendRequest('embedded.bridge.getBridgeInfo', []);
     // console.log("getBridgeInfo", response);
     return response;
   }
+
+  async getAllNetworks(pageIndex = 0, pageSize = rpcMaxPageSize): Promise<any>{
+    const response = await this.client.sendRequest('embedded.bridge.getAllNetworks', [pageIndex, pageSize]);
+    // console.log("getAllNetworks", response);
+    return response;
+  } 
 
   async getNetworkInfo(networkType: number, chainId: number): Promise<any>{
     const response = await this.client.sendRequest('embedded.bridge.getNetworkInfo', [networkType, chainId]);
@@ -77,7 +89,7 @@ export class BridgeApi{
     networkType: number, 
     chainId: number, 
     toAddress: string,
-    amount: number,
+    amount: number | string,
     tokenStandard: TokenStandard
     ):AccountBlockTemplate{
     return AccountBlockTemplate.callContract(

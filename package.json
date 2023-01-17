@@ -8,7 +8,7 @@
 		"dist"
 	],
 	"scripts": {
-		"prepare": "npm install -D webpack-cli && npm install cipher-base && npm run patch",
+		"prepare": "npm install -D webpack-cli && npm install cipher-base && npm install rpc-websockets && npm run patch",
 		"watch": "tsc -w",
 		"clean": "rimraf dist/",
 		"copy-patches": "cpy patches/* dist/patches/",
@@ -68,6 +68,7 @@
 		"base64-loader": "^1.0.0",
 		"bech32": "^2.0.0",
 		"bigint-buffer": "^1.1.5",
+		"bignumber.js": "^9.1.1",
 		"bip39": "3.0.4",
 		"bip39-ts": "^1.0.6",
 		"cipher-base": "^1.0.4",
@@ -77,9 +78,10 @@
 		"crypto-js": "^4.1.1",
 		"ed25519-hd-key": "^1.2.0",
 		"ethers": "^5.5.2",
+		"json-bigint": "^1.0.0",
 		"node-localstorage": "^2.2.1",
 		"readable-stream": "^3.6.0",
-		"rpc-websockets": "^7.4.16",
+		"rpc-websockets": "^7.5.0",
 		"sha3": "^2.1.4",
 		"stream": "0.0.2",
 		"tweetnacl": "^1.0.3",

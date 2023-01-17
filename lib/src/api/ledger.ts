@@ -6,7 +6,9 @@ import { DetailedMomentumList } from "../model/nom/detailed_momentum";
 import { Momentum, MomentumList } from "../model/nom/momentum";
 import { Address } from "../model/primitives/address";
 import { Hash } from "../model/primitives/hash";
+import { BytesUtils } from "../utils/bytes";
 import { rpcMaxPageSize, memoryPoolPageSize } from './../client/constants'
+import BigNumber from 'bignumber.js';
 
 export class LedgerApi{
   client!: Client;
@@ -16,8 +18,20 @@ export class LedgerApi{
   }
 
   publishRawTransaction(accountBlockTemplate: AccountBlockTemplate): Promise<any>{
+    // console.log("accountBlockTemplate", accountBlockTemplate);
+    
+    const jsonedAccountBlockTemplate = accountBlockTemplate.toJson();
+    // console.log("jsonedAccountBlockTemplate", jsonedAccountBlockTemplate);
+    // jsonedAccountBlockTemplate.amount = BytesUtils.numberOrStringToBytes(accountBlockTemplate.amount.toString()).toJSON().data;
+    // console.log("jsonedAccountBlockTemplate 2", jsonedAccountBlockTemplate);
+
+    jsonedAccountBlockTemplate.amount = new BigNumber(accountBlockTemplate.amount.toString());
+    // console.log("jsonedAccountBlockTemplate 3", jsonedAccountBlockTemplate);
+
+    // console.log('JSON.stringify(jsonedAccountBlockTemplate)', JSON.stringify(jsonedAccountBlockTemplate));
+
     return this.client.sendRequest(
-      'ledger.publishRawTransaction', [accountBlockTemplate.toJson()]);
+      'ledger.publishRawTransaction', [jsonedAccountBlockTemplate]);
   }
 
   async getUnconfirmedBlocksByAddress(address: Address, 
@@ -100,6 +114,7 @@ export class LedgerApi{
   // 
   async getAccountInfoByAddress(address: Address): Promise<any>{
     let response = await this.client.sendRequest('ledger.getAccountInfoByAddress', [address.toString()]);
+    // console.log("response getAccountInfoByAddress", response);
     return AccountInfo.fromJson(response);
   }
 

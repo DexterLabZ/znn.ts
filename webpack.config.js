@@ -35,7 +35,7 @@ const serverConfig = {
   target: 'node',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'index.node.js',
+    filename: 'lib/src/index.node.js',
     libraryTarget: 'commonjs',
   },
   entry: {
@@ -57,7 +57,7 @@ const clientConfig = {
   target: 'web',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'index.js',
+    filename: 'lib/src/index.js',
     libraryTarget: 'umd',
     chunkFormat: 'module',
     libraryTarget: 'commonjs',

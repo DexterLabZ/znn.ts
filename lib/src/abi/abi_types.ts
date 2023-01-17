@@ -221,6 +221,7 @@ class StringType extends BytesType{
 
   encode(value: Object): Buffer {
     if (typeof value == 'string') {
+      // console.log("encoding string");
       let returned = super.encode(Buffer.from(value));
       return returned;
     } else {
@@ -238,8 +239,10 @@ abstract class NumericType extends AbiType {
   }
 
   encodeInternal(value ? : any): bigint {
+    // console.log("encoding internal");
     let bigInt: bigint;
     if (typeof value == 'string') {
+      // console.log("is string");
       let s = value.toLowerCase().trim();
       let radix = 10;
       if (s.startsWith('0x')) {
@@ -255,10 +258,15 @@ abstract class NumericType extends AbiType {
       }
       bigInt = BigInt(s);
     } else if (typeof value == 'bigint') {
+      // console.log("is bigint");
+      // ToDo: here lies the problem
+      // We should only use bigint instead of string for amount, maxSupply, totalSupply 
       bigInt = value;
     } else if (typeof value == 'number') {
+      // console.log("is number");
       bigInt = BigInt(value);
     } else if (Buffer.isBuffer(value)) {
+      // console.log("is Buffer");
       // ToDo: Test if this is alright
       bigInt = BigInt(value.toString());
     } else {

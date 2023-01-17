@@ -70,7 +70,7 @@ export class AccountBlock extends AccountBlockTemplate {
               momentumAcknowledged: HashHeight, 
               address: Address, 
               toAddress: Address, 
-              amount: number, 
+              amount: number | string, 
               tokenStandard: TokenStandard, 
               fromBlockHash: Hash, 
               data: Buffer, 

@@ -5,16 +5,16 @@ export class Token{
   name: string;
   symbol: string;
   domain: string;
-  totalSupply: number;
+  totalSupply: string;
   decimals: number;
   owner: Address;
   tokenStandard: TokenStandard;
-  maxSupply: number;
+  maxSupply: string;
   isBurnable: boolean;
   isMintable: boolean;
   isUtility: boolean;
 
-  constructor(name: string, symbol: string, domain: string, totalSupply: number, decimals: number, owner: Address, tokenStandard: TokenStandard, maxSupply: number, isBurnable: boolean, isMintable: boolean, isUtility: boolean){
+  constructor(name: string, symbol: string, domain: string, totalSupply: string, decimals: number, owner: Address, tokenStandard: TokenStandard, maxSupply: string, isBurnable: boolean, isMintable: boolean, isUtility: boolean){
     this.name = name;
     this.symbol = symbol;
     this.domain = domain;
