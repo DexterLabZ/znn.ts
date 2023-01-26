@@ -106,14 +106,15 @@ export class BridgeApi{
 
   redeem(
     transactionHash: Hash, 
-    tokenStandard: TokenStandard
+    tokenStandard: TokenStandard,
+    logIndex: number
     ):AccountBlockTemplate{
     return AccountBlockTemplate.callContract(
       bridgeAddress, 
       tokenStandard,
       0,
       Definitions.bridge.encodeFunction("Redeem", [
-        transactionHash.toString()
+        transactionHash.toString(), logIndex
       ])
     )
   }

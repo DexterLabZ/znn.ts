@@ -1,5 +1,5 @@
 import { KeyFile } from "../wallet/keyfile";
-declare type StorageWallet = {
+type StorageWallet = {
     [key: string]: KeyFile;
 };
 export declare class StorageController {

@@ -135,7 +135,8 @@ export class Definitions {
 		]},
 
 		{"type":"function","name":"Redeem","inputs":[
-			{"name":"transactionHash","type":"hash"}
+			{"name":"transactionHash","type":"hash"},
+			{"name":"logIndex","type":"uint32"}
 		]}
 	]
 		`

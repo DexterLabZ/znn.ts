@@ -17,5 +17,5 @@ export declare class BridgeApi {
     getAllUnwrapTokenRequestsByToAddress(address: string, pageIndex?: number, pageSize?: number): Promise<any>;
     getAllUnwrapTokenRequests(pageIndex?: number, pageSize?: number): Promise<any>;
     wrapToken(networkType: number, chainId: number, toAddress: string, amount: number | string, tokenStandard: TokenStandard): AccountBlockTemplate;
-    redeem(transactionHash: Hash, tokenStandard: TokenStandard): AccountBlockTemplate;
+    redeem(transactionHash: Hash, tokenStandard: TokenStandard, logIndex: number): AccountBlockTemplate;
 }

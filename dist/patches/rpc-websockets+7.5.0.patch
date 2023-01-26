@@ -21,7 +21,7 @@ index 348cbbd..7aea572 100644
 +        console.log("client.call - JSONbig.stringify(message) ", JSONbig.stringify(message));
 +
 +        // ToDo: add JSONbig.stringify v
-         _this2.socket.send(JSON.stringify(message), ws_opts, function (error) {
+         _this2.socket.send(JSONbig.stringify(message), ws_opts, function (error) {
 +          console.log("inside socket.send", error);
 +          console.log("resolve, reject", [resolve, reject]);
 +

@@ -184,6 +184,7 @@ export class AccountBlockTemplate{
   
   static callContract(address: Address, 
     tokenStandard: TokenStandard, amount: number | string, data: Buffer){
+      // ToDo: add logIndex to AccountBlockTemplate
       const block = new AccountBlockTemplate(
         undefined,
         undefined,
