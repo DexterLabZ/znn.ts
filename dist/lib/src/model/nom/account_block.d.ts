@@ -5,6 +5,7 @@ import { HashHeight } from "../primitives/hash_height";
 import { TokenStandard } from "../primitives/token_standard";
 import { AccountBlockTemplate } from "./account_block_template";
 import { Token } from "./token";
+import BigNumber from "bignumber.js";
 export declare class AccountBlockConfirmationDetail {
     numConfirmations: number;
     momentumHeight: number;
@@ -20,13 +21,13 @@ export declare class AccountBlockConfirmationDetail {
 }
 export declare class AccountBlock extends AccountBlockTemplate {
     descendantBlocks: Array<AccountBlock>;
-    basePlasma: number;
-    usedPlasma: number;
+    basePlasma: number | string | BigNumber;
+    usedPlasma: number | string | BigNumber;
     changesHash: Hash;
     token?: Token;
     confirmationDetail?: AccountBlockConfirmationDetail;
     pairedAccountBlock?: AccountBlock;
-    constructor(version: number, chainIdentifier: number, blockType: number, hash: Hash, previousHash: Hash, height: number, momentumAcknowledged: HashHeight, address: Address, toAddress: Address, amount: number | string, tokenStandard: TokenStandard, fromBlockHash: Hash, data: Buffer, fusedPlasma: number, difficulty: number, nonce: string, publicKey: Buffer, signature: Buffer, token?: Token, descendantBlocks?: Array<AccountBlock>, basePlasma?: number, usedPlasma?: number, changesHash?: Hash, confirmationDetail?: AccountBlockConfirmationDetail, pairedAccountBlock?: AccountBlock);
+    constructor(version: number, chainIdentifier: number, blockType: number, hash: Hash, previousHash: Hash, height: number, momentumAcknowledged: HashHeight, address: Address, toAddress: Address, amount: number | string | BigNumber, tokenStandard: TokenStandard, fromBlockHash: Hash, data: Buffer, fusedPlasma: number | string | BigNumber, difficulty: number, nonce: string, publicKey: Buffer, signature: Buffer, token?: Token, descendantBlocks?: Array<AccountBlock>, basePlasma?: number | string | BigNumber, usedPlasma?: number | string | BigNumber, changesHash?: Hash, confirmationDetail?: AccountBlockConfirmationDetail, pairedAccountBlock?: AccountBlock);
     static fromJson(json: {
         [key: string]: any;
     }): AccountBlock;

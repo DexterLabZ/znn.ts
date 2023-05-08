@@ -75,11 +75,13 @@ export const swapAddress: Address =
   Address.parse('z1qxemdeddedxswapxxxxxxxxxxxxxxxxxxl4yww');
 export const stakeAddress: Address =
   Address.parse('z1qxemdeddedxstakexxxxxxxxxxxxxxxxjv8v62');
+export const liquidityAddress: Address =
+  Address.parse('z1qxemdeddedxlyquydytyxxxxxxxxxxxxflaaae');
 export const sporkAddress: Address =
   Address.parse('z1qxemdeddedxsp0rkxxxxxxxxxxxxxxxx956u48');
 export const acceleratorAddress: Address =
   Address.parse('z1qxemdeddedxaccelerat0rxxxxxxxxxxp4tk22');
-export const bridgeAddress: Address =
+export const bridgeContractAddress: Address =
   Address.parse('z1qxemdeddedxdrydgexxxxxxxxxxxxxxxmqgr0d');
 
 export {

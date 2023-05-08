@@ -1,3 +1,4 @@
+import BigNumber from "bignumber.js";
 import { rpcMaxPageSize } from "../../client/constants";
 import { Client } from "../../client/interfaces";
 import { Definitions } from "../../embedded/definitions";
@@ -40,8 +41,8 @@ export class TokenApi{
     tokenName: string, 
     tokenSymbol: string,
     tokenDomain: string,
-    totalSupply: number,
-    maxSupply: number,
+    totalSupply: BigNumber,
+    maxSupply: BigNumber,
     decimals: number,
     mintable: boolean,
     burnable: boolean,
@@ -60,14 +61,14 @@ export class TokenApi{
     return AccountBlockTemplate.callContract(tokenAddress, znnZts, tokenZtsIssueFeeInZnn, encodedFunction);
   }  
 
-  async mint(tokenStandard: TokenStandard, amount: number, receiveAddress: Address){
-    let encodedFunction = Definitions.token.encodeFunction('Mint', [tokenStandard, amount, receiveAddress])
+  async mint(tokenStandard: TokenStandard, amount: BigNumber, receiveAddress: Address){
+    let encodedFunction = Definitions.token.encodeFunction('Mint', [tokenStandard, amount.toString(), receiveAddress])
     return AccountBlockTemplate.callContract(tokenAddress, znnZts, 0, encodedFunction);
   }  
 
-  async burnToken(tokenStandard: TokenStandard, amount: number){
+  async burnToken(tokenStandard: TokenStandard, amount: BigNumber){
     let encodedFunction = Definitions.token.encodeFunction('Burn', [])
-    return AccountBlockTemplate.callContract(tokenAddress, tokenStandard, amount, encodedFunction);
+    return AccountBlockTemplate.callContract(tokenAddress, tokenStandard, amount.toString(), encodedFunction);
   }  
 
   async updateToken(tokenStandard: TokenStandard, owner: Address, isMintable: boolean, isBurnable: boolean){

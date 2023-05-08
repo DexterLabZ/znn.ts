@@ -1,3 +1,4 @@
+import BigNumber from "bignumber.js";
 import { Address } from "../primitives/address";
 import { TokenStandard } from "../primitives/token_standard";
 
@@ -5,16 +6,26 @@ export class Token{
   name: string;
   symbol: string;
   domain: string;
-  totalSupply: string;
+  totalSupply: BigNumber;
   decimals: number;
   owner: Address;
   tokenStandard: TokenStandard;
-  maxSupply: string;
+  maxSupply: BigNumber;
   isBurnable: boolean;
   isMintable: boolean;
   isUtility: boolean;
 
-  constructor(name: string, symbol: string, domain: string, totalSupply: string, decimals: number, owner: Address, tokenStandard: TokenStandard, maxSupply: string, isBurnable: boolean, isMintable: boolean, isUtility: boolean){
+  constructor(name: string, 
+      symbol: string, 
+      domain: string, 
+      totalSupply: BigNumber, 
+      decimals: number, 
+      owner: Address, 
+      tokenStandard: TokenStandard, 
+      maxSupply: BigNumber, 
+      isBurnable: boolean, 
+      isMintable: boolean, 
+      isUtility: boolean){
     this.name = name;
     this.symbol = symbol;
     this.domain = domain;
@@ -33,11 +44,11 @@ export class Token{
       json['name'],
       json['symbol'],
       json['domain'],
-      json['totalSupply'],
+      new BigNumber(json['totalSupply']),
       json['decimals'],
       Address.parse(json['owner']),
       TokenStandard.parse(json['tokenStandard']),
-      json['maxSupply'],
+      new BigNumber(json['maxSupply']),
       json['isBurnable'],
       json['isMintable'],
       json['isUtility']
@@ -49,11 +60,11 @@ export class Token{
       name: this.name,
       symbol: this.symbol,
       domain: this.domain,
-      totalSupply: this.totalSupply,
+      totalSupply: this.totalSupply.toString(),
       decimals: this.decimals,
       owner: this.owner.toString(),
       tokenStandard: this.tokenStandard.toString(),
-      maxSupply: this.maxSupply,
+      maxSupply: this.maxSupply.toString(),
       isBurnable: this.isBurnable,
       isMintable: this.isMintable,
       isUtility: this.isUtility

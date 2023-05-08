@@ -9,4 +9,4 @@ const utils = {
 }
 export { utils }
 
-export { Enums, Primitives, Constants } from "./lib/src/exports";
+export * from "./lib/src/exports";

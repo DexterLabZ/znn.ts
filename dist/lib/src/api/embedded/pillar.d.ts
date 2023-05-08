@@ -3,13 +3,14 @@ import { RewardHistoryList, UncollectedReward } from "../../model/embedded/commo
 import { DelegationInfo, PillarEpochHistoryList, PillarInfo, PillarInfoList } from "../../model/embedded/pillar";
 import { AccountBlockTemplate } from "../../model/nom/account_block_template";
 import { Address } from "../../model/primitives/address";
+import BigNumber from "bignumber.js";
 export declare class PillarApi {
     client: Client;
     setClient(client: Client): void;
-    getDepositedQsr(address: Address): Promise<number>;
+    getDepositedQsr(address: Address): Promise<number | string | BigNumber>;
     getUncollectedReward(address: Address): Promise<UncollectedReward>;
     getFrontierRewardByPage(address: Address, pageIndex?: number, pageSize?: number): Promise<RewardHistoryList>;
-    getQsrRegistrationCost(): Promise<number>;
+    getQsrRegistrationCost(): Promise<number | string | BigNumber>;
     getAll(pageIndex?: number, pageSize?: number): Promise<PillarInfoList>;
     getByOwner(address: Address): Promise<PillarInfo>;
     getByName(name: string): Promise<PillarInfo | null>;
@@ -23,6 +24,6 @@ export declare class PillarApi {
     delegate(name: string): AccountBlockTemplate;
     undelegate(): AccountBlockTemplate;
     collectReward(): AccountBlockTemplate;
-    depositQsr(amount: number): AccountBlockTemplate;
+    depositQsr(amount: number | string | BigNumber): AccountBlockTemplate;
     withdrawQsr(): AccountBlockTemplate;
 }

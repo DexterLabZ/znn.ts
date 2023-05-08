@@ -5,6 +5,7 @@ import {toBigIntBE, toBufferBE} from 'bigint-buffer';
 import { Address } from "../model/primitives/address";
 import { TokenStandard } from "../model/primitives/token_standard";
 import { Hash } from "../model/primitives/hash";
+import BigNumber from "bignumber.js";
 export abstract class AbiType {
   static int32Size: number = 32;
   name ? : string;
@@ -239,10 +240,10 @@ abstract class NumericType extends AbiType {
   }
 
   encodeInternal(value ? : any): bigint {
-    // console.log("encoding internal");
+    console.log("encoding internal");
     let bigInt: bigint;
     if (typeof value == 'string') {
-      // console.log("is string");
+      console.log("is string");
       let s = value.toLowerCase().trim();
       let radix = 10;
       if (s.startsWith('0x')) {
@@ -258,15 +259,16 @@ abstract class NumericType extends AbiType {
       }
       bigInt = BigInt(s);
     } else if (typeof value == 'bigint') {
-      // console.log("is bigint");
+      console.log("is bigint");
       // ToDo: here lies the problem
       // We should only use bigint instead of string for amount, maxSupply, totalSupply 
       bigInt = value;
     } else if (typeof value == 'number') {
-      // console.log("is number");
+      console.log("is number");
       bigInt = BigInt(value);
+      // bigInt = BigNumber(value);
     } else if (Buffer.isBuffer(value)) {
-      // console.log("is Buffer");
+      console.log("is Buffer");
       // ToDo: Test if this is alright
       bigInt = BigInt(value.toString());
     } else {

@@ -4,6 +4,7 @@ import { AccountBlockTemplate } from "./model/nom/account_block_template";
 import { Address } from "./model/primitives/address";
 import { Hash } from "./model/primitives/hash";
 import { TokenStandard } from "./model/primitives/token_standard";
+import { LiquidityStakeEntry, LiquidityStakeList, TokenTuple } from "./model/embedded/liquidity";
 declare const Primitives: {
     Address: typeof Address;
     Hash: typeof Hash;
@@ -25,4 +26,9 @@ declare const Constants: {
 declare const Enums: {
     PowStatus: typeof PowStatus;
 };
-export { Enums, Primitives, Constants };
+declare const Models: {
+    TokenTuple: typeof TokenTuple;
+    LiquidityStakeEntry: typeof LiquidityStakeEntry;
+    LiquidityStakeList: typeof LiquidityStakeList;
+};
+export { Enums, Primitives, Constants, Models };

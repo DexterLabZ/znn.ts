@@ -1,13 +1,8 @@
-import { PowStatus } from "./pow/pow";
-import { GetRequiredParam } from "./model/embedded/plasma";
-import { AccountBlockTemplate } from "./model/nom/account_block_template";
-import { 
-  Address,
-  pillarAddress, 
-  plasmaAddress, 
-  stakeAddress 
-} from "./model/primitives/address";
-import { Hash } from "./model/primitives/hash";
+import {PowStatus} from "./pow/pow";
+import {GetRequiredParam} from "./model/embedded/plasma";
+import {AccountBlockTemplate} from "./model/nom/account_block_template";
+import {Address, pillarAddress, plasmaAddress, stakeAddress} from "./model/primitives/address";
+import {Hash} from "./model/primitives/hash";
 import {
   TokenStandard,
   znnTokenStandard,
@@ -15,20 +10,23 @@ import {
   emptyTokenStandard,
   znnZts,
   qsrZts,
-  emptyZts
+  emptyZts,
 } from "./model/primitives/token_standard";
+import {LiquidityStakeEntry, LiquidityStakeList, TokenTuple} from "./model/embedded/liquidity";
+import {AccountBlock} from "./model/nom/account_block";
 
 const Primitives = {
   Address,
   Hash,
   GetRequiredParam,
+  AccountBlock,
   AccountBlockTemplate,
-  TokenStandard
-}
+  TokenStandard,
+};
 
 const Constants = {
-  pillarAddress, 
-  plasmaAddress, 
+  pillarAddress,
+  plasmaAddress,
   stakeAddress,
 
   znnTokenStandard,
@@ -37,11 +35,15 @@ const Constants = {
   znnZts,
   qsrZts,
   emptyZts,
-}
+};
 
 const Enums = {
-  PowStatus
-}
+  PowStatus,
+};
+const Models = {
+  TokenTuple,
+  LiquidityStakeEntry,
+  LiquidityStakeList,
+};
 
-
-export { Enums, Primitives, Constants };
+export {Enums, Primitives, Constants, Models};

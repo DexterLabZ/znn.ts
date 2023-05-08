@@ -1,7 +1,7 @@
-import { BigNumber } from "ethers";
+import {BigNumber} from "ethers";
+import BigNumberJS from "bignumber.js";
 
-export class BytesUtils{
-
+export class BytesUtils {
   static encodeBigInt(number: bigint): Buffer {
     return Buffer.from(number.toString());
   }
@@ -12,23 +12,23 @@ export class BytesUtils{
     }
     return dest;
   }
-  
-  static bytesToBase64(bytes: Buffer): string {  
-    return bytes.toString('base64');
+
+  static bytesToBase64(bytes: Buffer): string {
+    return bytes.toString("base64");
   }
 
-  static bytesToHex(bytes: Buffer): string{
+  static bytesToHex(bytes: Buffer): string {
     const byteToHex = [];
 
-    for (let n = 0; n <= 0xff; ++n){
-        const hexOctet = n.toString(16).padStart(2, "0");
-        byteToHex.push(hexOctet);
+    for (let n = 0; n <= 0xff; ++n) {
+      const hexOctet = n.toString(16).padStart(2, "0");
+      byteToHex.push(hexOctet);
     }
 
     const buff = new Uint8Array(bytes);
     const hexOctets = Array(buff.length);
 
-    for (let i = 0; i < buff.length; ++i){
+    for (let i = 0; i < buff.length; ++i) {
       hexOctets[i] = byteToHex[buff[i]];
     }
 
@@ -36,8 +36,7 @@ export class BytesUtils{
   }
 
   static hexToBytes(hex: string) {
-    for (var bytes = [], c = 0; c < hex.length; c += 2)
-        bytes.push(parseInt(hex.substr(c, 2), 16));
+    for (var bytes = [], c = 0; c < hex.length; c += 2) bytes.push(parseInt(hex.substr(c, 2), 16));
     return bytes;
   }
 
@@ -51,13 +50,13 @@ export class BytesUtils{
     return result;
   }
 
-  static longToBytes(longValue: any): Buffer{
+  static longToBytes(longValue: any): Buffer {
     let byteArray = Buffer.alloc(8);
 
-    for ( let index = 0; index < byteArray.length; index ++ ) {
-        let byte = longValue & 0xff;
-        byteArray [ index ] = byte;
-        longValue = (longValue - byte) / 256 ;
+    for (let index = 0; index < byteArray.length; index++) {
+      let byte = longValue & 0xff;
+      byteArray[index] = byte;
+      longValue = (longValue - byte) / 256;
     }
     return Buffer.from(byteArray.reverse());
   }
@@ -65,19 +64,19 @@ export class BytesUtils{
   static bigIntToBytes(b: bigint, numBytes: number): Buffer {
     let bb = Buffer.from([]).fill(0);
     let biBytes = BytesUtils.encodeBigInt(b);
-    let start = (biBytes.length == numBytes + 1) ? 1 : 0;
-    let length = (biBytes.length > numBytes)?biBytes.length:numBytes;
+    let start = biBytes.length == numBytes + 1 ? 1 : 0;
+    let length = biBytes.length > numBytes ? biBytes.length : numBytes;
     BytesUtils.arraycopy(biBytes, start, bb, numBytes - length, length);
     return bb;
   }
 
-  static numberToBytes(num: number, numBytes: number): Buffer{
+  static numberToBytes(num: number, numBytes: number): Buffer {
     let byteArray = Buffer.alloc(numBytes);
 
-    for ( let index = 0; index < byteArray.length; index ++ ) {
-        let byte = num & 0xff;
-        byteArray [ index ] = byte;
-        num = (num - byte) / 256 ;
+    for (let index = 0; index < byteArray.length; index++) {
+      let byte = num & 0xff;
+      byteArray[index] = byte;
+      num = (num - byte) / 256;
     }
     // console.log("byteArray", byteArray);
     // console.log("byteArray.reverse()", byteArray.reverse());
@@ -85,7 +84,7 @@ export class BytesUtils{
     return Buffer.from(byteArray.reverse());
   }
 
-  static stringToBytes(str: string, numBytes: number): Buffer{
+  static stringToBytes(str: string, numBytes: number): Buffer {
     const bigN = BigNumber.from(str);
     // console.log("bigN", bigN);
 
@@ -105,16 +104,19 @@ export class BytesUtils{
     // return Buffer.from(BytesUtils.hexToBytes(BigNumber.from(str).toHexString()));
   }
 
-  static numberOrStringToBytes(input: number | string): Buffer{
-    if(typeof(input) == 'number'){
+  static numberOrStringToBytes(input: number | string | BigNumberJS): Buffer {
+    if (typeof input == "number") {
       // console.log("numberOrStringToBytes - number", input);
       return BytesUtils.numberToBytes(input, 32);
-    }else{
+    } else if (typeof input == "string") {
       // console.log("numberOrStringToBytes - string", input);
+      return BytesUtils.stringToBytes(input, 32);
+    } else {
+      // BigNumber
+      input = input.toString();
       return BytesUtils.stringToBytes(input, 32);
     }
   }
-
 
   // static stringToBytes(str: string): Buffer{
   //   let utf8Encode = new TextEncoder();
@@ -122,7 +124,7 @@ export class BytesUtils{
   // }
 
   // This works for node?
-  // 
+  //
   // static stringToBytes(str: string): Buffer{
   //   let myBuffer = [];
   //   let buffer = new Buffer(str, 'utf16le');
@@ -131,5 +133,4 @@ export class BytesUtils{
   //   }
   //   return Buffer.from(myBuffer);
   // }
-
 }

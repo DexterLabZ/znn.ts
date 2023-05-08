@@ -1,9 +1,12 @@
-import { netId } from "../../global";
-import { BytesUtils } from "../../utils/bytes";
-import { Address, emptyAddress } from "../primitives/address";
-import { emptyHash, Hash } from "../primitives/hash";
-import { emptyHashHeight, HashHeight } from "../primitives/hash_height";
-import { emptyTokenStandard, TokenStandard } from "../primitives/token_standard";
+import {netId} from "../../global";
+import {BytesUtils} from "../../utils/bytes";
+import {Address, emptyAddress} from "../primitives/address";
+import {emptyHash, Hash} from "../primitives/hash";
+import {emptyHashHeight, HashHeight} from "../primitives/hash_height";
+import {emptyTokenStandard, TokenStandard} from "../primitives/token_standard";
+import BigNumber from "bignumber.js";
+// We use bignumber.js instead of ethers's BigNumber
+// because JSONbig package uses bignumber.js for JSONbig.parse()
 
 export enum BlockTypeEnum {
   unknown = 0,
@@ -11,10 +14,10 @@ export enum BlockTypeEnum {
   userSend = 2,
   userReceive = 3,
   contractSend = 4,
-  contractReceive = 5
+  contractReceive = 5,
 }
 
-export class AccountBlockTemplate{
+export class AccountBlockTemplate {
   version: number;
   chainIdentifier: number;
   blockType: number;
@@ -29,14 +32,14 @@ export class AccountBlockTemplate{
   // Send information
   toAddress: Address;
 
-  amount: number | string;
+  amount: number | string | BigNumber;
   tokenStandard: TokenStandard;
   fromBlockHash: Hash;
 
   data: Buffer;
-  
+
   // PoW
-  fusedPlasma: number;
+  fusedPlasma: number | string | BigNumber;
   difficulty: number;
 
   // Hex representation of 8byte none
@@ -45,24 +48,26 @@ export class AccountBlockTemplate{
   publicKey: Buffer;
   signature: Buffer;
 
-  constructor(version: number = 1,
-              chainIdentifier: number = netId,
-              blockType: number,
-              hash: Hash = emptyHash,
-              previousHash: Hash = emptyHash,
-              height: number = 0,
-              momentumAcknowledged: HashHeight = emptyHashHeight,
-              address: Address = emptyAddress,
-              toAddress: Address = emptyAddress,
-              amount: number | string = 0,
-              tokenStandard: TokenStandard = TokenStandard.parse(emptyTokenStandard),
-              fromBlockHash: Hash = emptyHash,
-              data: Buffer = Buffer.from([]),
-              fusedPlasma: number = 0,
-              difficulty: number = 0,
-              nonce: string = "",
-              publicKey: Buffer = Buffer.from([]),
-              signature: Buffer = Buffer.from([])){
+  constructor(
+    version: number = 1,
+    chainIdentifier: number = netId,
+    blockType: number,
+    hash: Hash = emptyHash,
+    previousHash: Hash = emptyHash,
+    height: number = 0,
+    momentumAcknowledged: HashHeight = emptyHashHeight,
+    address: Address = emptyAddress,
+    toAddress: Address = emptyAddress,
+    amount: number | string | BigNumber = "0",
+    tokenStandard: TokenStandard = TokenStandard.parse(emptyTokenStandard),
+    fromBlockHash: Hash = emptyHash,
+    data: Buffer = Buffer.from([]),
+    fusedPlasma: number | string | BigNumber = "0",
+    difficulty: number = 0,
+    nonce: string = "",
+    publicKey: Buffer = Buffer.from([]),
+    signature: Buffer = Buffer.from([])
+  ) {
     this.version = version;
     this.chainIdentifier = chainIdentifier;
     this.blockType = blockType;
@@ -83,38 +88,34 @@ export class AccountBlockTemplate{
     this.signature = signature;
   }
 
-  static fromJson(json: {[key: string]: any}): AccountBlockTemplate{
+  static fromJson(json: {[key: string]: any}): AccountBlockTemplate {
     return new AccountBlockTemplate(
-      json['version'],
-      json['chainIdentifier'],
-      json['blockType'],
-      Hash.parse(json['hash']),
-      Hash.parse(json['previousHash']),
-      json['height'],
-      HashHeight.fromJson(json['momentumAcknowledged']),
-      Address.parse(json['address']),
-      Address.parse(json['toAddress']),
-      json['amount'],
-      TokenStandard.parse(json['tokenStandard']),
-      Hash.parse(json['fromBlockHash']),
-      (json['data'] == null
-            ? Buffer.from([])
-            : json['data'] == ''
-                ? Buffer.from([])
-                : Buffer.from(json['data'], 'base64')!),
-      json['fusedPlasma'],
-      json['difficulty'],
-      json['nonce'],
-      (json['publicKey'] != null
-            ? Buffer.from(json['publicKey'])
-            : Buffer.from([]))!,
-      (json['signature'] != null
-      ? Buffer.from(json['signature'])
-      : Buffer.from([]))!
+      json["version"],
+      json["chainIdentifier"],
+      json["blockType"],
+      Hash.parse(json["hash"]),
+      Hash.parse(json["previousHash"]),
+      json["height"],
+      HashHeight.fromJson(json["momentumAcknowledged"]),
+      Address.parse(json["address"]),
+      Address.parse(json["toAddress"]),
+      json["amount"],
+      TokenStandard.parse(json["tokenStandard"]),
+      Hash.parse(json["fromBlockHash"]),
+      json["data"] == null
+        ? Buffer.from([])
+        : json["data"] == ""
+        ? Buffer.from([])
+        : Buffer.from(json["data"], "base64")!,
+      json["fusedPlasma"],
+      json["difficulty"],
+      json["nonce"],
+      (json["publicKey"] != null ? Buffer.from(json["publicKey"]) : Buffer.from([]))!,
+      (json["signature"] != null ? Buffer.from(json["signature"]) : Buffer.from([]))!
     );
   }
 
-  toJson(): {[key: string]: any}{
+  toJson(): {[key: string]: any} {
     return {
       version: this.version,
       chainIdentifier: this.chainIdentifier,
@@ -129,17 +130,17 @@ export class AccountBlockTemplate{
       tokenStandard: this.tokenStandard.toString(),
       fromBlockHash: this.fromBlockHash.toString(),
       data: BytesUtils.bytesToBase64(this.data),
-      fusedPlasma: this.fusedPlasma,
-      difficulty: this.difficulty,
+      fusedPlasma: this.fusedPlasma.toString(),
+      difficulty: this.difficulty.toString(),
       nonce: this.nonce,
       publicKey: BytesUtils.bytesToBase64(this.publicKey),
-      signature: BytesUtils.bytesToBase64(this.signature)
+      signature: BytesUtils.bytesToBase64(this.signature),
     };
   }
 
   static receive(fromBlockHash: Hash) {
     return new AccountBlockTemplate(
-      undefined, 
+      undefined,
       undefined,
       BlockTypeEnum.userReceive,
       undefined,
@@ -156,11 +157,11 @@ export class AccountBlockTemplate{
       undefined,
       undefined,
       undefined,
-      undefined,
-      );
+      undefined
+    );
   }
 
-  static send(toAddress: Address, tokenStandard: TokenStandard, amount: number | string) {
+  static send(toAddress: Address, tokenStandard: TokenStandard, amount: number | string | BigNumber) {
     return new AccountBlockTemplate(
       undefined,
       undefined,
@@ -179,35 +180,38 @@ export class AccountBlockTemplate{
       undefined,
       undefined,
       undefined
-    )
-  }
-  
-  static callContract(address: Address, 
-    tokenStandard: TokenStandard, amount: number | string, data: Buffer){
-      // ToDo: add logIndex to AccountBlockTemplate
-      const block = new AccountBlockTemplate(
-        undefined,
-        undefined,
-        BlockTypeEnum.userSend,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        address,
-        amount,
-        tokenStandard,
-        undefined,
-        data,
-        undefined,
-        undefined,
-        undefined,
-        undefined
-      );
-      return block;
+    );
   }
 
-  toString(): string{
+  static callContract(
+    address: Address,
+    tokenStandard: TokenStandard,
+    amount: number | string | BigNumber,
+    data: Buffer
+  ) {
+    const block = new AccountBlockTemplate(
+      undefined,
+      undefined,
+      BlockTypeEnum.userSend,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      address,
+      amount,
+      tokenStandard,
+      undefined,
+      data,
+      undefined,
+      undefined,
+      undefined,
+      undefined
+    );
+    return block;
+  }
+
+  toString(): string {
     return JSON.stringify(this.toJson());
   }
 }
