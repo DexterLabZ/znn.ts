@@ -152,4 +152,12 @@ export class GetRequiredResponse {
   static fromJson(json: {[key: string]: any}): GetRequiredResponse {
     return new GetRequiredResponse(json.availablePlasma, json.basePlasma, json.requiredDifficulty);
   }
+
+  toJson(): {[key: string]: any} {
+    return {
+      availablePlasma: this.availablePlasma,
+      basePlasma: this.basePlasma,
+      requiredDifficulty: this.requiredDifficulty,
+    };
+  }
 }

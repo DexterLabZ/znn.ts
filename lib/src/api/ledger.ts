@@ -79,7 +79,8 @@ export class LedgerApi {
     // znnFundsNeeded
     // qsrFundsNeeded
 
-    jsonedAccountBlockTemplate.difficulty = parseInt(accountBlockTemplate.difficulty.toString());
+    // jsonedAccountBlockTemplate.difficulty = parseInt(accountBlockTemplate.difficulty.toString());
+    // jsonedAccountBlockTemplate.difficulty = accountBlockTemplate.difficulty.toString();
     console.log("jsonedAccountBlockTemplate 3", jsonedAccountBlockTemplate);
 
     console.log("JSONbig.stringify(jsonedAccountBlockTemplate)", JSONbig.stringify(jsonedAccountBlockTemplate));
