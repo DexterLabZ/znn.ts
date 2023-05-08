@@ -15,13 +15,13 @@ export declare class StakeList {
     };
 }
 export declare class StakeEntry {
-    amount: number | string | BigNumber;
-    weightedAmount: number | string | BigNumber;
+    amount: BigNumber;
+    weightedAmount: BigNumber;
     startTimestamp: number;
     expirationTimestamp: number;
     address: Address;
     id: Hash;
-    constructor(amount: number | string | BigNumber, weightedAmount: number | string | BigNumber, startTimestamp: number, expirationTimestamp: number, address: Address, id: Hash);
+    constructor(amount: BigNumber, weightedAmount: BigNumber, startTimestamp: number, expirationTimestamp: number, address: Address, id: Hash);
     static fromJson(json: {
         [key: string]: any;
     }): StakeEntry;

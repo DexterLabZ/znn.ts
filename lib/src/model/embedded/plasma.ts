@@ -5,19 +5,19 @@ import {Hash} from "../primitives/hash";
 import BigNumber from "bignumber.js";
 
 export class FusionEntryList {
-  qsrAmount: number | string | BigNumber;
+  qsrAmount: BigNumber;
   count: number;
   list: Array<FusionEntry>;
 
-  constructor(qsrAmount: number | string | BigNumber, count: number, list: Array<FusionEntry>) {
-    this.qsrAmount = qsrAmount.toString();
+  constructor(qsrAmount: BigNumber, count: number, list: Array<FusionEntry>) {
+    this.qsrAmount = qsrAmount;
     this.count = count;
     this.list = list;
   }
 
   static fromJson(json: {[key: string]: any}): FusionEntryList {
     return new FusionEntryList(
-      json.qsrAmount,
+      new BigNumber(json.qsrAmount.toString()),
       json.count,
       json.list.map((entry: {[key: string]: any}) => FusionEntry.fromJson(entry))
     );
@@ -33,19 +33,13 @@ export class FusionEntryList {
 }
 
 export class FusionEntry {
-  qsrAmount: number | string | BigNumber;
+  qsrAmount: BigNumber;
   beneficiary: Address;
   expirationHeight: number;
   id: Hash;
   isRevocable?: boolean;
 
-  constructor(
-    qsrAmount: number | string | BigNumber,
-    beneficiary: Address,
-    expirationHeight: number,
-    id: Hash,
-    isRevocable: boolean
-  ) {
+  constructor(qsrAmount: BigNumber, beneficiary: Address, expirationHeight: number, id: Hash, isRevocable: boolean) {
     this.qsrAmount = qsrAmount;
     this.beneficiary = beneficiary;
     this.expirationHeight = expirationHeight;
@@ -55,7 +49,7 @@ export class FusionEntry {
 
   static fromJson(json: {[key: string]: any}): FusionEntry {
     return new FusionEntry(
-      json.qsrAmount,
+      new BigNumber(json.qsrAmount.toString()),
       Address.parse(json.beneficiary),
       json.expirationHeight,
       Hash.parse(json.id),
@@ -76,16 +70,16 @@ export class FusionEntry {
 export class PlasmaInfo {
   currentPlasma: number;
   maxPlasma: number;
-  qsrAmount: number | string | BigNumber;
+  qsrAmount: BigNumber;
 
-  constructor(currentPlasma: number, maxPlasma: number, qsrAmount: number | string | BigNumber) {
+  constructor(currentPlasma: number, maxPlasma: number, qsrAmount: BigNumber) {
     this.currentPlasma = currentPlasma;
     this.maxPlasma = maxPlasma;
     this.qsrAmount = qsrAmount;
   }
 
   static fromJson(json: {[key: string]: any}): PlasmaInfo {
-    return new PlasmaInfo(json.currentPlasma, json.maxPlasma, json.qsrAmount);
+    return new PlasmaInfo(json.currentPlasma, json.maxPlasma, new BigNumber(json.qsrAmount.toString()));
   }
 
   toJson(): {[key: string]: any} {

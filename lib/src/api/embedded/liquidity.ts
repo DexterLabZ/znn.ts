@@ -61,12 +61,12 @@ export class LiquidityApi {
   }
 
   // Contract methods
-  liquidityStake(durationInSec: number, zts: TokenStandard, amount: number | string | BigNumber): AccountBlockTemplate {
+  liquidityStake(durationInSec: number, zts: TokenStandard, amount: BigNumber): AccountBlockTemplate {
     // ToDo: Add response validation
     return AccountBlockTemplate.callContract(
       liquidityAddress,
       zts,
-      amount.toString(),
+      amount,
       Definitions.liquidity.encodeFunction("LiquidityStake", [durationInSec])
     );
   }
@@ -76,7 +76,7 @@ export class LiquidityApi {
     return AccountBlockTemplate.callContract(
       liquidityAddress,
       znnZts,
-      0,
+      new BigNumber("0"),
       Definitions.liquidity.encodeFunction("CancelLiquidityStake", [id.getBytes()])
     );
   }
@@ -87,7 +87,7 @@ export class LiquidityApi {
     return AccountBlockTemplate.callContract(
       liquidityAddress,
       znnZts,
-      0,
+      new BigNumber("0"),
       Definitions.common.encodeFunction("CollectReward", [])
     );
   }

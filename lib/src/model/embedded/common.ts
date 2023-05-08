@@ -4,10 +4,10 @@ import BigNumber from "bignumber.js";
 
 export class UncollectedReward {
   address: Address;
-  znnAmount: number | string | BigNumber;
-  qsrAmount: number | string | BigNumber;
+  znnAmount: BigNumber;
+  qsrAmount: BigNumber;
 
-  constructor(address: Address, znnAmount: number | string | BigNumber, qsrAmount: number | string | BigNumber) {
+  constructor(address: Address, znnAmount: BigNumber, qsrAmount: BigNumber) {
     this.address = address;
     this.znnAmount = znnAmount;
     this.qsrAmount = qsrAmount;
@@ -15,8 +15,8 @@ export class UncollectedReward {
 
   static fromJson(json: any): UncollectedReward {
     let address = Address.parse(json.address);
-    let znnAmount = json.znnAmount;
-    let qsrAmount = json.qsrAmount;
+    let znnAmount = new BigNumber(json.znnAmount.toString());
+    let qsrAmount = new BigNumber(json.qsrAmount.toString());
     return new UncollectedReward(address, znnAmount, qsrAmount);
   }
 
@@ -31,17 +31,21 @@ export class UncollectedReward {
 
 export class RewardHistoryEntry {
   epoch: number;
-  znnAmount: number | string | BigNumber;
-  qsrAmount: number | string | BigNumber;
+  znnAmount: BigNumber;
+  qsrAmount: BigNumber;
 
-  constructor(epoch: number, znnAmount: number | string | BigNumber, qsrAmount: number | string | BigNumber) {
+  constructor(epoch: number, znnAmount: BigNumber, qsrAmount: BigNumber) {
     this.epoch = epoch;
     this.znnAmount = znnAmount;
     this.qsrAmount = qsrAmount;
   }
 
   static fromJson(json: {[key: string]: any}): RewardHistoryEntry {
-    return new RewardHistoryEntry(json.epoch, json.znnAmount, json.qsrAmount);
+    return new RewardHistoryEntry(
+      json.epoch,
+      new BigNumber(json.znnAmount.toString()),
+      new BigNumber(json.qsrAmount.toString())
+    );
   }
 
   toJson(): {

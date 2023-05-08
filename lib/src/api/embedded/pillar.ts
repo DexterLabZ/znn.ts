@@ -19,7 +19,7 @@ export class PillarApi {
   //
   // Common RPC
   //
-  async getDepositedQsr(address: Address): Promise<number | string | BigNumber> {
+  async getDepositedQsr(address: Address): Promise<BigNumber> {
     return await this.client.sendRequest("embedded.pillar.getDepositedQsr", [address.toString()]);
   }
 
@@ -48,7 +48,7 @@ export class PillarApi {
   //
   // RPC
   //
-  async getQsrRegistrationCost(): Promise<number | string | BigNumber> {
+  async getQsrRegistrationCost(): Promise<BigNumber> {
     // ToDo: Add response validation
     return await this.client.sendRequest("embedded.pillar.getQsrRegistrationCost", []);
   }
@@ -158,7 +158,7 @@ export class PillarApi {
     return AccountBlockTemplate.callContract(
       pillarAddress,
       znnZts,
-      0,
+      new BigNumber("0"),
       Definitions.pillar.encodeFunction("UpdatePillar", [
         name,
         producerAddress,
@@ -174,7 +174,7 @@ export class PillarApi {
     return AccountBlockTemplate.callContract(
       pillarAddress,
       znnZts,
-      0,
+      new BigNumber("0"),
       Definitions.pillar.encodeFunction("Revoke", [name])
     );
   }
@@ -184,7 +184,7 @@ export class PillarApi {
     return AccountBlockTemplate.callContract(
       pillarAddress,
       znnZts,
-      0,
+      new BigNumber("0"),
       Definitions.pillar.encodeFunction("Delegate", [name])
     );
   }
@@ -194,7 +194,7 @@ export class PillarApi {
     return AccountBlockTemplate.callContract(
       pillarAddress,
       znnZts,
-      0,
+      new BigNumber("0"),
       Definitions.pillar.encodeFunction("Undelegate", [])
     );
   }
@@ -205,12 +205,12 @@ export class PillarApi {
     return AccountBlockTemplate.callContract(
       pillarAddress,
       znnZts,
-      0,
+      new BigNumber("0"),
       Definitions.common.encodeFunction("CollectReward", [])
     );
   }
 
-  depositQsr(amount: number | string | BigNumber): AccountBlockTemplate {
+  depositQsr(amount: BigNumber): AccountBlockTemplate {
     // ToDo: Add response validation
     return AccountBlockTemplate.callContract(
       pillarAddress,
@@ -225,7 +225,7 @@ export class PillarApi {
     return AccountBlockTemplate.callContract(
       pillarAddress,
       znnZts,
-      0,
+      new BigNumber("0"),
       Definitions.common.encodeFunction("WithdrawQsr", [])
     );
   }

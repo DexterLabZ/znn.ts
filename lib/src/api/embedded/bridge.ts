@@ -101,13 +101,13 @@ export class BridgeApi {
     networkClass: number,
     chainId: number,
     toAddress: string,
-    amount: number | string | BigNumber,
+    amount: BigNumber,
     tokenStandard: TokenStandard
   ): AccountBlockTemplate {
     return AccountBlockTemplate.callContract(
       bridgeContractAddress,
       tokenStandard,
-      amount.toString(),
+      amount,
       Definitions.bridge.encodeFunction("WrapToken", [networkClass, chainId, toAddress])
     );
   }
@@ -116,7 +116,7 @@ export class BridgeApi {
     return AccountBlockTemplate.callContract(
       bridgeContractAddress,
       tokenStandard,
-      0,
+      new BigNumber("0"),
       Definitions.bridge.encodeFunction("Redeem", [transactionHash.toString(), logIndex])
     );
   }

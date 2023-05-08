@@ -1,36 +1,45 @@
-import { oneQsr, oneZnn } from "../../utils/nom_constants";
+import {oneQsr, oneZnn} from "../../utils/nom_constants";
+import BigNumber from "bignumber.js";
 
 // Plasma
 export const fuseMinQsrAmount: number = 10 * oneQsr;
 export const minPlasmaAmount: number = 21000;
 
 // Pillar
-export const pillarRegisterZnnAmount: number = 15000 * oneZnn;
-export const pillarRegisterQsrAmount: number = 150000 * oneQsr;
+// export const pillarRegisterZnnAmount: BigNumber = 15000 * oneZnn;
+// export const pillarRegisterQsrAmount: BigNumber = 150000 * oneQsr;
+export const pillarRegisterZnnAmount: BigNumber = new BigNumber(15000).multipliedBy(new BigNumber(oneZnn));
+export const pillarRegisterQsrAmount: BigNumber = new BigNumber(150000).multipliedBy(new BigNumber(oneQsr));
 export const pillarNameMaxLength: number = 40;
-export const pillarNameRegExp: RegExp = RegExp('^([a-zA-Z0-9]+[-._]?)*[a-zA-Z0-9]$');
+export const pillarNameRegExp: RegExp = RegExp("^([a-zA-Z0-9]+[-._]?)*[a-zA-Z0-9]$");
 
 // Sentinel
-export const sentinelRegisterZnnAmount: number = 5000 * oneZnn;
-export const sentinelRegisterQsrAmount: number = 50000 * oneQsr;
+// export const sentinelRegisterZnnAmount: number = 5000 * oneZnn;
+// export const sentinelRegisterQsrAmount: number = 50000 * oneQsr;
+export const sentinelRegisterZnnAmount: BigNumber = new BigNumber(5000).multipliedBy(new BigNumber(oneZnn));
+export const sentinelRegisterQsrAmount: BigNumber = new BigNumber(50000).multipliedBy(new BigNumber(oneQsr));
 
 // Staking
 export const stakeTimeUnitSec: number = 30 * 24 * 60 * 60;
 export const stakeTimeMaxSec: number = 12 * stakeTimeUnitSec;
-export const stakeMinZnnAmount: number = oneZnn;
-export const stakeUnitDurationName: string = 'month';
+// export const stakeMinZnnAmount: number = oneZnn;
+export const stakeMinZnnAmount: BigNumber = new BigNumber(oneZnn);
+export const stakeUnitDurationName: string = "month";
 
 // Token
-export const tokenZtsIssueFeeInZnn: number = oneZnn;
+// export const tokenZtsIssueFeeInZnn: number = oneZnn;
+export const tokenZtsIssueFeeInZnn: BigNumber = new BigNumber(oneZnn);
 export const tokenNameMaxLength: number = 40;
-export const tokenNameRegExp: RegExp = RegExp('^([a-zA-Z0-9]+[-._]?)*[a-zA-Z0-9]$');
-export const tokenSymbolRegExp: RegExp = RegExp('^[A-Z0-9]+$');
+export const tokenNameRegExp: RegExp = RegExp("^([a-zA-Z0-9]+[-._]?)*[a-zA-Z0-9]$");
+export const tokenSymbolRegExp: RegExp = RegExp("^[A-Z0-9]+$");
 export const tokenSymbolMaxLength: number = 10;
-export const tokenSymbolExceptions: Array<string> = ['ZNN', 'QSR'];
-export const tokenDomainRegExp: RegExp = RegExp('^([A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9]\.)+[A-Za-z]{2,}$');
+export const tokenSymbolExceptions: Array<string> = ["ZNN", "QSR"];
+export const tokenDomainRegExp: RegExp = RegExp("^([A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9].)+[A-Za-z]{2,}$");
 
 // Accelerator
-export const proposalUrlRegExp: RegExp = RegExp('^[a-zA-Z0-9]{2,60}\.[a-zA-Z]{1,6}([a-zA-Z0-9()@:%_\\+.~#?&/=-]{0,100})$');
+export const proposalUrlRegExp: RegExp = RegExp(
+  "^[a-zA-Z0-9]{2,60}.[a-zA-Z]{1,6}([a-zA-Z0-9()@:%_\\+.~#?&/=-]{0,100})$"
+);
 export const proposalDescriptionMaxLength: number = 240;
 export const proposalNameMaxLength: number = 30;
 export const proposalCreationCostInZnn: number = 10;

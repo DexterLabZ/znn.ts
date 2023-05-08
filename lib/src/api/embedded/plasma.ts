@@ -34,14 +34,14 @@ export class PlasmaApi {
     return FusionEntryList.fromJson(response!);
   }
 
-  async getRequiredFusionAmount(requiredPlasma: number | string | BigNumber): Promise<number | string | BigNumber> {
+  async getRequiredFusionAmount(requiredPlasma: BigNumber): Promise<BigNumber> {
     const response = await this.client.sendRequest("embedded.plasma.getRequiredFusionAmount", [requiredPlasma]);
     // ToDo: This does not work!
     // {code: -32601, message: 'the method embedded.plasma.getRequiredFusionAmount does not exist/is not available'}
     return response;
   }
 
-  getPlasmaByQsr(qsrAmount: number | string | BigNumber): number | string | BigNumber {
+  getPlasmaByQsr(qsrAmount: BigNumber): BigNumber {
     return new BigNumber(qsrAmount.toString()).multipliedBy(2100);
   }
 
@@ -56,7 +56,7 @@ export class PlasmaApi {
   //
   // Contract methods
   //
-  async fuse(beneficiary: Address, amount: number | string | BigNumber) {
+  async fuse(beneficiary: Address, amount: BigNumber) {
     // ToDo: Add response validation
     return AccountBlockTemplate.callContract(
       plasmaAddress,
@@ -71,7 +71,7 @@ export class PlasmaApi {
     return AccountBlockTemplate.callContract(
       plasmaAddress,
       qsrZts,
-      0,
+      new BigNumber("0"),
       Definitions.plasma.encodeFunction("CancelFuse", [id.getBytes()])
     );
   }

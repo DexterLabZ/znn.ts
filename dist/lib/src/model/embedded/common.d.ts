@@ -3,9 +3,9 @@ import { Hash } from "./../primitives/hash";
 import BigNumber from "bignumber.js";
 export declare class UncollectedReward {
     address: Address;
-    znnAmount: number | string | BigNumber;
-    qsrAmount: number | string | BigNumber;
-    constructor(address: Address, znnAmount: number | string | BigNumber, qsrAmount: number | string | BigNumber);
+    znnAmount: BigNumber;
+    qsrAmount: BigNumber;
+    constructor(address: Address, znnAmount: BigNumber, qsrAmount: BigNumber);
     static fromJson(json: any): UncollectedReward;
     toJson(): {
         [key: string]: any;
@@ -13,9 +13,9 @@ export declare class UncollectedReward {
 }
 export declare class RewardHistoryEntry {
     epoch: number;
-    znnAmount: number | string | BigNumber;
-    qsrAmount: number | string | BigNumber;
-    constructor(epoch: number, znnAmount: number | string | BigNumber, qsrAmount: number | string | BigNumber);
+    znnAmount: BigNumber;
+    qsrAmount: BigNumber;
+    constructor(epoch: number, znnAmount: BigNumber, qsrAmount: BigNumber);
     static fromJson(json: {
         [key: string]: any;
     }): RewardHistoryEntry;

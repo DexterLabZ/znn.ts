@@ -11,7 +11,7 @@ export declare class StakeApi {
     getEntriesByAddress(address: Address, pageIndex?: number, pageSize?: number): Promise<StakeList>;
     getUncollectedReward(address: Address): Promise<UncollectedReward>;
     getFrontierRewardByPage(address: Address, pageIndex?: number, pageSize?: number): Promise<RewardHistoryList>;
-    stake(durationInSec: number, amount: number | string | BigNumber): AccountBlockTemplate;
+    stake(durationInSec: number, amount: BigNumber): AccountBlockTemplate;
     cancel(id: Hash): AccountBlockTemplate;
     collectReward(): AccountBlockTemplate;
 }

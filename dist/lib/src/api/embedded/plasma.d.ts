@@ -9,9 +9,9 @@ export declare class PlasmaApi {
     setClient(client: Client): void;
     get(address: Address): Promise<PlasmaInfo>;
     getEntriesByAddress(address: Address, pageIndex?: number, pageSize?: number): Promise<FusionEntryList>;
-    getRequiredFusionAmount(requiredPlasma: number | string | BigNumber): Promise<number | string | BigNumber>;
-    getPlasmaByQsr(qsrAmount: number | string | BigNumber): number | string | BigNumber;
+    getRequiredFusionAmount(requiredPlasma: BigNumber): Promise<BigNumber>;
+    getPlasmaByQsr(qsrAmount: BigNumber): BigNumber;
     getRequiredPoWForAccountBlock(powParam: GetRequiredParam): Promise<GetRequiredResponse>;
-    fuse(beneficiary: Address, amount: number | string | BigNumber): Promise<AccountBlockTemplate>;
+    fuse(beneficiary: Address, amount: BigNumber): Promise<AccountBlockTemplate>;
     cancel(id: Hash): Promise<AccountBlockTemplate>;
 }

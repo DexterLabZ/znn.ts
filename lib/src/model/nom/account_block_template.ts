@@ -32,7 +32,7 @@ export class AccountBlockTemplate {
   // Send information
   toAddress: Address;
 
-  amount: number | string | BigNumber;
+  amount: BigNumber;
   tokenStandard: TokenStandard;
   fromBlockHash: Hash;
 
@@ -58,7 +58,7 @@ export class AccountBlockTemplate {
     momentumAcknowledged: HashHeight = emptyHashHeight,
     address: Address = emptyAddress,
     toAddress: Address = emptyAddress,
-    amount: number | string | BigNumber = "0",
+    amount: BigNumber = new BigNumber("0"),
     tokenStandard: TokenStandard = TokenStandard.parse(emptyTokenStandard),
     fromBlockHash: Hash = emptyHash,
     data: Buffer = Buffer.from([]),
@@ -99,7 +99,7 @@ export class AccountBlockTemplate {
       HashHeight.fromJson(json["momentumAcknowledged"]),
       Address.parse(json["address"]),
       Address.parse(json["toAddress"]),
-      json["amount"],
+      new BigNumber(json["amount"].toString()),
       TokenStandard.parse(json["tokenStandard"]),
       Hash.parse(json["fromBlockHash"]),
       json["data"] == null
@@ -161,7 +161,7 @@ export class AccountBlockTemplate {
     );
   }
 
-  static send(toAddress: Address, tokenStandard: TokenStandard, amount: number | string | BigNumber) {
+  static send(toAddress: Address, tokenStandard: TokenStandard, amount: BigNumber) {
     return new AccountBlockTemplate(
       undefined,
       undefined,
@@ -183,12 +183,7 @@ export class AccountBlockTemplate {
     );
   }
 
-  static callContract(
-    address: Address,
-    tokenStandard: TokenStandard,
-    amount: number | string | BigNumber,
-    data: Buffer
-  ) {
+  static callContract(address: Address, tokenStandard: TokenStandard, amount: BigNumber, data: Buffer) {
     const block = new AccountBlockTemplate(
       undefined,
       undefined,

@@ -1,36 +1,40 @@
 import BigNumber from "bignumber.js";
-import { rpcMaxPageSize } from "../../client/constants";
-import { Client } from "../../client/interfaces";
-import { Definitions } from "../../embedded/definitions";
-import { AccountBlockTemplate } from "../../model/nom/account_block_template";
-import { Token, TokenList } from "../../model/nom/token";
-import { Address, tokenAddress } from "../../model/primitives/address";
-import { TokenStandard, znnZts } from "../../model/primitives/token_standard";
-import { tokenZtsIssueFeeInZnn } from "./constants";
+import {rpcMaxPageSize} from "../../client/constants";
+import {Client} from "../../client/interfaces";
+import {Definitions} from "../../embedded/definitions";
+import {AccountBlockTemplate} from "../../model/nom/account_block_template";
+import {Token, TokenList} from "../../model/nom/token";
+import {Address, tokenAddress} from "../../model/primitives/address";
+import {TokenStandard, znnZts} from "../../model/primitives/token_standard";
+import {tokenZtsIssueFeeInZnn} from "./constants";
 
-export class TokenApi{
+export class TokenApi {
   client!: Client;
 
-  setClient(client: Client){
+  setClient(client: Client) {
     this.client = client;
   }
 
-  // 
+  //
   // RPC
-  // 
-  async getAll(pageIndex: number = 0, pageSize: number = rpcMaxPageSize): Promise<TokenList>{
-    const response = await this.client.sendRequest('embedded.token.getAll', [pageIndex, pageSize]);
+  //
+  async getAll(pageIndex: number = 0, pageSize: number = rpcMaxPageSize): Promise<TokenList> {
+    const response = await this.client.sendRequest("embedded.token.getAll", [pageIndex, pageSize]);
     return TokenList.fromJson(response!);
   }
-  
-  async getByOwner(address: Address, pageIndex: number = 0, pageSize: number = rpcMaxPageSize): Promise<TokenList>{
-    const response = await this.client.sendRequest('embedded.token.getByOwner', [address.toString(), pageIndex, pageSize]);
+
+  async getByOwner(address: Address, pageIndex: number = 0, pageSize: number = rpcMaxPageSize): Promise<TokenList> {
+    const response = await this.client.sendRequest("embedded.token.getByOwner", [
+      address.toString(),
+      pageIndex,
+      pageSize,
+    ]);
     // ToDo: Add response validation
     return TokenList.fromJson(response);
   }
 
-  async getByZts(tokenStandard: TokenStandard): Promise<Token | null>{
-    const response = await this.client.sendRequest('embedded.token.getByZts', [tokenStandard.toString()]);
+  async getByZts(tokenStandard: TokenStandard): Promise<Token | null> {
+    const response = await this.client.sendRequest("embedded.token.getByZts", [tokenStandard.toString()]);
     console.log("getByZts", response);
     // ToDo: Add response validation
     return response == null ? null : Token.fromJson(response);
@@ -38,7 +42,7 @@ export class TokenApi{
 
   // Contract methods
   async issueToken(
-    tokenName: string, 
+    tokenName: string,
     tokenSymbol: string,
     tokenDomain: string,
     totalSupply: BigNumber,
@@ -46,8 +50,9 @@ export class TokenApi{
     decimals: number,
     mintable: boolean,
     burnable: boolean,
-    utility: boolean){
-    let encodedFunction = Definitions.token.encodeFunction('IssueToken', [
+    utility: boolean
+  ) {
+    let encodedFunction = Definitions.token.encodeFunction("IssueToken", [
       tokenName,
       tokenSymbol,
       tokenDomain,
@@ -56,23 +61,28 @@ export class TokenApi{
       decimals,
       mintable,
       burnable,
-      utility
-    ])
+      utility,
+    ]);
     return AccountBlockTemplate.callContract(tokenAddress, znnZts, tokenZtsIssueFeeInZnn, encodedFunction);
-  }  
+  }
 
-  async mint(tokenStandard: TokenStandard, amount: BigNumber, receiveAddress: Address){
-    let encodedFunction = Definitions.token.encodeFunction('Mint', [tokenStandard, amount.toString(), receiveAddress])
-    return AccountBlockTemplate.callContract(tokenAddress, znnZts, 0, encodedFunction);
-  }  
+  async mint(tokenStandard: TokenStandard, amount: BigNumber, receiveAddress: Address) {
+    let encodedFunction = Definitions.token.encodeFunction("Mint", [tokenStandard, amount, receiveAddress]);
+    return AccountBlockTemplate.callContract(tokenAddress, znnZts, new BigNumber("0"), encodedFunction);
+  }
 
-  async burnToken(tokenStandard: TokenStandard, amount: BigNumber){
-    let encodedFunction = Definitions.token.encodeFunction('Burn', [])
-    return AccountBlockTemplate.callContract(tokenAddress, tokenStandard, amount.toString(), encodedFunction);
-  }  
+  async burnToken(tokenStandard: TokenStandard, amount: BigNumber) {
+    let encodedFunction = Definitions.token.encodeFunction("Burn", []);
+    return AccountBlockTemplate.callContract(tokenAddress, tokenStandard, amount, encodedFunction);
+  }
 
-  async updateToken(tokenStandard: TokenStandard, owner: Address, isMintable: boolean, isBurnable: boolean){
-    let encodedFunction = Definitions.token.encodeFunction('UpdateToken', [tokenStandard, owner, isMintable, isBurnable])
-    return AccountBlockTemplate.callContract(tokenAddress, znnZts, 0, encodedFunction);
-  }  
+  async updateToken(tokenStandard: TokenStandard, owner: Address, isMintable: boolean, isBurnable: boolean) {
+    let encodedFunction = Definitions.token.encodeFunction("UpdateToken", [
+      tokenStandard,
+      owner,
+      isMintable,
+      isBurnable,
+    ]);
+    return AccountBlockTemplate.callContract(tokenAddress, znnZts, new BigNumber("0"), encodedFunction);
+  }
 }

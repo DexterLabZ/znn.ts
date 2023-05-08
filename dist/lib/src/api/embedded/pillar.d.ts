@@ -7,10 +7,10 @@ import BigNumber from "bignumber.js";
 export declare class PillarApi {
     client: Client;
     setClient(client: Client): void;
-    getDepositedQsr(address: Address): Promise<number | string | BigNumber>;
+    getDepositedQsr(address: Address): Promise<BigNumber>;
     getUncollectedReward(address: Address): Promise<UncollectedReward>;
     getFrontierRewardByPage(address: Address, pageIndex?: number, pageSize?: number): Promise<RewardHistoryList>;
-    getQsrRegistrationCost(): Promise<number | string | BigNumber>;
+    getQsrRegistrationCost(): Promise<BigNumber>;
     getAll(pageIndex?: number, pageSize?: number): Promise<PillarInfoList>;
     getByOwner(address: Address): Promise<PillarInfo>;
     getByName(name: string): Promise<PillarInfo | null>;
@@ -24,6 +24,6 @@ export declare class PillarApi {
     delegate(name: string): AccountBlockTemplate;
     undelegate(): AccountBlockTemplate;
     collectReward(): AccountBlockTemplate;
-    depositQsr(amount: number | string | BigNumber): AccountBlockTemplate;
+    depositQsr(amount: BigNumber): AccountBlockTemplate;
     withdrawQsr(): AccountBlockTemplate;
 }

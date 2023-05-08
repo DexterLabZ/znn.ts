@@ -19,7 +19,7 @@ export class PillarInfo {
   revokeCooldown: number;
   revokeTimestamp: number;
   currentStats: PillarEpochStats;
-  weight: number | string | BigNumber;
+  weight: BigNumber;
 
   constructor(
     name: string,
@@ -34,7 +34,7 @@ export class PillarInfo {
     revokeCooldown: number,
     revokeTimestamp: number,
     currentStats: PillarEpochStats,
-    weight: number | string | BigNumber
+    weight: BigNumber
   ) {
     this.name = name;
     this.rank = rank;
@@ -65,7 +65,7 @@ export class PillarInfo {
       json.revokeCooldown,
       json.revokeTimestamp,
       PillarEpochStats.fromJson(json.currentStats),
-      json.weight
+      new BigNumber(json.weight.toString())
     );
   }
 
@@ -136,7 +136,7 @@ export class PillarEpochHistory {
   giveDelegateRewardPercentage: number;
   producedBlockNum: number;
   expectedBlockNum: number;
-  weight: number | string | BigNumber;
+  weight: BigNumber;
 
   constructor(
     name: string,
@@ -145,7 +145,7 @@ export class PillarEpochHistory {
     giveDelegateRewardPercentage: number,
     producedBlockNum: number,
     expectedBlockNum: number,
-    weight: number | string | BigNumber
+    weight: BigNumber
   ) {
     this.name = name;
     this.epoch = epoch;
@@ -164,7 +164,7 @@ export class PillarEpochHistory {
       json.giveDelegateRewardPercentage,
       json.producedBlockNum,
       json.expectedBlockNum,
-      json.weight
+      new BigNumber(json.weight.toString())
     );
   }
 
@@ -205,18 +205,18 @@ export class PillarEpochHistoryList {
 export class DelegationInfo {
   name: string;
   status: number;
-  weight: number | string | BigNumber;
-  weightWithDecimals?: number;
+  weight: BigNumber;
+  weightWithDecimals?: BigNumber;
 
-  constructor(name: string, status: number, weight: number) {
+  constructor(name: string, status: number, weight: BigNumber) {
     this.name = name;
     this.status = status;
     this.weight = weight;
-    this.weightWithDecimals = AmountUtils.addNumberDecimals(weight, 8);
+    this.weightWithDecimals = AmountUtils.addDecimals(weight, 8);
   }
 
   static fromJson(json: {[key: string]: any}): DelegationInfo {
-    return new DelegationInfo(json.name, json.status, json.weight);
+    return new DelegationInfo(json.name, json.status, new BigNumber(json.weight.toString()));
   }
 
   toJson(): {[key: string]: any} {

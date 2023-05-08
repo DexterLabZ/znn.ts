@@ -13,7 +13,7 @@ export declare class LiquidityApi {
     getLiquidityStakeEntriesByAddress(address: Address, pageIndex?: number, pageSize?: number): Promise<LiquidityStakeList>;
     getUncollectedReward(address: Address): Promise<UncollectedReward>;
     getFrontierRewardByPage(address: Address, pageIndex?: number, pageSize?: number): Promise<RewardHistoryList>;
-    liquidityStake(durationInSec: number, zts: TokenStandard, amount: number | string | BigNumber): AccountBlockTemplate;
+    liquidityStake(durationInSec: number, zts: TokenStandard, amount: BigNumber): AccountBlockTemplate;
     cancelLiquidityStake(id: Hash): AccountBlockTemplate;
     collectReward(): AccountBlockTemplate;
 }

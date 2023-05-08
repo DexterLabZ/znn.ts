@@ -50,12 +50,12 @@ export class StakeApi {
   }
 
   // Contract methods
-  stake(durationInSec: number, amount: number | string | BigNumber): AccountBlockTemplate {
+  stake(durationInSec: number, amount: BigNumber): AccountBlockTemplate {
     // ToDo: Add response validation
     return AccountBlockTemplate.callContract(
       stakeAddress,
       znnZts,
-      amount.toString(),
+      amount,
       Definitions.stake.encodeFunction("Stake", [durationInSec])
     );
   }
@@ -65,7 +65,7 @@ export class StakeApi {
     return AccountBlockTemplate.callContract(
       stakeAddress,
       znnZts,
-      0,
+      new BigNumber("0"),
       Definitions.stake.encodeFunction("Cancel", [id.getBytes()])
     );
   }
@@ -76,7 +76,7 @@ export class StakeApi {
     return AccountBlockTemplate.callContract(
       stakeAddress,
       znnZts,
-      0,
+      new BigNumber("0"),
       Definitions.common.encodeFunction("CollectReward", [])
     );
   }
