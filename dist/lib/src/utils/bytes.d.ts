@@ -1,5 +1,5 @@
 /// <reference types="node" />
-import BigNumberJS from "bignumber.js";
+import { BigNumber } from "ethers";
 export declare class BytesUtils {
     static encodeBigInt(number: bigint): Buffer;
     static arraycopy(src: any, startPos: any, dest: any, destPos: any, len: any): any;
@@ -11,5 +11,5 @@ export declare class BytesUtils {
     static bigIntToBytes(b: bigint, numBytes: number): Buffer;
     static numberToBytes(num: number, numBytes: number): Buffer;
     static stringToBytes(str: string, numBytes: number): Buffer;
-    static numberOrStringToBytes(input: number | string | BigNumberJS): Buffer;
+    static numberOrStringToBytes(input: number | string | BigNumber): Buffer;
 }

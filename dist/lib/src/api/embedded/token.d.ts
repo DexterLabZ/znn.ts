@@ -1,4 +1,4 @@
-import BigNumber from "bignumber.js";
+import { BigNumber } from "ethers";
 import { Client } from "../../client/interfaces";
 import { AccountBlockTemplate } from "../../model/nom/account_block_template";
 import { Token, TokenList } from "../../model/nom/token";

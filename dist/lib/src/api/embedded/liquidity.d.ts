@@ -1,4 +1,4 @@
-import BigNumber from "bignumber.js";
+import { BigNumber } from "ethers";
 import { Client } from "../../client/interfaces";
 import { RewardHistoryList, UncollectedReward } from "../../model/embedded/common";
 import { LiquidityInfo, LiquidityStakeList } from "../../model/embedded/liquidity";

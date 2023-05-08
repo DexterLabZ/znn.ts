@@ -1,6 +1,6 @@
 import {Address} from "../primitives/address";
 import {Hash} from "./../primitives/hash";
-import BigNumber from "bignumber.js";
+import {BigNumber, ethers} from "ethers";
 
 export class UncollectedReward {
   address: Address;
@@ -15,8 +15,8 @@ export class UncollectedReward {
 
   static fromJson(json: any): UncollectedReward {
     let address = Address.parse(json.address);
-    let znnAmount = new BigNumber(json.znnAmount.toString());
-    let qsrAmount = new BigNumber(json.qsrAmount.toString());
+    let znnAmount = ethers.BigNumber.from(json.znnAmount.toString());
+    let qsrAmount = ethers.BigNumber.from(json.qsrAmount.toString());
     return new UncollectedReward(address, znnAmount, qsrAmount);
   }
 
@@ -43,8 +43,8 @@ export class RewardHistoryEntry {
   static fromJson(json: {[key: string]: any}): RewardHistoryEntry {
     return new RewardHistoryEntry(
       json.epoch,
-      new BigNumber(json.znnAmount.toString()),
-      new BigNumber(json.qsrAmount.toString())
+      ethers.BigNumber.from(json.znnAmount.toString()),
+      ethers.BigNumber.from(json.qsrAmount.toString())
     );
   }
 

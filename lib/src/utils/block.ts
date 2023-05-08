@@ -7,7 +7,7 @@ import {KeyPair} from "../wallet/keypair";
 import {Zenon} from "../zenon";
 import {PowStatus, generatePoW} from "./../pow/pow";
 import {BytesUtils} from "./bytes";
-import BigNumber from "bignumber.js";
+import {BigNumber} from "ethers";
 
 export class BlockUtils {
   static isSendBlock(blockType?: number): boolean {

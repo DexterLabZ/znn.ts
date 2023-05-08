@@ -7,7 +7,7 @@ import {AccountBlockTemplate} from "../../model/nom/account_block_template";
 import {Address, sentinelAddress} from "../../model/primitives/address";
 import {znnZts} from "../../model/primitives/token_standard";
 import {sentinelRegisterZnnAmount} from "./constants";
-import BigNumber from "bignumber.js";
+import {BigNumber, ethers} from "ethers";
 
 export class SentinelApi {
   client!: Client;
@@ -76,7 +76,7 @@ export class SentinelApi {
     return AccountBlockTemplate.callContract(
       sentinelAddress,
       znnZts,
-      new BigNumber("0"),
+      ethers.BigNumber.from("0"),
       Definitions.sentinel.encodeFunction("Revoke", [])
     );
   }
@@ -87,7 +87,7 @@ export class SentinelApi {
     return AccountBlockTemplate.callContract(
       sentinelAddress,
       znnZts,
-      new BigNumber("0"),
+      ethers.BigNumber.from("0"),
       Definitions.common.encodeFunction("CollectReward", [])
     );
   }
@@ -107,7 +107,7 @@ export class SentinelApi {
     return AccountBlockTemplate.callContract(
       sentinelAddress,
       znnZts,
-      new BigNumber("0"),
+      ethers.BigNumber.from("0"),
       Definitions.common.encodeFunction("WithdrawQsr", [])
     );
   }

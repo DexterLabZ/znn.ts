@@ -5,7 +5,7 @@ import {AccountBlockTemplate} from "../../model/nom/account_block_template";
 import {bridgeContractAddress} from "../../model/primitives/address";
 import {Hash} from "../../model/primitives/hash";
 import {TokenStandard} from "../../model/primitives/token_standard";
-import BigNumber from "bignumber.js";
+import {BigNumber, ethers} from "ethers";
 
 export class BridgeApi {
   client!: Client;
@@ -116,7 +116,7 @@ export class BridgeApi {
     return AccountBlockTemplate.callContract(
       bridgeContractAddress,
       tokenStandard,
-      new BigNumber("0"),
+      ethers.BigNumber.from("0"),
       Definitions.bridge.encodeFunction("Redeem", [transactionHash.toString(), logIndex])
     );
   }

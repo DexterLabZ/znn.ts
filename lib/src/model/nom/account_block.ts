@@ -4,7 +4,7 @@ import {HashHeight} from "../primitives/hash_height";
 import {TokenStandard} from "../primitives/token_standard";
 import {AccountBlockTemplate} from "./account_block_template";
 import {Token} from "./token";
-import BigNumber from "bignumber.js";
+import {BigNumber, ethers} from "ethers";
 
 export class AccountBlockConfirmationDetail {
   numConfirmations: number;
@@ -121,7 +121,7 @@ export class AccountBlock extends AccountBlockTemplate {
       accountBlockTemplate.momentumAcknowledged,
       accountBlockTemplate.address,
       accountBlockTemplate.toAddress,
-      new BigNumber(accountBlockTemplate.amount.toString()),
+      ethers.BigNumber.from(accountBlockTemplate.amount.toString()),
       accountBlockTemplate.tokenStandard,
       accountBlockTemplate.fromBlockHash,
       accountBlockTemplate.data,

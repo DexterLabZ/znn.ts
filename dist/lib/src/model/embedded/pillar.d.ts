@@ -1,5 +1,5 @@
 import { Address } from "../primitives/address";
-import BigNumber from "bignumber.js";
+import { BigNumber } from "ethers";
 export declare class PillarInfo {
     static unknownType: number;
     static legacyPillarType: number;
@@ -78,7 +78,7 @@ export declare class DelegationInfo {
     name: string;
     status: number;
     weight: BigNumber;
-    weightWithDecimals?: BigNumber;
+    weightWithDecimals?: string;
     constructor(name: string, status: number, weight: BigNumber);
     static fromJson(json: {
         [key: string]: any;

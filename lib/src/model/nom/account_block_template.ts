@@ -4,9 +4,7 @@ import {Address, emptyAddress} from "../primitives/address";
 import {emptyHash, Hash} from "../primitives/hash";
 import {emptyHashHeight, HashHeight} from "../primitives/hash_height";
 import {emptyTokenStandard, TokenStandard} from "../primitives/token_standard";
-import BigNumber from "bignumber.js";
-// We use bignumber.js instead of ethers's BigNumber
-// because JSONbig package uses bignumber.js for JSONbig.parse()
+import {BigNumber, ethers} from "ethers";
 
 export enum BlockTypeEnum {
   unknown = 0,
@@ -58,7 +56,7 @@ export class AccountBlockTemplate {
     momentumAcknowledged: HashHeight = emptyHashHeight,
     address: Address = emptyAddress,
     toAddress: Address = emptyAddress,
-    amount: BigNumber = new BigNumber("0"),
+    amount: BigNumber = ethers.BigNumber.from("0"),
     tokenStandard: TokenStandard = TokenStandard.parse(emptyTokenStandard),
     fromBlockHash: Hash = emptyHash,
     data: Buffer = Buffer.from([]),
@@ -99,7 +97,7 @@ export class AccountBlockTemplate {
       HashHeight.fromJson(json["momentumAcknowledged"]),
       Address.parse(json["address"]),
       Address.parse(json["toAddress"]),
-      new BigNumber(json["amount"].toString()),
+      ethers.BigNumber.from(json["amount"].toString()),
       TokenStandard.parse(json["tokenStandard"]),
       Hash.parse(json["fromBlockHash"]),
       json["data"] == null

@@ -1,5 +1,5 @@
 import {oneQsr, oneZnn} from "../../utils/nom_constants";
-import BigNumber from "bignumber.js";
+import {BigNumber, ethers} from "ethers";
 
 // Plasma
 export const fuseMinQsrAmount: number = 10 * oneQsr;
@@ -8,27 +8,27 @@ export const minPlasmaAmount: number = 21000;
 // Pillar
 // export const pillarRegisterZnnAmount: BigNumber = 15000 * oneZnn;
 // export const pillarRegisterQsrAmount: BigNumber = 150000 * oneQsr;
-export const pillarRegisterZnnAmount: BigNumber = new BigNumber(15000).multipliedBy(new BigNumber(oneZnn));
-export const pillarRegisterQsrAmount: BigNumber = new BigNumber(150000).multipliedBy(new BigNumber(oneQsr));
+export const pillarRegisterZnnAmount: BigNumber = ethers.BigNumber.from(15000).mul(ethers.BigNumber.from(oneZnn));
+export const pillarRegisterQsrAmount: BigNumber = ethers.BigNumber.from(150000).mul(ethers.BigNumber.from(oneQsr));
 export const pillarNameMaxLength: number = 40;
 export const pillarNameRegExp: RegExp = RegExp("^([a-zA-Z0-9]+[-._]?)*[a-zA-Z0-9]$");
 
 // Sentinel
 // export const sentinelRegisterZnnAmount: number = 5000 * oneZnn;
 // export const sentinelRegisterQsrAmount: number = 50000 * oneQsr;
-export const sentinelRegisterZnnAmount: BigNumber = new BigNumber(5000).multipliedBy(new BigNumber(oneZnn));
-export const sentinelRegisterQsrAmount: BigNumber = new BigNumber(50000).multipliedBy(new BigNumber(oneQsr));
+export const sentinelRegisterZnnAmount: BigNumber = ethers.BigNumber.from(5000).mul(ethers.BigNumber.from(oneZnn));
+export const sentinelRegisterQsrAmount: BigNumber = ethers.BigNumber.from(50000).mul(ethers.BigNumber.from(oneQsr));
 
 // Staking
 export const stakeTimeUnitSec: number = 30 * 24 * 60 * 60;
 export const stakeTimeMaxSec: number = 12 * stakeTimeUnitSec;
 // export const stakeMinZnnAmount: number = oneZnn;
-export const stakeMinZnnAmount: BigNumber = new BigNumber(oneZnn);
+export const stakeMinZnnAmount: BigNumber = ethers.BigNumber.from(oneZnn);
 export const stakeUnitDurationName: string = "month";
 
 // Token
 // export const tokenZtsIssueFeeInZnn: number = oneZnn;
-export const tokenZtsIssueFeeInZnn: BigNumber = new BigNumber(oneZnn);
+export const tokenZtsIssueFeeInZnn: BigNumber = ethers.BigNumber.from(oneZnn);
 export const tokenNameMaxLength: number = 40;
 export const tokenNameRegExp: RegExp = RegExp("^([a-zA-Z0-9]+[-._]?)*[a-zA-Z0-9]$");
 export const tokenSymbolRegExp: RegExp = RegExp("^[A-Z0-9]+$");

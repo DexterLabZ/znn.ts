@@ -7,7 +7,7 @@ import {AccountBlockTemplate} from "../../model/nom/account_block_template";
 import {Address, pillarAddress} from "../../model/primitives/address";
 import {znnZts} from "../../model/primitives/token_standard";
 import {pillarRegisterZnnAmount} from "./constants";
-import BigNumber from "bignumber.js";
+import {BigNumber, ethers} from "ethers";
 
 export class PillarApi {
   client!: Client;
@@ -158,7 +158,7 @@ export class PillarApi {
     return AccountBlockTemplate.callContract(
       pillarAddress,
       znnZts,
-      new BigNumber("0"),
+      ethers.BigNumber.from("0"),
       Definitions.pillar.encodeFunction("UpdatePillar", [
         name,
         producerAddress,
@@ -174,7 +174,7 @@ export class PillarApi {
     return AccountBlockTemplate.callContract(
       pillarAddress,
       znnZts,
-      new BigNumber("0"),
+      ethers.BigNumber.from("0"),
       Definitions.pillar.encodeFunction("Revoke", [name])
     );
   }
@@ -184,7 +184,7 @@ export class PillarApi {
     return AccountBlockTemplate.callContract(
       pillarAddress,
       znnZts,
-      new BigNumber("0"),
+      ethers.BigNumber.from("0"),
       Definitions.pillar.encodeFunction("Delegate", [name])
     );
   }
@@ -194,7 +194,7 @@ export class PillarApi {
     return AccountBlockTemplate.callContract(
       pillarAddress,
       znnZts,
-      new BigNumber("0"),
+      ethers.BigNumber.from("0"),
       Definitions.pillar.encodeFunction("Undelegate", [])
     );
   }
@@ -205,7 +205,7 @@ export class PillarApi {
     return AccountBlockTemplate.callContract(
       pillarAddress,
       znnZts,
-      new BigNumber("0"),
+      ethers.BigNumber.from("0"),
       Definitions.common.encodeFunction("CollectReward", [])
     );
   }
@@ -225,7 +225,7 @@ export class PillarApi {
     return AccountBlockTemplate.callContract(
       pillarAddress,
       znnZts,
-      new BigNumber("0"),
+      ethers.BigNumber.from("0"),
       Definitions.common.encodeFunction("WithdrawQsr", [])
     );
   }

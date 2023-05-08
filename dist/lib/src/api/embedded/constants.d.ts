@@ -1,4 +1,4 @@
-import BigNumber from "bignumber.js";
+import { BigNumber } from "ethers";
 export declare const fuseMinQsrAmount: number;
 export declare const minPlasmaAmount: number;
 export declare const pillarRegisterZnnAmount: BigNumber;

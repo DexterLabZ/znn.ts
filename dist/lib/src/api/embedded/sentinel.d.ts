@@ -3,7 +3,7 @@ import { RewardHistoryList } from "../../model/embedded/common";
 import { SentinelInfoList } from "../../model/embedded/sentinel";
 import { AccountBlockTemplate } from "../../model/nom/account_block_template";
 import { Address } from "../../model/primitives/address";
-import BigNumber from "bignumber.js";
+import { BigNumber } from "ethers";
 export declare class SentinelApi {
     client: Client;
     setClient(client: Client): void;

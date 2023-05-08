@@ -6,7 +6,7 @@ import {AccountBlockTemplate} from "../../model/nom/account_block_template";
 import {Address, plasmaAddress} from "../../model/primitives/address";
 import {Hash} from "../../model/primitives/hash";
 import {qsrZts} from "../../model/primitives/token_standard";
-import BigNumber from "bignumber.js";
+import {BigNumber, ethers} from "ethers";
 
 export class PlasmaApi {
   client!: Client;
@@ -42,7 +42,7 @@ export class PlasmaApi {
   }
 
   getPlasmaByQsr(qsrAmount: BigNumber): BigNumber {
-    return new BigNumber(qsrAmount.toString()).multipliedBy(2100);
+    return ethers.BigNumber.from(qsrAmount.toString()).mul(2100);
   }
 
   async getRequiredPoWForAccountBlock(powParam: GetRequiredParam): Promise<GetRequiredResponse> {
@@ -71,7 +71,7 @@ export class PlasmaApi {
     return AccountBlockTemplate.callContract(
       plasmaAddress,
       qsrZts,
-      new BigNumber("0"),
+      ethers.BigNumber.from("0"),
       Definitions.plasma.encodeFunction("CancelFuse", [id.getBytes()])
     );
   }

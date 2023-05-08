@@ -1,6 +1,6 @@
 import { Hash } from "../primitives/hash";
 import { Address } from "../primitives/address";
-import BigNumber from "bignumber.js";
+import { BigNumber } from "ethers";
 export declare class StakeList {
     totalAmount: number;
     totalWeightedAmount: number;

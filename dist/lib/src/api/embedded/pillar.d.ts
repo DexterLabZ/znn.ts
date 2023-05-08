@@ -3,7 +3,7 @@ import { RewardHistoryList, UncollectedReward } from "../../model/embedded/commo
 import { DelegationInfo, PillarEpochHistoryList, PillarInfo, PillarInfoList } from "../../model/embedded/pillar";
 import { AccountBlockTemplate } from "../../model/nom/account_block_template";
 import { Address } from "../../model/primitives/address";
-import BigNumber from "bignumber.js";
+import { BigNumber } from "ethers";
 export declare class PillarApi {
     client: Client;
     setClient(client: Client): void;

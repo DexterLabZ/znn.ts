@@ -1,4 +1,4 @@
-import BigNumber from "bignumber.js";
+import { BigNumber } from "ethers";
 import { Address } from "../primitives/address";
 import { TokenStandard } from "../primitives/token_standard";
 export declare class Token {

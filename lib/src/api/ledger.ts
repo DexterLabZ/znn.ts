@@ -8,8 +8,8 @@ import {Address} from "../model/primitives/address";
 import {Hash} from "../model/primitives/hash";
 import {BytesUtils} from "../utils/bytes";
 import {rpcMaxPageSize, memoryPoolPageSize} from "./../client/constants";
-// import BigNumber from "bignumber.js";
-var JSONbig = require("json-bigint")({useNativeBigInt: true});
+// import { BigNumber } from "ethers";
+// var JSONbig = require("json-bigint")({useNativeBigInt: true});
 
 export class LedgerApi {
   client!: Client;
@@ -26,7 +26,7 @@ export class LedgerApi {
     // jsonedAccountBlockTemplate.amount = BytesUtils.numberOrStringToBytes(accountBlockTemplate.amount.toString()).toJSON().data;
     // console.log("jsonedAccountBlockTemplate 2", jsonedAccountBlockTemplate);
 
-    // jsonedAccountBlockTemplate.amount = new BigNumber(accountBlockTemplate.amount.toString());
+    // jsonedAccountBlockTemplate.amount = ethers.BigNumber.from(accountBlockTemplate.amount.toString());
 
     // jsonedAccountBlockTemplate.amount = accountBlockTemplate.amount.toString();
 
@@ -83,7 +83,7 @@ export class LedgerApi {
     // jsonedAccountBlockTemplate.difficulty = accountBlockTemplate.difficulty.toString();
     console.log("jsonedAccountBlockTemplate 3", jsonedAccountBlockTemplate);
 
-    console.log("JSONbig.stringify(jsonedAccountBlockTemplate)", JSONbig.stringify(jsonedAccountBlockTemplate));
+    // console.log("JSONbig.stringify(jsonedAccountBlockTemplate)", JSONbig.stringify(jsonedAccountBlockTemplate));
 
     return this.client.sendRequest("ledger.publishRawTransaction", [jsonedAccountBlockTemplate]);
   }

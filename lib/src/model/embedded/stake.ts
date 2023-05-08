@@ -1,6 +1,6 @@
 import {Hash} from "../primitives/hash";
 import {Address} from "../primitives/address";
-import BigNumber from "bignumber.js";
+import {BigNumber, ethers} from "ethers";
 
 export class StakeList {
   totalAmount: number;
@@ -60,8 +60,8 @@ export class StakeEntry {
 
   static fromJson(json: {[key: string]: any}): StakeEntry {
     return new StakeEntry(
-      new BigNumber(json.amount.toString()),
-      new BigNumber(json.weightedAmount.toString()),
+      ethers.BigNumber.from(json.amount.toString()),
+      ethers.BigNumber.from(json.weightedAmount.toString()),
       json.startTimestamp,
       json.expirationTimestamp,
       Address.parse(json.address),

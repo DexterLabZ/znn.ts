@@ -5,7 +5,7 @@ import { HashHeight } from "../primitives/hash_height";
 import { TokenStandard } from "../primitives/token_standard";
 import { AccountBlockTemplate } from "./account_block_template";
 import { Token } from "./token";
-import BigNumber from "bignumber.js";
+import { BigNumber } from "ethers";
 export declare class AccountBlockConfirmationDetail {
     numConfirmations: number;
     momentumHeight: number;

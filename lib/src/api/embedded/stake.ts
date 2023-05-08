@@ -7,7 +7,7 @@ import {AccountBlockTemplate} from "../../model/nom/account_block_template";
 import {Address, stakeAddress} from "../../model/primitives/address";
 import {Hash} from "../../model/primitives/hash";
 import {znnZts} from "../../model/primitives/token_standard";
-import BigNumber from "bignumber.js";
+import {BigNumber, ethers} from "ethers";
 
 export class StakeApi {
   client!: Client;
@@ -65,7 +65,7 @@ export class StakeApi {
     return AccountBlockTemplate.callContract(
       stakeAddress,
       znnZts,
-      new BigNumber("0"),
+      ethers.BigNumber.from("0"),
       Definitions.stake.encodeFunction("Cancel", [id.getBytes()])
     );
   }
@@ -76,7 +76,7 @@ export class StakeApi {
     return AccountBlockTemplate.callContract(
       stakeAddress,
       znnZts,
-      new BigNumber("0"),
+      ethers.BigNumber.from("0"),
       Definitions.common.encodeFunction("CollectReward", [])
     );
   }

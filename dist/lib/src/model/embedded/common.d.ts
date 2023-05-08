@@ -1,6 +1,6 @@
 import { Address } from "../primitives/address";
 import { Hash } from "./../primitives/hash";
-import BigNumber from "bignumber.js";
+import { BigNumber } from "ethers";
 export declare class UncollectedReward {
     address: Address;
     znnAmount: BigNumber;

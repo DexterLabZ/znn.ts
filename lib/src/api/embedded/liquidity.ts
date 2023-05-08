@@ -1,4 +1,4 @@
-import BigNumber from "bignumber.js";
+import {BigNumber, ethers} from "ethers";
 import {rpcMaxPageSize} from "../../client/constants";
 import {Client} from "../../client/interfaces";
 import {Definitions} from "../../embedded/definitions";
@@ -76,7 +76,7 @@ export class LiquidityApi {
     return AccountBlockTemplate.callContract(
       liquidityAddress,
       znnZts,
-      new BigNumber("0"),
+      ethers.BigNumber.from("0"),
       Definitions.liquidity.encodeFunction("CancelLiquidityStake", [id.getBytes()])
     );
   }
@@ -87,7 +87,7 @@ export class LiquidityApi {
     return AccountBlockTemplate.callContract(
       liquidityAddress,
       znnZts,
-      new BigNumber("0"),
+      ethers.BigNumber.from("0"),
       Definitions.common.encodeFunction("CollectReward", [])
     );
   }

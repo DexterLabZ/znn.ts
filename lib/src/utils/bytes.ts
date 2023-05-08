@@ -1,5 +1,4 @@
 import {BigNumber} from "ethers";
-import BigNumberJS from "bignumber.js";
 
 export class BytesUtils {
   static encodeBigInt(number: bigint): Buffer {
@@ -104,7 +103,7 @@ export class BytesUtils {
     // return Buffer.from(BytesUtils.hexToBytes(BigNumber.from(str).toHexString()));
   }
 
-  static numberOrStringToBytes(input: number | string | BigNumberJS): Buffer {
+  static numberOrStringToBytes(input: number | string | BigNumber): Buffer {
     if (typeof input == "number") {
       // console.log("numberOrStringToBytes - number", input);
       return BytesUtils.numberToBytes(input, 32);

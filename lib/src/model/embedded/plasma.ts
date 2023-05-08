@@ -2,7 +2,7 @@ import {BytesUtils} from "../../utils/bytes";
 import {BlockTypeEnum} from "../nom/account_block_template";
 import {Address} from "../primitives/address";
 import {Hash} from "../primitives/hash";
-import BigNumber from "bignumber.js";
+import {BigNumber, ethers} from "ethers";
 
 export class FusionEntryList {
   qsrAmount: BigNumber;
@@ -17,7 +17,7 @@ export class FusionEntryList {
 
   static fromJson(json: {[key: string]: any}): FusionEntryList {
     return new FusionEntryList(
-      new BigNumber(json.qsrAmount.toString()),
+      ethers.BigNumber.from(json.qsrAmount.toString()),
       json.count,
       json.list.map((entry: {[key: string]: any}) => FusionEntry.fromJson(entry))
     );
@@ -49,7 +49,7 @@ export class FusionEntry {
 
   static fromJson(json: {[key: string]: any}): FusionEntry {
     return new FusionEntry(
-      new BigNumber(json.qsrAmount.toString()),
+      ethers.BigNumber.from(json.qsrAmount.toString()),
       Address.parse(json.beneficiary),
       json.expirationHeight,
       Hash.parse(json.id),
@@ -79,7 +79,7 @@ export class PlasmaInfo {
   }
 
   static fromJson(json: {[key: string]: any}): PlasmaInfo {
-    return new PlasmaInfo(json.currentPlasma, json.maxPlasma, new BigNumber(json.qsrAmount.toString()));
+    return new PlasmaInfo(json.currentPlasma, json.maxPlasma, ethers.BigNumber.from(json.qsrAmount.toString()));
   }
 
   toJson(): {[key: string]: any} {

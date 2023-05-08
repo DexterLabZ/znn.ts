@@ -3,7 +3,7 @@ import { Address } from "../primitives/address";
 import { Hash } from "../primitives/hash";
 import { HashHeight } from "../primitives/hash_height";
 import { TokenStandard } from "../primitives/token_standard";
-import BigNumber from "bignumber.js";
+import { BigNumber } from "ethers";
 export declare enum BlockTypeEnum {
     unknown = 0,
     genesisReceive = 1,

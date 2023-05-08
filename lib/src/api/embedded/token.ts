@@ -1,4 +1,4 @@
-import BigNumber from "bignumber.js";
+import {BigNumber, ethers} from "ethers";
 import {rpcMaxPageSize} from "../../client/constants";
 import {Client} from "../../client/interfaces";
 import {Definitions} from "../../embedded/definitions";
@@ -68,7 +68,7 @@ export class TokenApi {
 
   async mint(tokenStandard: TokenStandard, amount: BigNumber, receiveAddress: Address) {
     let encodedFunction = Definitions.token.encodeFunction("Mint", [tokenStandard, amount, receiveAddress]);
-    return AccountBlockTemplate.callContract(tokenAddress, znnZts, new BigNumber("0"), encodedFunction);
+    return AccountBlockTemplate.callContract(tokenAddress, znnZts, ethers.BigNumber.from("0"), encodedFunction);
   }
 
   async burnToken(tokenStandard: TokenStandard, amount: BigNumber) {
@@ -83,6 +83,6 @@ export class TokenApi {
       isMintable,
       isBurnable,
     ]);
-    return AccountBlockTemplate.callContract(tokenAddress, znnZts, new BigNumber("0"), encodedFunction);
+    return AccountBlockTemplate.callContract(tokenAddress, znnZts, ethers.BigNumber.from("0"), encodedFunction);
   }
 }

@@ -2,7 +2,7 @@ import { Client } from "../../client/interfaces";
 import { AccountBlockTemplate } from "../../model/nom/account_block_template";
 import { Hash } from "../../model/primitives/hash";
 import { TokenStandard } from "../../model/primitives/token_standard";
-import BigNumber from "bignumber.js";
+import { BigNumber } from "ethers";
 export declare class BridgeApi {
     client: Client;
     setClient(client: Client): void;

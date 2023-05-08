@@ -1,7 +1,7 @@
 import { Hash } from "../primitives/hash";
 import { Address } from "../primitives/address";
 import { TokenStandard } from "../primitives/token_standard";
-import BigNumber from "bignumber.js";
+import { BigNumber } from "ethers";
 export declare class TokenTuple {
     tokenStandard: string;
     znnPercentage: number;

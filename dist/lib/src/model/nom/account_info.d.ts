@@ -1,4 +1,4 @@
-import BigNumber from "bignumber.js";
+import { BigNumber } from "ethers";
 import { Token } from "./token";
 export declare class AccountInfo {
     address?: string;
@@ -20,7 +20,7 @@ export declare class AccountInfo {
 declare class BalanceInfoListItem {
     token?: Token;
     balance?: BigNumber;
-    balanceWithDecimals?: BigNumber;
+    balanceWithDecimals?: string;
     balanceFormatted?: string;
     constructor(token: Token, balance: BigNumber);
     static fromJson(json: {

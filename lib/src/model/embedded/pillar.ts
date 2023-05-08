@@ -1,6 +1,6 @@
 import {AmountUtils} from "../../utils/amount";
 import {Address} from "../primitives/address";
-import BigNumber from "bignumber.js";
+import {BigNumber, ethers} from "ethers";
 
 export class PillarInfo {
   static unknownType: number = 0;
@@ -65,7 +65,7 @@ export class PillarInfo {
       json.revokeCooldown,
       json.revokeTimestamp,
       PillarEpochStats.fromJson(json.currentStats),
-      new BigNumber(json.weight.toString())
+      ethers.BigNumber.from(json.weight.toString())
     );
   }
 
@@ -164,7 +164,7 @@ export class PillarEpochHistory {
       json.giveDelegateRewardPercentage,
       json.producedBlockNum,
       json.expectedBlockNum,
-      new BigNumber(json.weight.toString())
+      ethers.BigNumber.from(json.weight.toString())
     );
   }
 
@@ -206,7 +206,7 @@ export class DelegationInfo {
   name: string;
   status: number;
   weight: BigNumber;
-  weightWithDecimals?: BigNumber;
+  weightWithDecimals?: string;
 
   constructor(name: string, status: number, weight: BigNumber) {
     this.name = name;
@@ -216,7 +216,7 @@ export class DelegationInfo {
   }
 
   static fromJson(json: {[key: string]: any}): DelegationInfo {
-    return new DelegationInfo(json.name, json.status, new BigNumber(json.weight.toString()));
+    return new DelegationInfo(json.name, json.status, ethers.BigNumber.from(json.weight.toString()));
   }
 
   toJson(): {[key: string]: any} {
