@@ -62,4 +62,7 @@ export declare class GetRequiredResponse {
     static fromJson(json: {
         [key: string]: any;
     }): GetRequiredResponse;
+    toJson(): {
+        [key: string]: any;
+    };
 }

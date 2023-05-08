@@ -131,7 +131,7 @@ export class AccountBlockTemplate {
       fromBlockHash: this.fromBlockHash.toString(),
       data: BytesUtils.bytesToBase64(this.data),
       fusedPlasma: this.fusedPlasma,
-      difficulty: this.difficulty.toString(),
+      difficulty: this.difficulty,
       nonce: this.nonce,
       publicKey: BytesUtils.bytesToBase64(this.publicKey),
       signature: BytesUtils.bytesToBase64(this.signature),
