@@ -26,12 +26,12 @@ export declare class AccountBlockTemplate {
     tokenStandard: TokenStandard;
     fromBlockHash: Hash;
     data: Buffer;
-    fusedPlasma: number | string | BigNumber;
+    fusedPlasma: number;
     difficulty: number;
     nonce: string;
     publicKey: Buffer;
     signature: Buffer;
-    constructor(version: number | undefined, chainIdentifier: number | undefined, blockType: number, hash?: Hash, previousHash?: Hash, height?: number, momentumAcknowledged?: HashHeight, address?: Address, toAddress?: Address, amount?: number | string | BigNumber, tokenStandard?: TokenStandard, fromBlockHash?: Hash, data?: Buffer, fusedPlasma?: number | string | BigNumber, difficulty?: number, nonce?: string, publicKey?: Buffer, signature?: Buffer);
+    constructor(version: number | undefined, chainIdentifier: number | undefined, blockType: number, hash?: Hash, previousHash?: Hash, height?: number, momentumAcknowledged?: HashHeight, address?: Address, toAddress?: Address, amount?: number | string | BigNumber, tokenStandard?: TokenStandard, fromBlockHash?: Hash, data?: Buffer, fusedPlasma?: number, difficulty?: number, nonce?: string, publicKey?: Buffer, signature?: Buffer);
     static fromJson(json: {
         [key: string]: any;
     }): AccountBlockTemplate;

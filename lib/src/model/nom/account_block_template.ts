@@ -39,7 +39,7 @@ export class AccountBlockTemplate {
   data: Buffer;
 
   // PoW
-  fusedPlasma: number | string | BigNumber;
+  fusedPlasma: number;
   difficulty: number;
 
   // Hex representation of 8byte none
@@ -62,7 +62,7 @@ export class AccountBlockTemplate {
     tokenStandard: TokenStandard = TokenStandard.parse(emptyTokenStandard),
     fromBlockHash: Hash = emptyHash,
     data: Buffer = Buffer.from([]),
-    fusedPlasma: number | string | BigNumber = "0",
+    fusedPlasma: number = 0,
     difficulty: number = 0,
     nonce: string = "",
     publicKey: Buffer = Buffer.from([]),
@@ -130,7 +130,7 @@ export class AccountBlockTemplate {
       tokenStandard: this.tokenStandard.toString(),
       fromBlockHash: this.fromBlockHash.toString(),
       data: BytesUtils.bytesToBase64(this.data),
-      fusedPlasma: this.fusedPlasma.toString(),
+      fusedPlasma: this.fusedPlasma,
       difficulty: this.difficulty.toString(),
       nonce: this.nonce,
       publicKey: BytesUtils.bytesToBase64(this.publicKey),

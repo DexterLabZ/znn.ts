@@ -29,10 +29,10 @@ export declare class FusionEntry {
     };
 }
 export declare class PlasmaInfo {
-    currentPlasma: number | string | BigNumber;
-    maxPlasma: number | string | BigNumber;
+    currentPlasma: number;
+    maxPlasma: number;
     qsrAmount: number | string | BigNumber;
-    constructor(currentPlasma: number | string | BigNumber, maxPlasma: number | string | BigNumber, qsrAmount: number | string | BigNumber);
+    constructor(currentPlasma: number, maxPlasma: number, qsrAmount: number | string | BigNumber);
     static fromJson(json: {
         [key: string]: any;
     }): PlasmaInfo;

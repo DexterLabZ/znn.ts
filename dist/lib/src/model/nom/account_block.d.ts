@@ -27,7 +27,7 @@ export declare class AccountBlock extends AccountBlockTemplate {
     token?: Token;
     confirmationDetail?: AccountBlockConfirmationDetail;
     pairedAccountBlock?: AccountBlock;
-    constructor(version: number, chainIdentifier: number, blockType: number, hash: Hash, previousHash: Hash, height: number, momentumAcknowledged: HashHeight, address: Address, toAddress: Address, amount: number | string | BigNumber, tokenStandard: TokenStandard, fromBlockHash: Hash, data: Buffer, fusedPlasma: number | string | BigNumber, difficulty: number, nonce: string, publicKey: Buffer, signature: Buffer, token?: Token, descendantBlocks?: Array<AccountBlock>, basePlasma?: number | string | BigNumber, usedPlasma?: number | string | BigNumber, changesHash?: Hash, confirmationDetail?: AccountBlockConfirmationDetail, pairedAccountBlock?: AccountBlock);
+    constructor(version: number, chainIdentifier: number, blockType: number, hash: Hash, previousHash: Hash, height: number, momentumAcknowledged: HashHeight, address: Address, toAddress: Address, amount: number | string | BigNumber, tokenStandard: TokenStandard, fromBlockHash: Hash, data: Buffer, fusedPlasma: number, difficulty: number, nonce: string, publicKey: Buffer, signature: Buffer, token?: Token, descendantBlocks?: Array<AccountBlock>, basePlasma?: number, usedPlasma?: number, changesHash?: Hash, confirmationDetail?: AccountBlockConfirmationDetail, pairedAccountBlock?: AccountBlock);
     static fromJson(json: {
         [key: string]: any;
     }): AccountBlock;

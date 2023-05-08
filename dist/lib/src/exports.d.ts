@@ -5,10 +5,12 @@ import { Address } from "./model/primitives/address";
 import { Hash } from "./model/primitives/hash";
 import { TokenStandard } from "./model/primitives/token_standard";
 import { LiquidityStakeEntry, LiquidityStakeList, TokenTuple } from "./model/embedded/liquidity";
+import { AccountBlock } from "./model/nom/account_block";
 declare const Primitives: {
     Address: typeof Address;
     Hash: typeof Hash;
     GetRequiredParam: typeof GetRequiredParam;
+    AccountBlock: typeof AccountBlock;
     AccountBlockTemplate: typeof AccountBlockTemplate;
     TokenStandard: typeof TokenStandard;
 };

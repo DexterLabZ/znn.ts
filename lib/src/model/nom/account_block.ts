@@ -67,15 +67,15 @@ export class AccountBlock extends AccountBlockTemplate {
     tokenStandard: TokenStandard,
     fromBlockHash: Hash,
     data: Buffer,
-    fusedPlasma: number | string | BigNumber,
+    fusedPlasma: number,
     difficulty: number,
     nonce: string,
     publicKey: Buffer,
     signature: Buffer,
     token?: Token,
     descendantBlocks?: Array<AccountBlock>,
-    basePlasma?: number | string | BigNumber,
-    usedPlasma?: number | string | BigNumber,
+    basePlasma?: number,
+    usedPlasma?: number,
     changesHash?: Hash,
     confirmationDetail?: AccountBlockConfirmationDetail,
     pairedAccountBlock?: AccountBlock
@@ -102,8 +102,8 @@ export class AccountBlock extends AccountBlockTemplate {
     );
     this.token = token;
     this.descendantBlocks = descendantBlocks || [];
-    this.basePlasma = basePlasma || "0";
-    this.usedPlasma = usedPlasma || "0";
+    this.basePlasma = basePlasma || 0;
+    this.usedPlasma = usedPlasma || 0;
     this.changesHash = changesHash || emptyHash;
     this.confirmationDetail = confirmationDetail;
     this.pairedAccountBlock = pairedAccountBlock;
@@ -148,8 +148,8 @@ export class AccountBlock extends AccountBlockTemplate {
       ...accountBlockTemplate,
       token: this.token ? this.token.toJson() : undefined,
       descendantBlocks: this.descendantBlocks.map((block: AccountBlock) => block.toJson()),
-      basePlasma: this.basePlasma.toString(),
-      usedPlasma: this.usedPlasma.toString(),
+      basePlasma: this.basePlasma,
+      usedPlasma: this.usedPlasma,
       changesHash: this.changesHash.toString(),
       confirmationDetail: this.confirmationDetail
         ? AccountBlockConfirmationDetail.toJson(this.confirmationDetail)
