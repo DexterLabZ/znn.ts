@@ -5,14 +5,14 @@ import {Token} from "./token";
 export class AccountInfo {
   address?: string;
   blockCount?: number;
-  balanceInfoList?: Array<BalanceInfoListItem>;
-  balanceInfoMap?: {[key: string]: BalanceInfoListItem};
+  balanceInfoList?: Array<BalanceInfoListItem> | [];
+  balanceInfoMap?: {[key: string]: BalanceInfoListItem} | {};
 
   constructor(
     address?: string,
     blockCount?: number,
-    balanceInfoList?: Array<BalanceInfoListItem>,
-    balanceInfoMap?: {[key: string]: BalanceInfoListItem}
+    balanceInfoList?: Array<BalanceInfoListItem> | [],
+    balanceInfoMap?: {[key: string]: BalanceInfoListItem} | {}
   ) {
     this.address = address;
     this.blockCount = blockCount;

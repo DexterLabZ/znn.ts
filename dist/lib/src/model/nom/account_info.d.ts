@@ -3,13 +3,13 @@ import { Token } from "./token";
 export declare class AccountInfo {
     address?: string;
     blockCount?: number;
-    balanceInfoList?: Array<BalanceInfoListItem>;
+    balanceInfoList?: Array<BalanceInfoListItem> | [];
     balanceInfoMap?: {
         [key: string]: BalanceInfoListItem;
-    };
-    constructor(address?: string, blockCount?: number, balanceInfoList?: Array<BalanceInfoListItem>, balanceInfoMap?: {
+    } | {};
+    constructor(address?: string, blockCount?: number, balanceInfoList?: Array<BalanceInfoListItem> | [], balanceInfoMap?: {
         [key: string]: BalanceInfoListItem;
-    });
+    } | {});
     static fromJson(json: {
         [key: string]: any;
     }): AccountInfo;
