@@ -51,17 +51,15 @@ export class Definitions {
 		{"type":"function","name":"VoteByProdAddress","inputs":[{"name":"id","type":"hash"},{"name":"vote","type":"uint8"}]}
   ]`;
 
-  // Common definitions of embedded methods
-  static _commonDefinition: string = `[
-    {"type":"function","name":"DepositQsr","inputs":[]},
-    {"type":"function","name":"WithdrawQsr","inputs":[]},
-    {"type":"function","name":"CollectReward","inputs":[]}
+	static _liquidityDefinition = `[
+    {"type":"function","name":"LiquidityStake","inputs":[{"name":"durationInSec", "type":"int64"}]},
+		{"type":"function","name":"CancelLiquidityStake","inputs":[{"name":"id","type":"hash"}]}
   ]`;
 
-  static _bridgeFunctionDefinition: string = `
+  static _bridgeDefinition: string = `
 	[
 		{"type":"function","name":"WrapToken", "inputs":[
-			{"name":"networkType","type":"uint32"},
+			{"name":"networkClass","type":"uint32"},
 			{"name":"chainId","type":"uint32"},
 			{"name":"toAddress","type":"string"}
 		]},
@@ -85,7 +83,7 @@ export class Definitions {
 		]},
 
 		{"type":"function","name":"AddTokenPair","inputs":[
-			{"name":"networkType","type":"uint32"},
+			{"name":"networkClass","type":"uint32"},
 			{"name":"chainId","type":"uint32"},
 			{"name":"tokenStandard","type":"tokenStandard"},
 			{"name":"tokenAddress","type":"string"},
@@ -93,7 +91,7 @@ export class Definitions {
 		]},
 
 		{"type":"function","name":"RemoveTokenPair","inputs":[
-			{"name":"networkType","type":"uint32"},
+			{"name":"networkClass","type":"uint32"},
 			{"name":"chainId","type":"uint32"},
 			{"name":"tokenStandard","type":"tokenStandard"},
 			{"name":"tokenAddress","type":"string"},
@@ -120,7 +118,7 @@ export class Definitions {
 		]},
 
 		{"type":"function","name":"UnwrapToken","inputs":[
-			{"name":"networkType","type":"uint32"},
+			{"name":"networkClass","type":"uint32"},
 			{"name":"chainId","type":"uint32"},
 			{"name":"transactionHash","type":"hash"},
 			{"name":"toAddress","type":"address"},
@@ -135,14 +133,15 @@ export class Definitions {
 		]},
 
 		{"type":"function","name":"Redeem","inputs":[
-			{"name":"transactionHash","type":"hash"}
+			{"name":"transactionHash","type":"hash"},
+			{"name":"logIndex","type":"uint32"}
 		]}
 	]
 		`
 		static _bridgeVariableDefinition: string = `
 		[
 		{"type":"variable","name":"wrapRequest","inputs":[
-			{"name":"networkType","type":"uint32"},
+			{"name":"networkClass","type":"uint32"},
 			{"name":"chainId", "type":"uint32"},
 			{"name":"toAddress","type":"string"},
 			{"name":"tokenStandard","type":"tokenStandard"},
@@ -153,7 +152,7 @@ export class Definitions {
 
 		{"type":"variable","name":"unwrapRequest","inputs":[
 			{"name":"registrationTime","type":"int64"},
-			{"name":"networkType","type":"uint32"},
+			{"name":"networkClass","type":"uint32"},
 			{"name":"chainId", "type":"uint32"},
 			{"name":"toAddress","type":"address"},
 			{"name":"tokenAddress","type":"string"},
@@ -180,6 +179,12 @@ export class Definitions {
 		]}
 	]`;
 
+  // Common definitions of embedded methods
+  static _commonDefinition: string = `[
+    {"type":"function","name":"DepositQsr","inputs":[]},
+    {"type":"function","name":"WithdrawQsr","inputs":[]},
+    {"type":"function","name":"CollectReward","inputs":[]}
+  ]`;
 
   // ABI definitions of embedded contracts
   static plasma: Abi = Abi.fromJson(Definitions._plasmaDefinition);
@@ -190,5 +195,6 @@ export class Definitions {
   static stake: Abi = Abi.fromJson(Definitions._stakeDefinition);
   static accelerator: Abi = Abi.fromJson(Definitions._acceleratorDefinition);
   static common: Abi = Abi.fromJson(Definitions._commonDefinition);
-  static bridge: Abi = Abi.fromJson(Definitions._bridgeFunctionDefinition);
+  static bridge: Abi = Abi.fromJson(Definitions._bridgeDefinition);
+  static liquidity: Abi = Abi.fromJson(Definitions._liquidityDefinition);
 }

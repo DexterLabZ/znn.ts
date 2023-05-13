@@ -1,5 +1,6 @@
-import { AmountUtils } from "../../utils/amount";
-import { Address } from "../primitives/address";
+import {AmountUtils} from "../../utils/amount";
+import {Address} from "../primitives/address";
+import {BigNumber, ethers} from "ethers";
 
 export class PillarInfo {
   static unknownType: number = 0;
@@ -18,9 +19,23 @@ export class PillarInfo {
   revokeCooldown: number;
   revokeTimestamp: number;
   currentStats: PillarEpochStats;
-  weight: number;
+  weight: BigNumber;
 
-  constructor(name: string, rank: number, type: number, ownerAddress: Address, producerAddress: Address, withdrawAddress: Address, giveMomentumRewardPercentage: number, giveDelegateRewardPercentage: number, isRevocable: boolean, revokeCooldown: number, revokeTimestamp: number, currentStats: PillarEpochStats, weight: number){
+  constructor(
+    name: string,
+    rank: number,
+    type: number,
+    ownerAddress: Address,
+    producerAddress: Address,
+    withdrawAddress: Address,
+    giveMomentumRewardPercentage: number,
+    giveDelegateRewardPercentage: number,
+    isRevocable: boolean,
+    revokeCooldown: number,
+    revokeTimestamp: number,
+    currentStats: PillarEpochStats,
+    weight: BigNumber
+  ) {
     this.name = name;
     this.rank = rank;
     this.type = type;
@@ -50,7 +65,7 @@ export class PillarInfo {
       json.revokeCooldown,
       json.revokeTimestamp,
       PillarEpochStats.fromJson(json.currentStats),
-      json.weight
+      ethers.BigNumber.from(json.weight.toString())
     );
   }
 
@@ -68,69 +83,70 @@ export class PillarInfo {
       revokeCooldown: this.revokeCooldown,
       revokeTimestamp: this.revokeTimestamp,
       currentStats: this.currentStats.toJson(),
-      weight: this.weight
+      weight: this.weight.toString(),
     };
   }
 }
 
-export class PillarInfoList{
+export class PillarInfoList {
   count: number;
   list: Array<PillarInfo>;
 
-  constructor(count: number, list: Array<PillarInfo>){
+  constructor(count: number, list: Array<PillarInfo>) {
     this.count = count;
     this.list = list;
   }
 
   static fromJson(json: {[key: string]: any}): PillarInfoList {
-    return new PillarInfoList(
-      json.count,
-      json.list.map(PillarInfo.fromJson)
-    );
+    return new PillarInfoList(json.count, json.list.map(PillarInfo.fromJson));
   }
 
   toJson(): {[key: string]: any} {
     return {
       count: this.count,
-      list: this.list.map(pillarInfo => pillarInfo.toJson())
+      list: this.list.map((pillarInfo) => pillarInfo.toJson()),
     };
   }
-
 }
-export class PillarEpochStats{
+export class PillarEpochStats {
   producedMomentums: number;
   expectedMomentums: number;
 
-  constructor(producedMomentums: number, expectedMomentums: number){
+  constructor(producedMomentums: number, expectedMomentums: number) {
     this.producedMomentums = producedMomentums;
     this.expectedMomentums = expectedMomentums;
   }
-  
+
   static fromJson(json: {[key: string]: any}): PillarEpochStats {
-    return new PillarEpochStats(
-      json.producedMomentums,
-      json.expectedMomentums
-    );
+    return new PillarEpochStats(json.producedMomentums, json.expectedMomentums);
   }
 
   toJson(): {[key: string]: any} {
     return {
       producedMomentums: this.producedMomentums,
-      expectedMomentums: this.expectedMomentums
+      expectedMomentums: this.expectedMomentums,
     };
   }
 }
 
-export class PillarEpochHistory{
+export class PillarEpochHistory {
   name: string;
   epoch: number;
   giveBlockRewardPercentage: number;
   giveDelegateRewardPercentage: number;
   producedBlockNum: number;
   expectedBlockNum: number;
-  weight: number;
+  weight: BigNumber;
 
-  constructor(name: string, epoch: number, giveBlockRewardPercentage: number, giveDelegateRewardPercentage: number, producedBlockNum: number, expectedBlockNum: number, weight: number){
+  constructor(
+    name: string,
+    epoch: number,
+    giveBlockRewardPercentage: number,
+    giveDelegateRewardPercentage: number,
+    producedBlockNum: number,
+    expectedBlockNum: number,
+    weight: BigNumber
+  ) {
     this.name = name;
     this.epoch = epoch;
     this.giveBlockRewardPercentage = giveBlockRewardPercentage;
@@ -148,54 +164,51 @@ export class PillarEpochHistory{
       json.giveDelegateRewardPercentage,
       json.producedBlockNum,
       json.expectedBlockNum,
-      json.weight
+      ethers.BigNumber.from(json.weight.toString())
     );
   }
 
   toJson(): {[key: string]: any} {
-    return{
+    return {
       name: this.name,
       epoch: this.epoch,
       giveBlockRewardPercentage: this.giveBlockRewardPercentage,
       giveDelegateRewardPercentage: this.giveDelegateRewardPercentage,
       producedBlockNum: this.producedBlockNum,
       expectedBlockNum: this.expectedBlockNum,
-      weight: this.weight
+      weight: this.weight.toString(),
     };
   }
 }
 
-export class PillarEpochHistoryList{
+export class PillarEpochHistoryList {
   count: number;
   list: Array<PillarEpochHistory>;
 
-  constructor(count: number, list: Array<PillarEpochHistory>){
+  constructor(count: number, list: Array<PillarEpochHistory>) {
     this.count = count;
     this.list = list;
   }
 
   static fromJson(json: {[key: string]: any}): PillarEpochHistoryList {
-    return new PillarEpochHistoryList(
-      json.count,
-      json.list.map(PillarEpochHistory.fromJson)
-    );
+    return new PillarEpochHistoryList(json.count, json.list.map(PillarEpochHistory.fromJson));
   }
 
   toJson(): {[key: string]: any} {
     return {
       count: this.count,
-      list: this.list.map(pillarEpochHistory => pillarEpochHistory.toJson())
+      list: this.list.map((pillarEpochHistory) => pillarEpochHistory.toJson()),
     };
   }
 }
 
-export class DelegationInfo{
+export class DelegationInfo {
   name: string;
   status: number;
-  weight: number;
-  weightWithDecimals?: number;
+  weight: BigNumber;
+  weightWithDecimals?: string;
 
-  constructor(name: string, status: number, weight: number){
+  constructor(name: string, status: number, weight: BigNumber) {
     this.name = name;
     this.status = status;
     this.weight = weight;
@@ -203,22 +216,18 @@ export class DelegationInfo{
   }
 
   static fromJson(json: {[key: string]: any}): DelegationInfo {
-    return new DelegationInfo(
-      json.name,
-      json.status,
-      json.weight
-    );
+    return new DelegationInfo(json.name, json.status, ethers.BigNumber.from(json.weight.toString()));
   }
 
   toJson(): {[key: string]: any} {
     return {
       name: this.name,
       status: this.status,
-      weight: this.weight
+      weight: this.weight.toString(),
     };
   }
 
-  isPillarActive(): boolean{
+  isPillarActive(): boolean {
     return this.status == 1;
   }
 }

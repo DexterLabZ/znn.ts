@@ -5,7 +5,7 @@ declare enum WebsocketStatus {
     running = 2,
     stopped = 3
 }
-declare type WSSubscriptionCallback = (data: any[]) => void;
+type WSSubscriptionCallback = (data: any[]) => void;
 declare class WSSubscriptions {
     callbacks: Map<string, WSSubscriptionCallback>;
     constructor();

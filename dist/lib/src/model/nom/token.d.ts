@@ -1,18 +1,19 @@
+import { BigNumber } from "ethers";
 import { Address } from "../primitives/address";
 import { TokenStandard } from "../primitives/token_standard";
 export declare class Token {
     name: string;
     symbol: string;
     domain: string;
-    totalSupply: number;
+    totalSupply: BigNumber;
     decimals: number;
     owner: Address;
     tokenStandard: TokenStandard;
-    maxSupply: number;
+    maxSupply: BigNumber;
     isBurnable: boolean;
     isMintable: boolean;
     isUtility: boolean;
-    constructor(name: string, symbol: string, domain: string, totalSupply: number, decimals: number, owner: Address, tokenStandard: TokenStandard, maxSupply: number, isBurnable: boolean, isMintable: boolean, isUtility: boolean);
+    constructor(name: string, symbol: string, domain: string, totalSupply: BigNumber, decimals: number, owner: Address, tokenStandard: TokenStandard, maxSupply: BigNumber, isBurnable: boolean, isMintable: boolean, isUtility: boolean);
     static fromJson(json: {
         [key: string]: any;
     }): Token;

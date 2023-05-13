@@ -16,10 +16,10 @@ declare const CURVE: {
     Gy: bigint;
 };
 export { CURVE };
-declare type Hex = Uint8Array | string;
-declare type PrivKey = Hex | bigint | number;
-declare type PubKey = Hex | Point;
-declare type SigType = Hex | Signature;
+type Hex = Uint8Array | string;
+type PrivKey = Hex | bigint | number;
+type PubKey = Hex | Point;
+type SigType = Hex | Signature;
 /**
  * Extended Point works in extended coordinates: (x, y, z, t) ∋ (x=x/z, y=y/z, t=xy).
  * Default Point works in affine coordinates: (x, y)

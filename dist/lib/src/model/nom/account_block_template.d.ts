@@ -3,6 +3,7 @@ import { Address } from "../primitives/address";
 import { Hash } from "../primitives/hash";
 import { HashHeight } from "../primitives/hash_height";
 import { TokenStandard } from "../primitives/token_standard";
+import { BigNumber } from "ethers";
 export declare enum BlockTypeEnum {
     unknown = 0,
     genesisReceive = 1,
@@ -21,7 +22,7 @@ export declare class AccountBlockTemplate {
     momentumAcknowledged: HashHeight;
     address: Address;
     toAddress: Address;
-    amount: number;
+    amount: BigNumber;
     tokenStandard: TokenStandard;
     fromBlockHash: Hash;
     data: Buffer;
@@ -30,7 +31,7 @@ export declare class AccountBlockTemplate {
     nonce: string;
     publicKey: Buffer;
     signature: Buffer;
-    constructor(version: number | undefined, chainIdentifier: number | undefined, blockType: number, hash?: Hash, previousHash?: Hash, height?: number, momentumAcknowledged?: HashHeight, address?: Address, toAddress?: Address, amount?: number, tokenStandard?: TokenStandard, fromBlockHash?: Hash, data?: Buffer, fusedPlasma?: number, difficulty?: number, nonce?: string, publicKey?: Buffer, signature?: Buffer);
+    constructor(version: number | undefined, chainIdentifier: number | undefined, blockType: number, hash?: Hash, previousHash?: Hash, height?: number, momentumAcknowledged?: HashHeight, address?: Address, toAddress?: Address, amount?: BigNumber, tokenStandard?: TokenStandard, fromBlockHash?: Hash, data?: Buffer, fusedPlasma?: number, difficulty?: number, nonce?: string, publicKey?: Buffer, signature?: Buffer);
     static fromJson(json: {
         [key: string]: any;
     }): AccountBlockTemplate;
@@ -38,7 +39,7 @@ export declare class AccountBlockTemplate {
         [key: string]: any;
     };
     static receive(fromBlockHash: Hash): AccountBlockTemplate;
-    static send(toAddress: Address, tokenStandard: TokenStandard, amount: number): AccountBlockTemplate;
-    static callContract(address: Address, tokenStandard: TokenStandard, amount: number, data: Buffer): AccountBlockTemplate;
+    static send(toAddress: Address, tokenStandard: TokenStandard, amount: BigNumber): AccountBlockTemplate;
+    static callContract(address: Address, tokenStandard: TokenStandard, amount: BigNumber, data: Buffer): AccountBlockTemplate;
     toString(): string;
 }

@@ -1,4 +1,5 @@
 import { Address } from "../primitives/address";
+import { BigNumber } from "ethers";
 export declare class PillarInfo {
     static unknownType: number;
     static legacyPillarType: number;
@@ -15,8 +16,8 @@ export declare class PillarInfo {
     revokeCooldown: number;
     revokeTimestamp: number;
     currentStats: PillarEpochStats;
-    weight: number;
-    constructor(name: string, rank: number, type: number, ownerAddress: Address, producerAddress: Address, withdrawAddress: Address, giveMomentumRewardPercentage: number, giveDelegateRewardPercentage: number, isRevocable: boolean, revokeCooldown: number, revokeTimestamp: number, currentStats: PillarEpochStats, weight: number);
+    weight: BigNumber;
+    constructor(name: string, rank: number, type: number, ownerAddress: Address, producerAddress: Address, withdrawAddress: Address, giveMomentumRewardPercentage: number, giveDelegateRewardPercentage: number, isRevocable: boolean, revokeCooldown: number, revokeTimestamp: number, currentStats: PillarEpochStats, weight: BigNumber);
     static fromJson(json: {
         [key: string]: any;
     }): PillarInfo;
@@ -53,8 +54,8 @@ export declare class PillarEpochHistory {
     giveDelegateRewardPercentage: number;
     producedBlockNum: number;
     expectedBlockNum: number;
-    weight: number;
-    constructor(name: string, epoch: number, giveBlockRewardPercentage: number, giveDelegateRewardPercentage: number, producedBlockNum: number, expectedBlockNum: number, weight: number);
+    weight: BigNumber;
+    constructor(name: string, epoch: number, giveBlockRewardPercentage: number, giveDelegateRewardPercentage: number, producedBlockNum: number, expectedBlockNum: number, weight: BigNumber);
     static fromJson(json: {
         [key: string]: any;
     }): PillarEpochHistory;
@@ -76,9 +77,9 @@ export declare class PillarEpochHistoryList {
 export declare class DelegationInfo {
     name: string;
     status: number;
-    weight: number;
-    weightWithDecimals?: number;
-    constructor(name: string, status: number, weight: number);
+    weight: BigNumber;
+    weightWithDecimals?: string;
+    constructor(name: string, status: number, weight: BigNumber);
     static fromJson(json: {
         [key: string]: any;
     }): DelegationInfo;

@@ -1,11 +1,12 @@
 /// <reference types="node" />
 import { Address } from "../primitives/address";
 import { Hash } from "../primitives/hash";
+import { BigNumber } from "ethers";
 export declare class FusionEntryList {
-    qsrAmount: number;
+    qsrAmount: BigNumber;
     count: number;
     list: Array<FusionEntry>;
-    constructor(qsrAmount: number, count: number, list: Array<FusionEntry>);
+    constructor(qsrAmount: BigNumber, count: number, list: Array<FusionEntry>);
     static fromJson(json: {
         [key: string]: any;
     }): FusionEntryList;
@@ -14,12 +15,12 @@ export declare class FusionEntryList {
     };
 }
 export declare class FusionEntry {
-    qsrAmount: number;
+    qsrAmount: BigNumber;
     beneficiary: Address;
     expirationHeight: number;
     id: Hash;
     isRevocable?: boolean;
-    constructor(qsrAmount: number, beneficiary: Address, expirationHeight: number, id: Hash, isRevocable: boolean);
+    constructor(qsrAmount: BigNumber, beneficiary: Address, expirationHeight: number, id: Hash, isRevocable: boolean);
     static fromJson(json: {
         [key: string]: any;
     }): FusionEntry;
@@ -30,8 +31,8 @@ export declare class FusionEntry {
 export declare class PlasmaInfo {
     currentPlasma: number;
     maxPlasma: number;
-    qsrAmount: number;
-    constructor(currentPlasma: number, maxPlasma: number, qsrAmount: number);
+    qsrAmount: BigNumber;
+    constructor(currentPlasma: number, maxPlasma: number, qsrAmount: BigNumber);
     static fromJson(json: {
         [key: string]: any;
     }): PlasmaInfo;
@@ -61,4 +62,7 @@ export declare class GetRequiredResponse {
     static fromJson(json: {
         [key: string]: any;
     }): GetRequiredResponse;
+    toJson(): {
+        [key: string]: any;
+    };
 }

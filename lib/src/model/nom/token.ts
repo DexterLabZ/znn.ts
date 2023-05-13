@@ -1,20 +1,33 @@
-import { Address } from "../primitives/address";
-import { TokenStandard } from "../primitives/token_standard";
+import {BigNumber, ethers} from "ethers";
+import {Address} from "../primitives/address";
+import {TokenStandard} from "../primitives/token_standard";
 
-export class Token{
+export class Token {
   name: string;
   symbol: string;
   domain: string;
-  totalSupply: number;
+  totalSupply: BigNumber;
   decimals: number;
   owner: Address;
   tokenStandard: TokenStandard;
-  maxSupply: number;
+  maxSupply: BigNumber;
   isBurnable: boolean;
   isMintable: boolean;
   isUtility: boolean;
 
-  constructor(name: string, symbol: string, domain: string, totalSupply: number, decimals: number, owner: Address, tokenStandard: TokenStandard, maxSupply: number, isBurnable: boolean, isMintable: boolean, isUtility: boolean){
+  constructor(
+    name: string,
+    symbol: string,
+    domain: string,
+    totalSupply: BigNumber,
+    decimals: number,
+    owner: Address,
+    tokenStandard: TokenStandard,
+    maxSupply: BigNumber,
+    isBurnable: boolean,
+    isMintable: boolean,
+    isUtility: boolean
+  ) {
     this.name = name;
     this.symbol = symbol;
     this.domain = domain;
@@ -28,64 +41,64 @@ export class Token{
     this.isUtility = isUtility;
   }
 
-  static fromJson(json: {[key: string]: any}): Token{
+  static fromJson(json: {[key: string]: any}): Token {
     return new Token(
-      json['name'],
-      json['symbol'],
-      json['domain'],
-      json['totalSupply'],
-      json['decimals'],
-      Address.parse(json['owner']),
-      TokenStandard.parse(json['tokenStandard']),
-      json['maxSupply'],
-      json['isBurnable'],
-      json['isMintable'],
-      json['isUtility']
+      json["name"],
+      json["symbol"],
+      json["domain"],
+      ethers.BigNumber.from(json["totalSupply"]),
+      json["decimals"],
+      Address.parse(json["owner"]),
+      TokenStandard.parse(json["tokenStandard"]),
+      ethers.BigNumber.from(json["maxSupply"]),
+      json["isBurnable"],
+      json["isMintable"],
+      json["isUtility"]
     );
   }
 
-  toJson(): {[key: string]: any}{
+  toJson(): {[key: string]: any} {
     return {
       name: this.name,
       symbol: this.symbol,
       domain: this.domain,
-      totalSupply: this.totalSupply,
+      totalSupply: this.totalSupply.toString(),
       decimals: this.decimals,
       owner: this.owner.toString(),
       tokenStandard: this.tokenStandard.toString(),
-      maxSupply: this.maxSupply,
+      maxSupply: this.maxSupply.toString(),
       isBurnable: this.isBurnable,
       isMintable: this.isMintable,
-      isUtility: this.isUtility
+      isUtility: this.isUtility,
     };
   }
 
-  decimalsExponent(){
+  decimalsExponent() {
     return Math.pow(10, this.decimals);
   }
 }
 
-export class TokenList{
+export class TokenList {
   count: number;
   list: Array<Token>;
 
-  constructor(count: number, list: Array<Token>){
+  constructor(count: number, list: Array<Token>) {
     this.count = count;
     this.list = list;
   }
 
-  static fromJson(json: {[key: string]: any}): TokenList{
+  static fromJson(json: {[key: string]: any}): TokenList {
     return new TokenList(
-      json['count'],
-      json['list'].map((entry: {[key: string]: any}) => Token.fromJson(entry))
+      json["count"],
+      json["list"].map((entry: {[key: string]: any}) => Token.fromJson(entry))
     );
   }
 
-  toJson(): {[key: string]: any}{
+  toJson(): {[key: string]: any} {
     const data: {[key: string]: any} = {};
     data.count = this.count;
-    if(data.list){
-      this.list && this.list.map((entry: {[key: string]: any}) => entry.toJson())
+    if (data.list) {
+      this.list && this.list.map((entry: {[key: string]: any}) => entry.toJson());
     }
     return data;
   }

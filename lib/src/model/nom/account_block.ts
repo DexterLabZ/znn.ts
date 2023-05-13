@@ -1,18 +1,10 @@
-import { Address } from "../primitives/address";
-import {
-  emptyHash,
-  Hash
-} from "../primitives/hash";
-import {
-  HashHeight
-} from "../primitives/hash_height";
-import { TokenStandard } from "../primitives/token_standard";
-import {
-  AccountBlockTemplate
-} from "./account_block_template";
-import {
-  Token
-} from "./token";
+import {Address} from "../primitives/address";
+import {emptyHash, Hash} from "../primitives/hash";
+import {HashHeight} from "../primitives/hash_height";
+import {TokenStandard} from "../primitives/token_standard";
+import {AccountBlockTemplate} from "./account_block_template";
+import {Token} from "./token";
+import {BigNumber, ethers} from "ethers";
 
 export class AccountBlockConfirmationDetail {
   numConfirmations: number;
@@ -29,10 +21,10 @@ export class AccountBlockConfirmationDetail {
 
   static fromJson(json: {[key: string]: any}): AccountBlockConfirmationDetail {
     return new AccountBlockConfirmationDetail(
-      json['numConfirmations'],
-      json['momentumHeight'],
-      Hash.parse(json['momentumHash']),
-      json['momentumTimestamp']
+      json["numConfirmations"],
+      json["momentumHeight"],
+      Hash.parse(json["momentumHash"]),
+      json["momentumTimestamp"]
     );
   }
 
@@ -41,52 +33,73 @@ export class AccountBlockConfirmationDetail {
       numConfirmations: accountBlockConfirmationDetail.numConfirmations,
       momentumHeight: accountBlockConfirmationDetail.momentumHeight,
       momentumHash: accountBlockConfirmationDetail.momentumHash.toString(),
-      momentumTimestamp: accountBlockConfirmationDetail.momentumTimestamp
+      momentumTimestamp: accountBlockConfirmationDetail.momentumTimestamp,
     };
   }
 }
 
 export class AccountBlock extends AccountBlockTemplate {
-  descendantBlocks: Array < AccountBlock > ;
+  descendantBlocks: Array<AccountBlock>;
   basePlasma: number;
   usedPlasma: number;
   changesHash: Hash;
 
-  token ? : Token;
+  token?: Token;
 
-  confirmationDetail ? : AccountBlockConfirmationDetail;
+  confirmationDetail?: AccountBlockConfirmationDetail;
 
-  pairedAccountBlock ? : AccountBlock;
+  pairedAccountBlock?: AccountBlock;
 
   // Explaining the initializer list syntax from dart Class.fromJson(): key = json[key], key2=json[key2] { ...}
   // https://stackoverflow.com/a/68927725/7914222
 
-  constructor(version: number, 
-              chainIdentifier: number,
-              blockType: number,
-              hash: Hash, 
-              previousHash: Hash, 
-              height: number, 
-              momentumAcknowledged: HashHeight, 
-              address: Address, 
-              toAddress: Address, 
-              amount: number, 
-              tokenStandard: TokenStandard, 
-              fromBlockHash: Hash, 
-              data: Buffer, 
-              fusedPlasma: number, 
-              difficulty: number, 
-              nonce: string, 
-              publicKey: Buffer, 
-              signature: Buffer, 
-              token?: Token, 
-              descendantBlocks?: Array < AccountBlock > , 
-              basePlasma?: number, 
-              usedPlasma?: number, 
-              changesHash?: Hash, 
-              confirmationDetail?: AccountBlockConfirmationDetail, 
-              pairedAccountBlock?: AccountBlock) {
-    super(version, chainIdentifier, blockType, hash, previousHash, height, momentumAcknowledged, address, toAddress, amount, tokenStandard, fromBlockHash, data, fusedPlasma, difficulty, nonce, publicKey, signature);
+  constructor(
+    version: number,
+    chainIdentifier: number,
+    blockType: number,
+    hash: Hash,
+    previousHash: Hash,
+    height: number,
+    momentumAcknowledged: HashHeight,
+    address: Address,
+    toAddress: Address,
+    amount: BigNumber,
+    tokenStandard: TokenStandard,
+    fromBlockHash: Hash,
+    data: Buffer,
+    fusedPlasma: number,
+    difficulty: number,
+    nonce: string,
+    publicKey: Buffer,
+    signature: Buffer,
+    token?: Token,
+    descendantBlocks?: Array<AccountBlock>,
+    basePlasma?: number,
+    usedPlasma?: number,
+    changesHash?: Hash,
+    confirmationDetail?: AccountBlockConfirmationDetail,
+    pairedAccountBlock?: AccountBlock
+  ) {
+    super(
+      version,
+      chainIdentifier,
+      blockType,
+      hash,
+      previousHash,
+      height,
+      momentumAcknowledged,
+      address,
+      toAddress,
+      amount,
+      tokenStandard,
+      fromBlockHash,
+      data,
+      fusedPlasma,
+      difficulty,
+      nonce,
+      publicKey,
+      signature
+    );
     this.token = token;
     this.descendantBlocks = descendantBlocks || [];
     this.basePlasma = basePlasma || 0;
@@ -96,7 +109,7 @@ export class AccountBlock extends AccountBlockTemplate {
     this.pairedAccountBlock = pairedAccountBlock;
   }
 
-  static fromJson(json: { [key: string]: any }): AccountBlock {
+  static fromJson(json: {[key: string]: any}): AccountBlock {
     let accountBlockTemplate = super.fromJson(json);
     return new AccountBlock(
       accountBlockTemplate.version,
@@ -108,7 +121,7 @@ export class AccountBlock extends AccountBlockTemplate {
       accountBlockTemplate.momentumAcknowledged,
       accountBlockTemplate.address,
       accountBlockTemplate.toAddress,
-      accountBlockTemplate.amount,
+      ethers.BigNumber.from(accountBlockTemplate.amount.toString()),
       accountBlockTemplate.tokenStandard,
       accountBlockTemplate.fromBlockHash,
       accountBlockTemplate.data,
@@ -117,17 +130,19 @@ export class AccountBlock extends AccountBlockTemplate {
       accountBlockTemplate.nonce,
       accountBlockTemplate.publicKey,
       accountBlockTemplate.signature,
-      json['token'] ? Token.fromJson(json['token']) : undefined,
-      json['descendantBlocks'] ? json['descendantBlocks'].map((block: { [key: string]: any }) => AccountBlock.fromJson(block)) : [],
-      json['basePlasma'],
-      json['usedPlasma'],
-      json['changesHash'] ? Hash.parse(json['changesHash']) : emptyHash,
-      json['confirmationDetail'] ? AccountBlockConfirmationDetail.fromJson(json['confirmationDetail']) : undefined,
-      json['pairedAccountBlock'] ? AccountBlock.fromJson(json['pairedAccountBlock']) : undefined
+      json["token"] ? Token.fromJson(json["token"]) : undefined,
+      json["descendantBlocks"]
+        ? json["descendantBlocks"].map((block: {[key: string]: any}) => AccountBlock.fromJson(block))
+        : [],
+      json["basePlasma"],
+      json["usedPlasma"],
+      json["changesHash"] ? Hash.parse(json["changesHash"]) : emptyHash,
+      json["confirmationDetail"] ? AccountBlockConfirmationDetail.fromJson(json["confirmationDetail"]) : undefined,
+      json["pairedAccountBlock"] ? AccountBlock.fromJson(json["pairedAccountBlock"]) : undefined
     );
   }
 
-  toJson(): { [key: string]: any } {
+  toJson(): {[key: string]: any} {
     let accountBlockTemplate = super.toJson();
     return {
       ...accountBlockTemplate,
@@ -136,8 +151,10 @@ export class AccountBlock extends AccountBlockTemplate {
       basePlasma: this.basePlasma,
       usedPlasma: this.usedPlasma,
       changesHash: this.changesHash.toString(),
-      confirmationDetail: this.confirmationDetail ? AccountBlockConfirmationDetail.toJson(this.confirmationDetail) : undefined,
-      pairedAccountBlock: this.pairedAccountBlock ? this.pairedAccountBlock.toJson() : undefined
+      confirmationDetail: this.confirmationDetail
+        ? AccountBlockConfirmationDetail.toJson(this.confirmationDetail)
+        : undefined,
+      pairedAccountBlock: this.pairedAccountBlock ? this.pairedAccountBlock.toJson() : undefined,
     };
   }
 
@@ -148,12 +165,12 @@ export class AccountBlock extends AccountBlockTemplate {
 
 export class AccountBlockList {
   count?: number;
-  list?: Array < AccountBlock > ;
+  list?: Array<AccountBlock>;
 
   // If true, there are more elements that can be retrieved
   more?: boolean;
 
-  constructor(count?: number, list?: Array < AccountBlock > , more?: boolean) {
+  constructor(count?: number, list?: Array<AccountBlock>, more?: boolean) {
     this.count = count;
     this.list = list;
     this.more = more;
@@ -161,9 +178,9 @@ export class AccountBlockList {
 
   static fromJson(json: {[key: string]: any}): AccountBlockList {
     return new AccountBlockList(
-      json['count'],
-      json['list'] ? json['list'].map((block: { [key: string]: any }) => AccountBlock.fromJson(block)) : [],
-      json['more']
+      json["count"],
+      json["list"] ? json["list"].map((block: {[key: string]: any}) => AccountBlock.fromJson(block)) : [],
+      json["more"]
     );
   }
 
@@ -171,7 +188,7 @@ export class AccountBlockList {
     return {
       count: this.count,
       list: this.list ? this.list.map((block: AccountBlock) => block.toJson()) : [],
-      more: this.more
+      more: this.more,
     };
   }
 }

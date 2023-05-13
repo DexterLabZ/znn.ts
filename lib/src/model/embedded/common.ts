@@ -1,16 +1,13 @@
-import {
-  Address
-} from "../primitives/address";
-import {
-  Hash
-} from "./../primitives/hash";
+import {Address} from "../primitives/address";
+import {Hash} from "./../primitives/hash";
+import {BigNumber, ethers} from "ethers";
 
 export class UncollectedReward {
   address: Address;
-  znnAmount: number;
-  qsrAmount: number;
+  znnAmount: BigNumber;
+  qsrAmount: BigNumber;
 
-  constructor(address: Address, znnAmount: number, qsrAmount: number) {
+  constructor(address: Address, znnAmount: BigNumber, qsrAmount: BigNumber) {
     this.address = address;
     this.znnAmount = znnAmount;
     this.qsrAmount = qsrAmount;
@@ -18,66 +15,67 @@ export class UncollectedReward {
 
   static fromJson(json: any): UncollectedReward {
     let address = Address.parse(json.address);
-    let znnAmount = json.znnAmount;
-    let qsrAmount = json.qsrAmount;
+    let znnAmount = ethers.BigNumber.from(json.znnAmount.toString());
+    let qsrAmount = ethers.BigNumber.from(json.qsrAmount.toString());
     return new UncollectedReward(address, znnAmount, qsrAmount);
+  }
+
+  toJson(): {[key: string]: any} {
+    return {
+      address: this.address.toString(),
+      znnAmount: this.znnAmount.toString(),
+      qsrAmount: this.qsrAmount.toString(),
+    };
   }
 }
 
 export class RewardHistoryEntry {
   epoch: number;
-  znnAmount: number;
-  qsrAmount: number;
+  znnAmount: BigNumber;
+  qsrAmount: BigNumber;
 
-  constructor(epoch: number, znnAmount: number, qsrAmount: number) {
+  constructor(epoch: number, znnAmount: BigNumber, qsrAmount: BigNumber) {
     this.epoch = epoch;
     this.znnAmount = znnAmount;
     this.qsrAmount = qsrAmount;
   }
 
-  static fromJson(json: {
-    [key: string]: any
-  }): RewardHistoryEntry {
+  static fromJson(json: {[key: string]: any}): RewardHistoryEntry {
     return new RewardHistoryEntry(
       json.epoch,
-      json.znnAmount,
-      json.qsrAmount
+      ethers.BigNumber.from(json.znnAmount.toString()),
+      ethers.BigNumber.from(json.qsrAmount.toString())
     );
   }
 
   toJson(): {
-    [key: string]: any
+    [key: string]: any;
   } {
     return {
       epoch: this.epoch,
-      znnAmount: this.znnAmount,
-      qsrAmount: this.qsrAmount
+      znnAmount: this.znnAmount.toString(),
+      qsrAmount: this.qsrAmount.toString(),
     };
   }
 }
 
 export class RewardHistoryList {
   count: number;
-  list: Array < RewardHistoryEntry > ;
+  list: Array<RewardHistoryEntry>;
 
-  constructor(count: number, list: Array < RewardHistoryEntry > ) {
+  constructor(count: number, list: Array<RewardHistoryEntry>) {
     this.count = count;
     this.list = list;
   }
 
-  static fromJson(json: {
-    [key: string]: any
-  }): RewardHistoryList {
-    return new RewardHistoryList(
-      json.count,
-      json.list.map(RewardHistoryEntry.fromJson)
-    );
+  static fromJson(json: {[key: string]: any}): RewardHistoryList {
+    return new RewardHistoryList(json.count, json.list.map(RewardHistoryEntry.fromJson));
   }
 
-  toJson(): {[key: string]: any}{
+  toJson(): {[key: string]: any} {
     return {
       count: this.count,
-      list: this.list.map((entry: {[key: string]: any}) => entry.toJson())
+      list: this.list.map((entry: {[key: string]: any}) => entry.toJson()),
     };
   }
 }
@@ -94,7 +92,7 @@ export class VoteBreakdown {
     this.id = id;
   }
 
-  static fromJson(json: Map < string, any > ): VoteBreakdown {
+  static fromJson(json: Map<string, any>): VoteBreakdown {
     let id = Hash.parse(json.get("id"));
     let yes = json.get("yes");
     let no = json.get("no");

@@ -1,13 +1,12 @@
-import {
-  BytesUtils
-} from "../utils/bytes";
-import {toBigIntBE, toBufferBE} from 'bigint-buffer';
-import { Address } from "../model/primitives/address";
-import { TokenStandard } from "../model/primitives/token_standard";
-import { Hash } from "../model/primitives/hash";
+import {BytesUtils} from "../utils/bytes";
+import {toBigIntBE, toBufferBE} from "bigint-buffer";
+import {Address} from "../model/primitives/address";
+import {TokenStandard} from "../model/primitives/token_standard";
+import {Hash} from "../model/primitives/hash";
+import {BigNumber} from "ethers";
 export abstract class AbiType {
   static int32Size: number = 32;
-  name ? : string;
+  name?: string;
 
   constructor(name: string) {
     this.name = name;
@@ -22,15 +21,15 @@ export abstract class AbiType {
   }
 
   static getType(typeName: string): AbiType {
-    if (typeName.includes('[')) return ArrayType.getType(typeName);
-    if ('bool' == typeName) return new BoolType();
-    if (typeName.startsWith('int')) return new IntType(typeName);
-    if (typeName.startsWith('uint')) return new UnsignedIntType(typeName);
-    if ('address' == typeName) return new AddressType();
-    if ('tokenStandard' == typeName) return new TokenStandardType();
-    if ('string' == typeName) return new StringType();
-    if ('bytes' == typeName) return BytesType.bytes();
-    if ('hash' == (typeName)) return new HashType(typeName);
+    if (typeName.includes("[")) return ArrayType.getType(typeName);
+    if ("bool" == typeName) return new BoolType();
+    if (typeName.startsWith("int")) return new IntType(typeName);
+    if (typeName.startsWith("uint")) return new UnsignedIntType(typeName);
+    if ("address" == typeName) return new AddressType();
+    if ("tokenStandard" == typeName) return new TokenStandardType();
+    if ("string" == typeName) return new StringType();
+    if ("bytes" == typeName) return BytesType.bytes();
+    if ("hash" == typeName) return new HashType(typeName);
 
     throw Error(`The type ${typeName} is not supported`);
   }
@@ -38,10 +37,10 @@ export abstract class AbiType {
   abstract encode(value: Object): Buffer;
 
   // ToDo: Set default offset when implementing decode function
-  abstract decode(encoded: Buffer, offset ? : number): Object;
+  abstract decode(encoded: Buffer, offset?: number): Object;
 
   getFixedSize(): number {
-    return 32
+    return 32;
   }
 
   isDynamicType() {
@@ -49,25 +48,25 @@ export abstract class AbiType {
   }
 
   toString(): string {
-    return this.getName() !;
+    return this.getName()!;
   }
 }
 
-abstract class ArrayType extends AbiType{
+abstract class ArrayType extends AbiType {
   elementType: any;
 
   constructor(name: string) {
     super(name);
-    const idx = name.indexOf('[');
+    const idx = name.indexOf("[");
     const st = name.substring(0, idx);
-    const idx2 = name.indexOf(']', idx);
-    const subDim = idx2 + 1 == name.length ? '' : name.substring(idx2 + 1);
+    const idx2 = name.indexOf("]", idx);
+    const subDim = idx2 + 1 == name.length ? "" : name.substring(idx2 + 1);
     this.elementType = AbiType.getType(st + subDim);
   }
 
-  static getType(typeName: string): ArrayType{
-    const idx1 = typeName.indexOf('[');
-    const idx2 = typeName.indexOf(']', idx1);
+  static getType(typeName: string): ArrayType {
+    const idx1 = typeName.indexOf("[");
+    const idx2 = typeName.indexOf("]", idx1);
     if (idx1 + 1 == idx2) {
       return new DynamicArrayType(typeName);
     } else {
@@ -79,30 +78,27 @@ abstract class ArrayType extends AbiType{
     return this.elementType;
   }
 
-  encode(value: any): Buffer{
-    if(Array.isArray(value)){
+  encode(value: any): Buffer {
+    if (Array.isArray(value)) {
       return this.encodeList(value);
-    }
-    else if(typeof value == 'string'){
+    } else if (typeof value == "string") {
       return this.encodeList(Array.from(value));
     } else {
       throw Error();
     }
   }
 
-  encodeTuple(l: Array<any>){
+  encodeTuple(l: Array<any>) {
     let elements: Array<Buffer> = [];
-    if(this.elementType.isDynamicType()){
-    let offset = l.length * AbiType.int32Size
-    for(let i = 0; i < l.length; i++){
-      elements[i] = IntType.encodeInt(offset);
-      let encoded: Buffer = this.elementType.encode(l[i]);
-      elements[l.length + i] = encoded;
-      offset += (AbiType.int32Size *
-        ((encoded.length - 1) / AbiType.int32Size + 1));
+    if (this.elementType.isDynamicType()) {
+      let offset = l.length * AbiType.int32Size;
+      for (let i = 0; i < l.length; i++) {
+        elements[i] = IntType.encodeInt(offset);
+        let encoded: Buffer = this.elementType.encode(l[i]);
+        elements[l.length + i] = encoded;
+        offset += AbiType.int32Size * ((encoded.length - 1) / AbiType.int32Size + 1);
       }
-    }
-    else{
+    } else {
       // elements = Buffer.alloc(l.length);
       for (let i = 0; i < l.length; i++) {
         elements[i] = this.elementType.encode(l[i]);
@@ -116,8 +112,8 @@ abstract class ArrayType extends AbiType{
   // ToDo: implement encodeTuple, decodeTuple
 }
 
-class DynamicArrayType extends ArrayType{
-  constructor(name: string){
+class DynamicArrayType extends ArrayType {
+  constructor(name: string) {
     super(name);
   }
 
@@ -125,13 +121,13 @@ class DynamicArrayType extends ArrayType{
     return this.elementType.getCanonicalName() + "[]";
   }
 
-  encodeList(l: Array<any>): Buffer{
-    return Buffer.from(l.map(e => this.elementType.encode(e)));
+  encodeList(l: Array<any>): Buffer {
+    return Buffer.from(l.map((e) => this.elementType.encode(e)));
   }
 
   decode(encoded: Buffer, origOffset: number = 0): any {
     // ToDo: implement this
-    throw Error('Not implemented');
+    throw Error("Not implemented");
   }
 
   isDynamicType(): boolean {
@@ -139,12 +135,12 @@ class DynamicArrayType extends ArrayType{
   }
 }
 
-class StaticArrayType extends ArrayType{
+class StaticArrayType extends ArrayType {
   size = 0;
-  constructor(name: string){
+  constructor(name: string) {
     super(name);
-    let idx1 = name.indexOf('[');
-    let idx2 = name.indexOf(']', idx1);
+    let idx1 = name.indexOf("[");
+    let idx2 = name.indexOf("]", idx1);
     let dim = name.substring(idx1 + 1, idx2);
     this.size = parseInt(dim);
   }
@@ -153,9 +149,9 @@ class StaticArrayType extends ArrayType{
     return this.elementType.getCanonicalName() + "[" + this.size + "]";
   }
 
-  encodeList(l: Array<any>): Buffer{
-    if(l.length != this.size){
-      throw Error('Array size does not match');
+  encodeList(l: Array<any>): Buffer {
+    if (l.length != this.size) {
+      throw Error("Array size does not match");
     }
 
     return this.encodeTuple(l);
@@ -163,36 +159,34 @@ class StaticArrayType extends ArrayType{
 
   decode(encoded: Buffer, origOffset: number = 0): any {
     let result = Buffer.alloc(this.size);
-    for(let i = 0; i < this.size; i++){
+    for (let i = 0; i < this.size; i++) {
       result[i] = this.elementType.decode(encoded, origOffset + i * this.elementType.getFixedSize());
     }
     return result;
   }
 }
 
-class BytesType extends AbiType{
+class BytesType extends AbiType {
   constructor(name: string) {
     super(name);
   }
 
-  static bytes(): BytesType{
-    return new BytesType('bytes');
+  static bytes(): BytesType {
+    return new BytesType("bytes");
   }
 
-  encode(value: any): Buffer{
+  encode(value: any): Buffer {
     let bb: Buffer;
 
-
-    if (typeof value == 'string') {
+    if (typeof value == "string") {
       bb = Buffer.from(value);
-    } else if(Buffer.isBuffer(value)){
+    } else if (Buffer.isBuffer(value)) {
       bb = value;
-    }
-    else{
+    } else {
       throw Error();
     }
 
-    let returned = Buffer.alloc(Math.round(((bb.length - 1) / AbiType.int32Size) + 1) * AbiType.int32Size);
+    let returned = Buffer.alloc(Math.round((bb.length - 1) / AbiType.int32Size + 1) * AbiType.int32Size);
 
     for (let i = 0; i < returned.length; i++) {
       returned[i] = 0;
@@ -201,8 +195,6 @@ class BytesType extends AbiType{
     BytesUtils.arraycopy(bb, 0, returned, 0, bb.length);
 
     return Buffer.concat([IntType.encodeInt(bb.length), returned]);
-
-
   }
 
   decode(encoded: Buffer, offset = 0): any {
@@ -210,17 +202,18 @@ class BytesType extends AbiType{
   }
 
   isDynamicType(): boolean {
-      return true;
+    return true;
   }
-} 
+}
 
-class StringType extends BytesType{
+class StringType extends BytesType {
   constructor() {
     super("string");
   }
 
   encode(value: Object): Buffer {
-    if (typeof value == 'string') {
+    if (typeof value == "string") {
+      // console.log("encoding string");
       let returned = super.encode(Buffer.from(value));
       return returned;
     } else {
@@ -229,7 +222,7 @@ class StringType extends BytesType{
   }
 
   decode(encoded: Buffer, offset?: number): any {
-    return super.decode(encoded, offset);   
+    return super.decode(encoded, offset);
   }
 }
 abstract class NumericType extends AbiType {
@@ -237,28 +230,38 @@ abstract class NumericType extends AbiType {
     super(name);
   }
 
-  encodeInternal(value ? : any): bigint {
+  encodeInternal(value?: any): bigint {
+    console.log("encoding internal");
     let bigInt: bigint;
-    if (typeof value == 'string') {
+    if (typeof value == "string") {
+      console.log("is string");
       let s = value.toLowerCase().trim();
       let radix = 10;
-      if (s.startsWith('0x')) {
+      if (s.startsWith("0x")) {
         s = s.substring(2);
         radix = 16;
-      } else if (s.includes('a') ||
-        s.includes('b') ||
-        s.includes('c') ||
-        s.includes('d') ||
-        s.includes('e') ||
-        s.includes('f')) {
+      } else if (
+        s.includes("a") ||
+        s.includes("b") ||
+        s.includes("c") ||
+        s.includes("d") ||
+        s.includes("e") ||
+        s.includes("f")
+      ) {
         radix = 16;
       }
       bigInt = BigInt(s);
-    } else if (typeof value == 'bigint') {
+    } else if (typeof value == "bigint") {
+      console.log("is bigint");
+      // ToDo: here lies the problem
+      // We should only use bigint instead of string for amount, maxSupply, totalSupply
       bigInt = value;
-    } else if (typeof value == 'number') {
+    } else if (typeof value == "number") {
+      console.log("is number");
       bigInt = BigInt(value);
+      // bigInt = BigNumber(value);
     } else if (Buffer.isBuffer(value)) {
+      console.log("is Buffer");
       // ToDo: Test if this is alright
       bigInt = BigInt(value.toString());
     } else {
@@ -274,7 +277,7 @@ export class UnsignedIntType extends NumericType {
   }
 
   getCanonicalName(): string | undefined {
-    if (super.getName() == 'uint') return 'uint256';
+    if (super.getName() == "uint") return "uint256";
     return super.getCanonicalName();
   }
 
@@ -303,7 +306,7 @@ export class IntType extends NumericType {
   }
 
   getCanonicalName(): string | undefined {
-    if (super.getName() == 'int') return 'int256';
+    if (super.getName() == "int") return "int256";
     return super.getCanonicalName();
   }
 
@@ -331,30 +334,30 @@ export class IntType extends NumericType {
   }
 }
 
-class BoolType extends IntType{
-  constructor(){
+class BoolType extends IntType {
+  constructor() {
     super("bool");
   }
-  
+
   encode(value: any): Buffer {
     if (typeof value == "string") {
-      return super.encode(value == 'true' ? 1 : 0);
+      return super.encode(value == "true" ? 1 : 0);
     } else if (typeof value == "boolean") {
       return super.encode(value == true ? 1 : 0);
     }
     throw Error();
   }
 }
-class AddressType extends IntType{
-  constructor(){
+class AddressType extends IntType {
+  constructor() {
     super("address");
   }
 
   encode(value: any): Buffer {
-    if(typeof value == "string"){
+    if (typeof value == "string") {
       return BytesUtils.leftPadBytes(Address.parse(value).getBytes(), 32);
     }
-    if(Address.isAddress(value)){
+    if (Address.isAddress(value)) {
       return BytesUtils.leftPadBytes(value.getBytes(), 32);
     }
     throw Error();
@@ -362,38 +365,36 @@ class AddressType extends IntType{
   // ToDo: implement decode
 }
 
-class TokenStandardType extends IntType{
-  constructor(){
+class TokenStandardType extends IntType {
+  constructor() {
     super("tokenStandard");
   }
 
   encode(value: any): Buffer {
-    if(typeof value == "string"){
+    if (typeof value == "string") {
       return BytesUtils.leftPadBytes(TokenStandard.parse(value).getBytes(), 32);
     }
-    if(TokenStandard.isTokenStandard(value)){
+    if (TokenStandard.isTokenStandard(value)) {
       return BytesUtils.leftPadBytes(value.getBytes(), 32);
     }
     throw Error();
   }
 }
 
-class HashType extends AbiType{
-  constructor(s: any){
+class HashType extends AbiType {
+  constructor(s: any) {
     super(s);
   }
 
   encode(value: any): Buffer {
-    if(typeof value == "number"){
+    if (typeof value == "number") {
       let returned = IntType.encodeIntBig(BigInt(value));
       return returned;
-    }
-    else if(typeof value == "string"){
+    } else if (typeof value == "string") {
       let returned = BytesUtils.leftPadBytes(Hash.parse(value).getBytes(), AbiType.int32Size);
       return returned;
-    }
-    else if(Buffer.isBuffer(value)){
-      let returned = BytesUtils.leftPadBytes(value, AbiType.int32Size)
+    } else if (Buffer.isBuffer(value)) {
+      let returned = BytesUtils.leftPadBytes(value, AbiType.int32Size);
       return returned;
     }
 

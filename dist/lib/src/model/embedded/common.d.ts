@@ -1,17 +1,21 @@
 import { Address } from "../primitives/address";
 import { Hash } from "./../primitives/hash";
+import { BigNumber } from "ethers";
 export declare class UncollectedReward {
     address: Address;
-    znnAmount: number;
-    qsrAmount: number;
-    constructor(address: Address, znnAmount: number, qsrAmount: number);
+    znnAmount: BigNumber;
+    qsrAmount: BigNumber;
+    constructor(address: Address, znnAmount: BigNumber, qsrAmount: BigNumber);
     static fromJson(json: any): UncollectedReward;
+    toJson(): {
+        [key: string]: any;
+    };
 }
 export declare class RewardHistoryEntry {
     epoch: number;
-    znnAmount: number;
-    qsrAmount: number;
-    constructor(epoch: number, znnAmount: number, qsrAmount: number);
+    znnAmount: BigNumber;
+    qsrAmount: BigNumber;
+    constructor(epoch: number, znnAmount: BigNumber, qsrAmount: BigNumber);
     static fromJson(json: {
         [key: string]: any;
     }): RewardHistoryEntry;
