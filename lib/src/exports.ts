@@ -14,6 +14,7 @@ import {
 } from "./model/primitives/token_standard";
 import {LiquidityStakeEntry, LiquidityStakeList, TokenTuple} from "./model/embedded/liquidity";
 import {AccountBlock} from "./model/nom/account_block";
+import {AccountInfo, BalanceInfoListItem} from "./model/nom/account_info";
 
 const Primitives = {
   Address,
@@ -41,6 +42,8 @@ const Enums = {
   PowStatus,
 };
 const Models = {
+  AccountInfo,
+  BalanceInfoListItem,
   TokenTuple,
   LiquidityStakeEntry,
   LiquidityStakeList,

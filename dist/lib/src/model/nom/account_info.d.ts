@@ -17,7 +17,7 @@ export declare class AccountInfo {
         [key: string]: any;
     };
 }
-declare class BalanceInfoListItem {
+export declare class BalanceInfoListItem {
     token?: Token;
     balance?: BigNumber;
     balanceWithDecimals?: string;
@@ -30,4 +30,3 @@ declare class BalanceInfoListItem {
         [key: string]: any;
     };
 }
-export {};

@@ -8,7 +8,10 @@
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,
 		"strict": true,
-		"skipLibCheck": true
+		"skipLibCheck": true,
+		// ToDo: Use this for properly exporting types
+		// 
+		// "types": ["node"]
 	},
 	"exclude": [
 		"dist",

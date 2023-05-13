@@ -46,7 +46,7 @@ export class AccountInfo {
   }
 }
 
-class BalanceInfoListItem {
+export class BalanceInfoListItem {
   token?: Token;
   balance?: BigNumber;
   balanceWithDecimals?: string;

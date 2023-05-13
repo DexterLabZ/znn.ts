@@ -6,6 +6,7 @@ import { Hash } from "./model/primitives/hash";
 import { TokenStandard } from "./model/primitives/token_standard";
 import { LiquidityStakeEntry, LiquidityStakeList, TokenTuple } from "./model/embedded/liquidity";
 import { AccountBlock } from "./model/nom/account_block";
+import { AccountInfo, BalanceInfoListItem } from "./model/nom/account_info";
 declare const Primitives: {
     Address: typeof Address;
     Hash: typeof Hash;
@@ -29,6 +30,8 @@ declare const Enums: {
     PowStatus: typeof PowStatus;
 };
 declare const Models: {
+    AccountInfo: typeof AccountInfo;
+    BalanceInfoListItem: typeof BalanceInfoListItem;
     TokenTuple: typeof TokenTuple;
     LiquidityStakeEntry: typeof LiquidityStakeEntry;
     LiquidityStakeList: typeof LiquidityStakeList;
