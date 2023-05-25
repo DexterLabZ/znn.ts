@@ -1,12 +1,12 @@
-export * from './lib/src/wallet/wallet';
-export { Api } from "./lib/src/api/api";
-export { Zenon } from "./lib/src/zenon";
-export { netId } from "./lib/src/global";
+export * from './src/wallet/wallet';
+export { Api } from "./src/api/api";
+export { Zenon } from "./src/zenon";
+export { netId } from "./src/global";
 
-import { BlockUtils } from './lib/src/utils/block';
+import { BlockUtils } from './src/utils/block';
 const utils = {
   BlockUtils
 }
 export { utils }
 
-export * from "./lib/src/exports";
+export * from "./src/exports";

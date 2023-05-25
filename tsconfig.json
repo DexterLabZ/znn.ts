@@ -17,8 +17,8 @@
 		"dist",
 		"node_modules",
 		"examples/*/**",
-		"./lib/src/pow/compiler",
-		"./lib/src/pow/src",
+		"./src/pow/compiler",
+		"./src/pow/src",
 		"./potential_problem_fixes/*/**"
 	]
 }

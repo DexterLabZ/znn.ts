@@ -298,7 +298,7 @@ console.log("stake.getFrontierRewardByPage", getFrontierRewardByPage);
 > https://github.com/antelle/argon2-browser/issues/26#issuecomment-525700240 <br/>
 
 
-3. Potential problem: `Error: /lib/src/wallet/manager.js 29:21
+3. Potential problem: `Error: /src/wallet/manager.js 29:21
 Module parse failed: Unexpected token (29:21)
 File was processed with these loaders:
   ./node_modules/@angular-devkit/build-angular/src/babel/webpack-loader.js

@@ -13,7 +13,7 @@
     "clean": "rimraf dist/",
     "copy-patches": "cpy patches/* dist/patches/",
     "patch": "npm run copy-patches && npx patch-package",
-    "copy-wasm": "cpy ./znn-pow-links.wasm ./../../../../dist/lib/src/pow/compiler --cwd=lib/src/pow/compiler --parents",
+    "copy-wasm": "cpy ./znn-pow-links.wasm ./../../../../dist/src/pow/compiler --cwd=src/pow/compiler --parents",
     "start:dev": "webpack --mode=development --watch --progress",
     "build:dev": "npx webpack --mode=development",
     "build:prod": "npx webpack --mode=production",
