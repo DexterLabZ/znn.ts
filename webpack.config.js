@@ -27,7 +27,7 @@ const generalConfig = {
     ],
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js'],
+    extensions: ['.jsx', '.ts', '.tsx', '...']
   },
 };
 
