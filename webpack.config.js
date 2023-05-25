@@ -27,7 +27,7 @@ const generalConfig = {
     ],
   },
   resolve: {
-    extensions: ['.jsx', '.ts', '.tsx', '...']
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
   },
 };
 
@@ -39,7 +39,7 @@ const serverConfig = {
     libraryTarget: 'commonjs',
   },
   entry: {
-    app: path.resolve(__dirname, 'ts-dist') + "/index.js",
+    app: path.resolve(__dirname, 'src') + "/index.ts",
   },
   externals: {
     // You can use `false` or other values if you need something strange here,example will output `module.exports = {};`
@@ -63,7 +63,7 @@ const clientConfig = {
     libraryTarget: 'commonjs',
   },
   entry: {
-    app: path.resolve(__dirname, 'ts-dist') + "/index.js",
+    app: path.resolve(__dirname, 'src') + "/index.ts",
   },
   externals: {
     // You can use `false` or other values if you need something strange here,example will output `module.exports = {};`
