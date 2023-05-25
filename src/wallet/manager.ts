@@ -25,7 +25,7 @@ class KeyStoreManager {
   async saveKeyStore(store: KeyStore, password: string, name?: string): Promise<string> {
     return new Promise(async (resolve, reject) => {
       if (name && typeof name == "string") {
-        name ??= name.replace(" ", "-");
+        name = name.replace(" ", "-");
       } else {
         let keyPair = store.getKeyPair();
         let nameAdd = await keyPair.getAddress();

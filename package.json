@@ -10,13 +10,16 @@
   "scripts": {
     "prepare": "npm install -D webpack-cli && npm install cipher-base && npm install rpc-websockets && npm run patch",
     "watch": "tsc -w",
-    "clean": "rimraf dist/",
+    "clean-dist": "rimraf dist/",
+    "clean-ts-dist": "rimraf ts-dist/",
+    "clean": "npm run clean-dist && npm run clean-ts-dist",
     "copy-patches": "cpy patches/* dist/patches/",
     "patch": "npm run copy-patches && npx patch-package",
+    "transpile": "npm run clean-ts-dist && tsc --outDir ./ts-dist",
     "copy-wasm": "cpy ./znn-pow-links.wasm ./../../../../dist/src/pow/compiler --cwd=src/pow/compiler --parents",
-    "start:dev": "webpack --mode=development --watch --progress",
-    "build:dev": "npx webpack --mode=development",
-    "build:prod": "npx webpack --mode=production",
+    "start:dev": "npm run transpile && webpack --mode=development --watch --progress",
+    "build:dev": "npm run transpile && npx webpack --mode=development",
+    "build:prod": "npm run transpile && npx webpack --mode=production",
     "postinstall": "npm run build:prod && npm run copy-wasm && npm run patch"
   },
   "keywords": [

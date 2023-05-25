@@ -39,7 +39,7 @@ const serverConfig = {
     libraryTarget: 'commonjs',
   },
   entry: {
-    app: path.resolve(__dirname, 'src') + "/index.ts",
+    app: path.resolve(__dirname, 'ts-dist') + "/index.js",
   },
   externals: {
     // You can use `false` or other values if you need something strange here,example will output `module.exports = {};`
@@ -63,7 +63,7 @@ const clientConfig = {
     libraryTarget: 'commonjs',
   },
   entry: {
-    app: path.resolve(__dirname, 'src') + "/index.ts",
+    app: path.resolve(__dirname, 'ts-dist') + "/index.js",
   },
   externals: {
     // You can use `false` or other values if you need something strange here,example will output `module.exports = {};`
