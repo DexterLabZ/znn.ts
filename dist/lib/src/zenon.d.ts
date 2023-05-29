@@ -17,4 +17,6 @@ export declare class Zenon {
     initialize(serverUrl?: string, retry?: boolean, timeout?: number): Promise<void>;
     clearSocketConnection(): void;
     send(transaction: AccountBlockTemplate, currentKeyPair?: KeyPair, generatingPowCallback?: Function, waitForRequiredPlasma?: boolean): Promise<AccountBlockTemplate>;
+    static setChainIdentifier: (chainIdentifier?: number) => void;
+    static getChainIdentifier: () => number;
 }

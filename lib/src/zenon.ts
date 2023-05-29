@@ -5,6 +5,7 @@ import {AccountBlockTemplate} from "./model/nom/account_block_template";
 import {BlockUtils} from "./utils/block";
 import {EmbeddedApi} from "./api/embedded/embedded";
 import {SubscribeApi} from "./api/subscribe";
+import {defaultChainId, getChainIdentifier, setChainIdentifier} from "./global";
 
 export class Zenon {
   static _singleton: Zenon;
@@ -50,11 +51,27 @@ export class Zenon {
     this.wsClient = undefined;
   }
 
-  async send(transaction: AccountBlockTemplate,
-             currentKeyPair?: KeyPair,
-             generatingPowCallback?: Function,
-             waitForRequiredPlasma = false): Promise<AccountBlockTemplate> {
+  async send(
+    transaction: AccountBlockTemplate,
+    currentKeyPair?: KeyPair,
+    generatingPowCallback?: Function,
+    waitForRequiredPlasma = false
+  ): Promise<AccountBlockTemplate> {
     if (currentKeyPair == null) throw "noKeyPairSelectedException";
-    return BlockUtils.send(Zenon.getSingleton(), transaction, currentKeyPair, generatingPowCallback, waitForRequiredPlasma);
+    return BlockUtils.send(
+      Zenon.getSingleton(),
+      transaction,
+      currentKeyPair,
+      generatingPowCallback,
+      waitForRequiredPlasma
+    );
   }
+
+  public static setChainIdentifier = (chainIdentifier: number = defaultChainId) => {
+    setChainIdentifier(chainIdentifier);
+  };
+
+  public static getChainIdentifier = () => {
+    return getChainIdentifier();
+  };
 }

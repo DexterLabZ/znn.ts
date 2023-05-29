@@ -78,6 +78,7 @@
     "ed25519-hd-key": "^1.2.0",
     "ethers": "^5.5.2",
     "node-localstorage": "^2.2.1",
+    "postinstall": "^0.8.0",
     "readable-stream": "^3.6.0",
     "rpc-websockets": "^7.5.1",
     "sha3": "^2.1.4",

@@ -5,6 +5,8 @@ declare class SaveKeyStoreArguments {
     name: string;
     constructor(store: KeyStore, password: string, name: string);
 }
+export declare const DEFAULT_WALLET_PATH = "znn.ts-wallet";
+export declare const DEFAULT_CHAINID_PATH = "znn.ts-chainId";
 declare class KeyStoreManager {
     walletPath: string;
     keyStoreInUse?: KeyStore;

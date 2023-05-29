@@ -25,6 +25,10 @@ declare const Constants: {
     znnZts: TokenStandard;
     qsrZts: TokenStandard;
     emptyZts: TokenStandard;
+    DEFAULT_WALLET_PATH: string;
+    DEFAULT_CHAINID_PATH: string;
+    defaultChainId: number;
+    netId: number;
 };
 declare const Enums: {
     PowStatus: typeof PowStatus;

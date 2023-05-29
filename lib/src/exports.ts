@@ -15,6 +15,8 @@ import {
 import {LiquidityStakeEntry, LiquidityStakeList, TokenTuple} from "./model/embedded/liquidity";
 import {AccountBlock} from "./model/nom/account_block";
 import {AccountInfo, BalanceInfoListItem} from "./model/nom/account_info";
+import {DEFAULT_CHAINID_PATH, DEFAULT_WALLET_PATH} from "./wallet/manager";
+import {defaultChainId, netId} from "./global";
 
 const Primitives = {
   Address,
@@ -36,6 +38,12 @@ const Constants = {
   znnZts,
   qsrZts,
   emptyZts,
+
+  DEFAULT_WALLET_PATH,
+  DEFAULT_CHAINID_PATH,
+
+  defaultChainId,
+  netId,
 };
 
 const Enums = {
