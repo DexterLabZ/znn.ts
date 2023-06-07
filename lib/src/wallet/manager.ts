@@ -13,7 +13,9 @@ class SaveKeyStoreArguments {
   }
 }
 
-const DEFAULT_WALLET_PATH = "wallet";
+export const DEFAULT_WALLET_PATH = "znn.ts-wallet";
+export const DEFAULT_CHAINID_PATH = "znn.ts-chainId";
+
 class KeyStoreManager {
   walletPath: string = DEFAULT_WALLET_PATH;
   keyStoreInUse?: KeyStore;
@@ -25,7 +27,7 @@ class KeyStoreManager {
   async saveKeyStore(store: KeyStore, password: string, name?: string): Promise<string> {
     return new Promise(async (resolve, reject) => {
       if (name && typeof name == "string") {
-        name ??= name.replace(" ", "-");
+        name = name.replace(" ", "-");
       } else {
         let keyPair = store.getKeyPair();
         let nameAdd = await keyPair.getAddress();

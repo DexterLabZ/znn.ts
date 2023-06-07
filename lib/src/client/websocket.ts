@@ -1,52 +1,57 @@
 import {logger} from "ethers";
-import {netId} from "../global";
-import {noConnectionException} from "./exceptions"
+import {noConnectionException} from "./exceptions";
 import {Client} from "./interfaces";
+import {Zenon} from "../zenon";
 
-let WebSocket = require('rpc-websockets').Client;
+let WebSocket = require("rpc-websockets").Client;
 
-enum WebsocketStatus { uninitialized, connecting, running, stopped }
+enum WebsocketStatus {
+  uninitialized,
+  connecting,
+  running,
+  stopped,
+}
 
-type WSSubscriptionCallback = (data: any[]) => void
+type WSSubscriptionCallback = (data: any[]) => void;
 
 class WSSubscriptions {
-  callbacks: Map<string, WSSubscriptionCallback>
+  callbacks: Map<string, WSSubscriptionCallback>;
 
   constructor() {
-    this.callbacks = new Map<string, WSSubscriptionCallback>()
+    this.callbacks = new Map<string, WSSubscriptionCallback>();
   }
 
   setCallback(id: string, callback: WSSubscriptionCallback) {
-    this.callbacks.set(id, callback)
+    this.callbacks.set(id, callback);
   }
 
   handleGlobalNotification(data: any) {
-    const id = data.subscription
+    const id = data.subscription;
     if (this.callbacks.has(id)) {
-      const callback = this.callbacks.get(id)
+      const callback = this.callbacks.get(id);
       if (callback) {
-        callback(data.result)
+        callback(data.result);
       }
     }
   }
 
   newUpdateStream(jsonResponse: string) {
     // jsonResponse is just the ID actually
-    return new WSUpdateStream(jsonResponse, this)
+    return new WSUpdateStream(jsonResponse, this);
   }
 }
 
 export class WSUpdateStream {
-  id: string
-  wsSubscribers: WSSubscriptions
+  id: string;
+  wsSubscribers: WSSubscriptions;
 
   constructor(id: string, wsSubscribers: WSSubscriptions) {
     this.id = id;
-    this.wsSubscribers = wsSubscribers
+    this.wsSubscribers = wsSubscribers;
   }
 
   onNotification(callback: WSSubscriptionCallback) {
-    this.wsSubscribers.setCallback(this.id, callback)
+    this.wsSubscribers.setCallback(this.id, callback);
   }
 }
 
@@ -54,7 +59,7 @@ export class WsClient implements Client {
   _wsRpc2Client?: any;
   _websocketIntendedState: WebsocketStatus = WebsocketStatus.uninitialized;
   url: string;
-  subscriptions: WSSubscriptions
+  subscriptions: WSSubscriptions;
 
   constructor(url: string) {
     this.url = url;
@@ -64,28 +69,37 @@ export class WsClient implements Client {
 
   initialize(url: string, retry = true, timeout = 30000): Promise<void> {
     return new Promise<void>(async (resolve, reject) => {
-      this.url = url;
-      this._wsRpc2Client = new WebSocket(this.url, retry);
+      try {
+        this.url = url;
+        this._wsRpc2Client = new WebSocket(this.url, retry);
 
-      // TODO: This can be misinterpreted, as the chainIdentifier of the SDK is {netId}. It does not mean that the {netId} of the node is the same.
-      logger.info(`Initializing websocket connection to:${this.url} on chainIdentifier ${netId}`);
+        logger.info(
+          `Initializing websocket connection to:${this.url} on chainIdentifier ${Zenon.getChainIdentifier()}`
+        );
 
-      this._wsRpc2Client.on('open', function () {
-        logger.info('Websocket connection successfully established');
-        resolve();
-      });
+        this._wsRpc2Client.on("open", function () {
+          logger.info("Websocket connection successfully established");
+          resolve();
+        });
 
-      // register listeners on subscribe events
-      this._wsRpc2Client.on('ledger.subscription', this.subscriptions.handleGlobalNotification.bind(this.subscriptions));
+        // register listeners on subscribe events
+        this._wsRpc2Client.on(
+          "ledger.subscription",
+          this.subscriptions.handleGlobalNotification.bind(this.subscriptions)
+        );
 
-      await new Promise((resolve,) => setTimeout(resolve, timeout));
-      reject(`Timeout after ${timeout / 1000} seconds`);
-    })
+        await new Promise((resolve) => setTimeout(resolve, timeout));
+        reject(`Timeout after ${timeout / 1000} seconds`);
+      } catch (err: any) {
+        logger.warn(`Error connecting to node. ${err}`);
+        reject(err);
+      }
+    });
   }
 
   // used to register new subscription handlers after a subscribe call has been made
   newSubscription(id: string): WSUpdateStream {
-    return this.subscriptions.newUpdateStream(id)
+    return this.subscriptions.newUpdateStream(id);
   }
 
   status(): WebsocketStatus {
@@ -97,9 +111,9 @@ export class WsClient implements Client {
       return;
     }
     if (this._wsRpc2Client != null && this._wsRpc2Client!.isClosed == true) {
-      logger.info('Restarting websocket connection ...');
+      logger.info("Restarting websocket connection ...");
       await this.initialize(this.url!, true);
-      logger.info('Websocket connection successfully restarted');
+      logger.info("Websocket connection successfully restarted");
     }
   }
 
@@ -108,10 +122,10 @@ export class WsClient implements Client {
       return;
     }
     this._websocketIntendedState = WebsocketStatus.stopped;
-    logger.info('Websocket client is already closed');
+    logger.info("Websocket client is already closed");
 
     this._wsRpc2Client.close().then(() => {
-      logger.info('Websocket client is now closed');
+      logger.info("Websocket client is now closed");
     });
   }
 

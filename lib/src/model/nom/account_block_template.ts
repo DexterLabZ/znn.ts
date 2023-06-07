@@ -1,5 +1,5 @@
-import {netId} from "../../global";
 import {BytesUtils} from "../../utils/bytes";
+import {Zenon} from "../../zenon";
 import {Address, emptyAddress} from "../primitives/address";
 import {emptyHash, Hash} from "../primitives/hash";
 import {emptyHashHeight, HashHeight} from "../primitives/hash_height";
@@ -48,7 +48,7 @@ export class AccountBlockTemplate {
 
   constructor(
     version: number = 1,
-    chainIdentifier: number = netId,
+    chainIdentifier: number = Zenon.getChainIdentifier(),
     blockType: number,
     hash: Hash = emptyHash,
     previousHash: Hash = emptyHash,
