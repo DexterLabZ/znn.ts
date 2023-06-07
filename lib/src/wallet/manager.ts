@@ -79,6 +79,11 @@ class KeyStoreManager {
     let keyStore = await this.saveKeyStore(store, passphrase, name);
     return keyStore;
   }
+
+  async getNewKeystore(): Promise<KeyStore> {
+    let store = await KeyStore.newRandom();
+    return store;
+  }
 }
 
 export {KeyStoreManager};

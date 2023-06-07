@@ -17,5 +17,6 @@ declare class KeyStoreManager {
     listAllKeyStores(): any;
     readKeyStore(password: string, keyName: string): Promise<KeyStore>;
     createNew(passphrase: string, name?: string): Promise<string>;
+    getNewKeystore(): Promise<KeyStore>;
 }
 export { KeyStoreManager };
