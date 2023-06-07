@@ -69,24 +69,31 @@ export class WsClient implements Client {
 
   initialize(url: string, retry = true, timeout = 30000): Promise<void> {
     return new Promise<void>(async (resolve, reject) => {
-      this.url = url;
-      this._wsRpc2Client = new WebSocket(this.url, retry);
+      try {
+        this.url = url;
+        this._wsRpc2Client = new WebSocket(this.url, retry);
 
-      logger.info(`Initializing websocket connection to:${this.url} on chainIdentifier ${Zenon.getChainIdentifier()}`);
+        logger.info(
+          `Initializing websocket connection to:${this.url} on chainIdentifier ${Zenon.getChainIdentifier()}`
+        );
 
-      this._wsRpc2Client.on("open", function () {
-        logger.info("Websocket connection successfully established");
-        resolve();
-      });
+        this._wsRpc2Client.on("open", function () {
+          logger.info("Websocket connection successfully established");
+          resolve();
+        });
 
-      // register listeners on subscribe events
-      this._wsRpc2Client.on(
-        "ledger.subscription",
-        this.subscriptions.handleGlobalNotification.bind(this.subscriptions)
-      );
+        // register listeners on subscribe events
+        this._wsRpc2Client.on(
+          "ledger.subscription",
+          this.subscriptions.handleGlobalNotification.bind(this.subscriptions)
+        );
 
-      await new Promise((resolve) => setTimeout(resolve, timeout));
-      reject(`Timeout after ${timeout / 1000} seconds`);
+        await new Promise((resolve) => setTimeout(resolve, timeout));
+        reject(`Timeout after ${timeout / 1000} seconds`);
+      } catch (err: any) {
+        logger.warn(`Error connecting to node. ${err}`);
+        reject(err);
+      }
     });
   }
 
