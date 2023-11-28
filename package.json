@@ -1,6 +1,6 @@
 {
   "name": "znn-ts-sdk",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -17,7 +17,7 @@
     "start:dev": "webpack --mode=development --watch --progress",
     "build:dev": "npx webpack --mode=development",
     "build:prod": "npx webpack --mode=production",
-    "postinstall": "npm run build:prod && npm run copy-wasm && npm run patch"
+    "afterinstallation": "npm run build:prod && npm run copy-wasm && npm run patch"
   },
   "keywords": [
     "zenon",
