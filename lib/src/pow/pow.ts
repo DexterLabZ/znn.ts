@@ -1,10 +1,10 @@
-import {Hash} from '../model/primitives/hash';
-import {stringPow} from './base/znn-pow-string';
-import {base64Wasm} from './base/base64';
+import {Hash} from "../model/primitives/hash";
+import {stringPow} from "./base/znn-pow-string";
+import {base64Wasm} from "./base/base64";
 
 export enum PowStatus {
   generating = 0,
-  done = 1
+  done = 1,
 }
 
 export function generatePoW(hash: Hash, difficulty: number) {
@@ -14,19 +14,18 @@ export function generatePoW(hash: Hash, difficulty: number) {
     let blob: any;
 
     if (typeof window === "undefined" || window === null) {
-      // 
+      //
       // For node
-      // 
+      //
       try {
-        const {
-          Worker
-        } = await import('node:worker_threads');
+        const {Worker} = await import("node:worker_threads");
 
         // Node worker communication example
         // https://levelup.gitconnected.com/simple-bidirectional-messaging-in-node-js-worker-threads-7fe41de22e3c
 
         // workerDefinition += "var wasmPath = './node_modules/znn-ts-sdk/dist/7dba5723b45299486620.module.wasm';\n";
-        workerDefinition += "var wasmPath = './node_modules/znn-ts-sdk/dist/lib/src/pow/compiler/znn-pow-links.wasm';\n";
+        workerDefinition +=
+          "var wasmPath = './node_modules/znn-ts-sdk/dist/lib/src/pow/compiler/znn-pow-links.wasm';\n";
         workerDefinition += stringPow + "\n";
         workerDefinition += `
         const {
@@ -93,10 +92,11 @@ export function generatePoW(hash: Hash, difficulty: number) {
             }
           }
       }`;
- 
+        console.log("workerDefinition", workerDefinition);
+
         await new Promise(async (resolve, reject) => {
-          require("fs").writeFile("generatedPowWorker.cjs", workerDefinition, function(err: any) {
-            if(err){
+          require("fs").writeFile("generatedPowWorker.cjs", workerDefinition, function (err: any) {
+            if (err) {
               console.error(err);
               console.error("error creating file ^");
               reject(err);
@@ -104,24 +104,24 @@ export function generatePoW(hash: Hash, difficulty: number) {
             return resolve("error creating file");
           });
         });
-        worker = new Worker('./generatedPowWorker.cjs');
+        worker = new Worker("./generatedPowWorker.cjs");
 
         worker.on("message", (e: any) => {
-          switch(e.responseType){
+          switch (e.responseType) {
             case "initResolved": {
               worker.postMessage({
-                function: 'generatePoW',
+                function: "generatePoW",
                 hash: hash.toString(),
-                difficulty: difficulty.toString()
+                difficulty: difficulty.toString(),
               });
               return;
             }
             case "powResolved": {
               return resolve(e.data);
             }
-            case "error":{
+            case "error": {
               console.error(e.data);
-              console.error('PoW error ^');
+              console.error("PoW error ^");
               return reject(e.data);
             }
             default: {
@@ -130,22 +130,21 @@ export function generatePoW(hash: Hash, difficulty: number) {
             }
           }
         });
-    
+
         worker.on("error", (event: string | undefined) => {
           console.error(event);
-          console.error('There is an error PoW worker ^ !');
+          console.error("There is an error PoW worker ^ !");
           throw new Error(event);
         });
-         
       } catch (err) {
-        console.error('node support is disabled!');
+        console.error("node support is disabled!");
       }
-    }else{
-      // 
+    } else {
+      //
       // For browser
-      // 
+      //
       window.URL = window.URL || window.webkitURL;
-            
+
       workerDefinition += "var wasmPath = '" + base64Wasm + "';\n";
       workerDefinition += stringPow + "\n";
       workerDefinition += `
@@ -209,26 +208,27 @@ export function generatePoW(hash: Hash, difficulty: number) {
             }
           }
       }`;
-    
-      blob = new Blob([workerDefinition], {type: 'application/javascript'});
+      console.log("workerDefinition", workerDefinition);
+
+      blob = new Blob([workerDefinition], {type: "application/javascript"});
       worker = new Worker(URL.createObjectURL(blob));
 
-      worker.onmessage = function(e: { data: any; }) {
-        switch(e.data.responseType){
+      worker.onmessage = function (e: {data: any}) {
+        switch (e.data.responseType) {
           case "initResolved": {
             worker.postMessage({
-              function: 'generatePoW',
+              function: "generatePoW",
               hash: hash.toString(),
-              difficulty: difficulty.toString()
+              difficulty: difficulty.toString(),
             });
             return;
           }
           case "powResolved": {
             return resolve(e.data.data);
           }
-          case "error":{
+          case "error": {
             console.error(e.data.data);
-            console.error('PoW error ^');
+            console.error("PoW error ^");
             return reject(e.data.data);
           }
           default: {
@@ -237,13 +237,12 @@ export function generatePoW(hash: Hash, difficulty: number) {
           }
         }
       };
-  
-      worker.onerror = function(event: string | undefined) {
-        console.error(event);
-        console.error('There is an error PoW worker ^ !');
-        throw new Error(event);
-      }
-    }    
 
+      worker.onerror = function (event: string | undefined) {
+        console.error(event);
+        console.error("There is an error PoW worker ^ !");
+        throw new Error(event);
+      };
+    }
   });
 }

@@ -6,6 +6,7 @@ import {BlockUtils} from "./utils/block";
 import {EmbeddedApi} from "./api/embedded/embedded";
 import {SubscribeApi} from "./api/subscribe";
 import {defaultChainId, getChainIdentifier, setChainIdentifier} from "./global";
+import {StatsApi} from "./api/stats";
 
 export class Zenon {
   static _singleton: Zenon;
@@ -16,6 +17,7 @@ export class Zenon {
   ledger: LedgerApi;
   subscribe: SubscribeApi;
   embedded: EmbeddedApi;
+  stats: StatsApi;
 
   public static getSingleton(): Zenon {
     if (!Zenon._singleton) {
@@ -27,12 +29,14 @@ export class Zenon {
   private constructor() {
     this.ledger = new LedgerApi();
     this.embedded = new EmbeddedApi();
+    this.stats = new StatsApi();
     this.subscribe = new SubscribeApi();
   }
 
   private setClient(client: Client) {
     this.ledger.setClient(client);
     this.embedded.setClient(client);
+    this.stats.setClient(client);
 
     // set client for subscribe environment only when the client is a WS Connection
     if (client instanceof WsClient) {

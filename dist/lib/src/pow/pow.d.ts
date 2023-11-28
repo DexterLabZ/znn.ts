@@ -1,4 +1,4 @@
-import { Hash } from '../model/primitives/hash';
+import { Hash } from "../model/primitives/hash";
 export declare enum PowStatus {
     generating = 0,
     done = 1

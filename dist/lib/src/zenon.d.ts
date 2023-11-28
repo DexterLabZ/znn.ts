@@ -4,6 +4,7 @@ import { WsClient } from "./client";
 import { AccountBlockTemplate } from "./model/nom/account_block_template";
 import { EmbeddedApi } from "./api/embedded/embedded";
 import { SubscribeApi } from "./api/subscribe";
+import { StatsApi } from "./api/stats";
 export declare class Zenon {
     static _singleton: Zenon;
     defaultServerUrl: string;
@@ -11,6 +12,7 @@ export declare class Zenon {
     ledger: LedgerApi;
     subscribe: SubscribeApi;
     embedded: EmbeddedApi;
+    stats: StatsApi;
     static getSingleton(): Zenon;
     private constructor();
     private setClient;
