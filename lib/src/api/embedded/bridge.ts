@@ -1,11 +1,11 @@
-import {rpcMaxPageSize} from "../../client/constants";
-import {Client} from "../../client/interfaces";
-import {Definitions} from "../../embedded/definitions";
-import {AccountBlockTemplate} from "../../model/nom/account_block_template";
-import {bridgeContractAddress} from "../../model/primitives/address";
-import {Hash} from "../../model/primitives/hash";
-import {TokenStandard} from "../../model/primitives/token_standard";
-import {BigNumber, ethers} from "ethers";
+import { rpcMaxPageSize } from "../../client/constants";
+import { Client } from "../../client/interfaces";
+import { Definitions } from "../../embedded/definitions";
+import { AccountBlockTemplate } from "../../model/nom/account_block_template";
+import { bridgeContractAddress } from "../../model/primitives/address";
+import { Hash } from "../../model/primitives/hash";
+import { TokenStandard } from "../../model/primitives/token_standard";
+import { BigNumber, ethers } from "ethers";
 
 export class BridgeApi {
   client!: Client;
@@ -85,6 +85,36 @@ export class BridgeApi {
       pageSize,
     ]);
     // console.log("getAllUnwrapTokenRequestsByToAddress", response);
+    return response;
+  }
+
+  async getAllWrapTokenRequestsByToAddressNetworkClassAndChainId(
+    address: string,
+    networkClass: number,
+    chainId: number,
+    pageIndex = 0,
+    pageSize = rpcMaxPageSize
+  ): Promise<any> {
+    const response = await this.client.sendRequest(
+      "embedded.bridge.getAllWrapTokenRequestsByToAddressNetworkClassAndChainId",
+      [address, networkClass, chainId, pageIndex, pageSize]
+    );
+    // console.log("getAllWrapTokenRequestsByToAddressNetworkClassAndChainId", response);
+    return response;
+  }
+
+  async getAllUnwrapTokenRequestsByToAddressNetworkClassAndChainId(
+    address: string,
+    networkClass: number,
+    chainId: number,
+    pageIndex = 0,
+    pageSize = rpcMaxPageSize
+  ): Promise<any> {
+    const response = await this.client.sendRequest(
+      "embedded.bridge.getAllUnwrapTokenRequestsByToAddressNetworkClassAndChainId",
+      [address, networkClass, chainId, pageIndex, pageSize]
+    );
+    // console.log("getAllUnwrapTokenRequestsByToAddressNetworkClassAndChainId", response);
     return response;
   }
 
