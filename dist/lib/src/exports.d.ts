@@ -40,4 +40,7 @@ declare const Models: {
     LiquidityStakeEntry: typeof LiquidityStakeEntry;
     LiquidityStakeList: typeof LiquidityStakeList;
 };
-export { Enums, Primitives, Constants, Models };
+declare const Libs: {
+    Buffer: BufferConstructor;
+};
+export { Enums, Primitives, Constants, Models, Libs };
